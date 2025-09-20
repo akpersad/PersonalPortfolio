@@ -1,23 +1,78 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Earthy Forest Palette */
+  --light-neutral: #DAD7CD;
+  --medium-green: #A3B18A;
+  --primary-green: #527A51;
+  /* Slightly darker for 4.5:1+ contrast with white */
+  --dark-green: #3A5A40;
+  --darkest: #344E41;
+
+  /* WCAG AAA Compliant Text Colors */
+  --text-on-light: #1A2B1F;
+  /* Even darker for AAA compliance */
+  --text-muted-on-light: #2A3B2E;
+  /* Darker secondary text */
+  --text-on-dark: #FFFFFF;
+  /* Pure white for maximum contrast on green backgrounds */
+  --text-muted-on-dark: #F5F3F0;
+  /* Lighter muted text on dark */
+  --text-link-primary: #1A2B1F;
+  /* High contrast link color - AAA compliant */
+
+  /* Navigation active state colors */
+  --nav-active-bg: #FFFFFF;
+  /* White background for active nav items */
+  --nav-active-text: #1A2B1F;
+  /* Dark text on white background */
+
+  /* Semantic colors */
+  --background: var(--light-neutral);
+  --foreground: var(--text-on-light);
+  --muted: var(--text-muted-on-light);
+  --accent: var(--primary-green);
 }
 
 @theme inline {
+  /* Earthy Forest Color System - Background/UI Colors */
+  --color-light-neutral: var(--light-neutral);
+  --color-medium-green: var(--medium-green);
+  --color-primary-green: var(--primary-green);
+  --color-dark-green: var(--dark-green);
+  --color-darkest: var(--darkest);
+
+  /* WCAG AAA Text Colors */
+  --color-text-primary: var(--text-on-light);
+  --color-text-secondary: var(--text-muted-on-light);
+  --color-text-on-dark: var(--text-on-dark);
+  --color-text-muted-on-dark: var(--text-muted-on-dark);
+  --color-text-link-primary: var(--text-link-primary);
+
+  /* Navigation colors */
+  --color-nav-active-bg: var(--nav-active-bg);
+  --color-nav-active-text: var(--nav-active-text);
+
+  /* Semantic colors */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-accent: var(--primary-green);
+
+  /* Typography */
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
+/* Disable automatic dark mode for now - we'll implement proper dark mode later */
+/* @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: var(--darkest);
+    --foreground: var(--text-on-dark);
+    --muted: var(--text-muted-on-dark);
+    --accent: var(--medium-green);
   }
-}
+} */
 
 body {
   background: var(--background);

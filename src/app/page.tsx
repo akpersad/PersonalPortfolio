@@ -1,103 +1,209 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <div>
+      {/* Hero Section */}
+      <section className="bg-light-neutral py-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Content */}
+            <div className="text-center lg:text-left">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-text-primary leading-tight mb-6">
+                Lead Frontend Engineer
+                <span className="block text-text-primary font-semibold">focused on React/Next.js</span>
+              </h1>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+              <p className="text-xl text-text-secondary mb-8 leading-relaxed">
+                I build composable front-ends and ship measurable wins: faster pages,
+                cleaner DX, and repeatable delivery across large teams.
+              </p>
+
+              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                <Link
+                  href="/work"
+                  className="bg-primary-green text-text-on-dark px-8 py-4 rounded-lg font-semibold hover:bg-dark-green transition-colors inline-flex items-center justify-center"
+                >
+                  See Selected Work
+                </Link>
+                <Link
+                  href="/resume"
+                  className="border border-medium-green text-text-secondary px-8 py-4 rounded-lg font-semibold hover:bg-medium-green hover:text-text-primary transition-colors inline-flex items-center justify-center"
+                >
+                  Download Resume (PDF)
+                </Link>
+              </div>
+            </div>
+
+            {/* Avatar */}
+            <div className="flex justify-center lg:justify-end">
+              <div className="relative">
+                <div className="w-80 h-80 sm:w-96 sm:h-96 rounded-full overflow-hidden border-4 border-medium-green shadow-2xl">
+                  <Image
+                    src="/icons/avatar_earthy_forest_embedded_v2.svg"
+                    alt="Andrew Persad - Lead Frontend Engineer"
+                    width={400}
+                    height={400}
+                    priority
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                {/* Decorative elements */}
+                <div className="absolute -top-4 -right-4 w-24 h-24 bg-primary-green rounded-full opacity-20"></div>
+                <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-medium-green rounded-full opacity-15"></div>
+              </div>
+            </div>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </section>
+
+      {/* Mini About Preview */}
+      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-light-neutral/50">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-3xl font-semibold text-text-primary mb-6">About My Work</h2>
+          <p className="text-lg text-text-secondary leading-relaxed mb-8">
+            I design and deliver responsive, accessible interfaces with a focus on pixel-perfect execution
+            and cross-browser reliability. My work spans SSO-secured platforms, design systems, and
+            data-driven dashboards. I collaborate closely with platform teams to turn telemetry into
+            actionable insights.
+          </p>
+          <Link
+            href="/about"
+            className="text-text-link-primary font-semibold hover:text-text-secondary transition-colors"
+          >
+            Learn more about my background →
+          </Link>
+        </div>
+      </section>
+
+      {/* Featured Work Preview */}
+      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-semibold text-text-primary mb-4">Featured Projects</h2>
+            <p className="text-lg text-text-secondary">
+              Personal projects showcasing my technical expertise and problem-solving approach
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {/* Project 1: Poke Collector */}
+            <div className="bg-light-neutral border border-medium-green rounded-lg p-6 hover:shadow-lg transition-shadow">
+              <h3 className="text-xl font-semibold text-text-primary mb-3">Poke Collector</h3>
+              <p className="text-text-secondary mb-4 text-sm">
+                Interactive Pokemon collection app with search, filters, and favorites functionality.
+              </p>
+              <div className="flex flex-wrap gap-2 mb-4">
+                <span className="text-xs bg-darkest text-text-on-dark px-2 py-1 rounded">React</span>
+                <span className="text-xs bg-darkest text-text-on-dark px-2 py-1 rounded">TypeScript</span>
+                <span className="text-xs bg-darkest text-text-on-dark px-2 py-1 rounded">API Integration</span>
+              </div>
+              <Link
+                href="/work/poke-collector"
+                className="text-text-link-primary font-medium hover:text-text-secondary transition-colors"
+              >
+                View Details →
+              </Link>
+            </div>
+
+            {/* Project 2: Protein Checker */}
+            <div className="bg-light-neutral border border-medium-green rounded-lg p-6 hover:shadow-lg transition-shadow">
+              <h3 className="text-xl font-semibold text-text-primary mb-3">Protein Checker</h3>
+              <p className="text-text-secondary mb-4 text-sm">
+                Nutrition tracking app with barcode scanning and macro calculations.
+              </p>
+              <div className="flex flex-wrap gap-2 mb-4">
+                <span className="text-xs bg-darkest text-text-on-dark px-2 py-1 rounded">React</span>
+                <span className="text-xs bg-darkest text-text-on-dark px-2 py-1 rounded">Chart.js</span>
+                <span className="text-xs bg-darkest text-text-on-dark px-2 py-1 rounded">PWA</span>
+              </div>
+              <Link
+                href="/work/protein-checker"
+                className="text-text-link-primary font-medium hover:text-text-secondary transition-colors"
+              >
+                View Details →
+              </Link>
+            </div>
+
+            {/* Project 3: Component Playground */}
+            <div className="bg-light-neutral border border-medium-green rounded-lg p-6 hover:shadow-lg transition-shadow">
+              <h3 className="text-xl font-semibold text-text-primary mb-3">Component Playground</h3>
+              <p className="text-text-secondary mb-4 text-sm">
+                Design system documentation site with live component previews.
+              </p>
+              <div className="flex flex-wrap gap-2 mb-4">
+                <span className="text-xs bg-darkest text-text-on-dark px-2 py-1 rounded">Storybook</span>
+                <span className="text-xs bg-darkest text-text-on-dark px-2 py-1 rounded">MDX</span>
+                <span className="text-xs bg-darkest text-text-on-dark px-2 py-1 rounded">Design Tokens</span>
+              </div>
+              <Link
+                href="/work/component-playground"
+                className="text-text-link-primary font-medium hover:text-text-secondary transition-colors"
+              >
+                View Details →
+              </Link>
+            </div>
+          </div>
+
+          <div className="text-center mt-12">
+            <Link
+              href="/work"
+              className="bg-darkest text-text-on-dark px-8 py-4 rounded-lg font-semibold hover:bg-dark-green transition-colors inline-flex items-center gap-2"
+            >
+              View All Projects
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
+              </svg>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact CTA */}
+      <section className="bg-darkest py-16 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-3xl font-semibold text-text-on-dark mb-4">Let&apos;s Work Together</h2>
+          <p className="text-lg text-text-muted-on-dark mb-8">
+            I&apos;m currently seeking Lead Frontend Engineer opportunities.
+            Let&apos;s discuss how I can contribute to your team&apos;s success.
+          </p>
+          <Link
+            href="/contact"
+            className="bg-primary-green text-text-on-dark px-8 py-4 rounded-lg font-semibold hover:bg-medium-green transition-colors inline-flex items-center gap-2"
+          >
+            Get In Touch
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+              <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+            </svg>
+          </Link>
+        </div>
+      </section>
+
+      {/* JSON-LD Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Person",
+            "name": "Andrew Persad",
+            "jobTitle": "Lead Frontend Engineer",
+            "description": "Lead Frontend Engineer focused on React/Next.js, design systems, performance, and accessible enterprise UIs.",
+            "url": "https://yourportfolio.com",
+            "sameAs": [
+              "https://github.com/yourusername",
+              "https://linkedin.com/in/yourprofile"
+            ],
+            "knowsAbout": ["React", "Next.js", "TypeScript", "Design Systems", "Web Accessibility", "Performance Optimization"],
+            "worksFor": {
+              "@type": "Organization",
+              "name": "Available for hire"
+            }
+          })
+        }}
+      />
     </div>
   );
 }
