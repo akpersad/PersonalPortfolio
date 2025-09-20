@@ -29,12 +29,11 @@ jobs:
     - name: Run accessibility tests
       run: npm run test:a11y
       
+    - name: Install Lighthouse CI
+      run: npm install -g @lhci/cli@0.12.x
+      
     - name: Run Lighthouse CI
-      run: |
-        npm install -g @lhci/cli@0.12.x
-        npm run start &
-        sleep 10
-        lhci autorun --upload.target=temporary-public-storage
+      run: lhci autorun
       env:
         LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
         
