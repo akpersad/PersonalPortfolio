@@ -93,6 +93,13 @@ interface PageProps {
     params: Promise<{ slug: string }>;
 }
 
+// Generate static params for static export
+export async function generateStaticParams() {
+    return Object.keys(projects).map((slug) => ({
+        slug: slug,
+    }));
+}
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
     const { slug } = await params;
     const project = projects[slug as ProjectSlug];
