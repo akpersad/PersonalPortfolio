@@ -13,6 +13,15 @@
 # testing
 /coverage
 
+# playwright and accessibility testing
+/playwright-report/
+/test-results/
+lighthouse-report.html
+
+# lighthouse ci
+/.lighthouseci/
+lhci_reports/
+
 # next.js
 /.next/
 /out/

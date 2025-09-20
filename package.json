@@ -6,22 +6,35 @@
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "type-check": "tsc --noEmit",
+    "test:a11y": "playwright test --config=playwright.config.ts --reporter=list",
+    "test:a11y:ui": "playwright test --config=playwright.config.ts --ui",
+    "test:a11y:html": "playwright test --config=playwright.config.ts --reporter=html",
+    "lighthouse": "lighthouse http://localhost:3000 --output html --output-path ./lighthouse-report.html --preset desktop",
+    "lighthouse:ci": "lhci autorun",
+    "a11y:audit": "npm run lighthouse && npm run test:a11y"
   },
   "dependencies": {
+    "next": "15.5.3",
     "react": "19.1.0",
-    "react-dom": "19.1.0",
-    "next": "15.5.3"
+    "react-dom": "19.1.0"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@axe-core/playwright": "^4.10.2",
+    "@axe-core/react": "^4.10.2",
+    "@eslint/eslintrc": "^3",
+    "@playwright/test": "^1.55.0",
+    "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
+    "@types/react-axe": "^3.1.0",
     "@types/react-dom": "^19",
-    "@tailwindcss/postcss": "^4",
-    "tailwindcss": "^4",
     "eslint": "^9",
     "eslint-config-next": "15.5.3",
-    "@eslint/eslintrc": "^3"
+    "lighthouse": "^12.8.2",
+    "playwright": "^1.55.0",
+    "tailwindcss": "^4",
+    "typescript": "^5"
   }
 }
