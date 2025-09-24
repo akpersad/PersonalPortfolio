@@ -7,6 +7,7 @@ const withBundleAnalyzer = bundleAnalyzer({
 
 const nextConfig: NextConfig = {
   /* config options here */
+  output: process.env.LIGHTHOUSE_CI ? 'export' : undefined,
   experimental: {
     optimizePackageImports: ['@/components', '@/lib', '@/hooks'],
   },

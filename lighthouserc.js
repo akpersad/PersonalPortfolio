@@ -2,7 +2,8 @@ module.exports = {
   ci: {
     collect: {
       url: ['http://localhost:3000'],
-      startServerCommand: 'npm run start',
+      startServerCommand:
+        'LIGHTHOUSE_CI=true npm run build && npx serve out -p 3000',
       startServerReadyPattern: 'ready on',
       startServerReadyTimeout: 30000,
       numberOfRuns: 3,
