@@ -16,7 +16,6 @@ import {
 const projectSlugs: Record<string, string> = {
   'POKÉ COLLECTOR': 'poke-collector',
   'Protein Quality Calculator': 'protein-checker',
-  'Cosmic Recipe Generator': 'cosmic-recipes',
 };
 
 // Create reverse mapping for lookup

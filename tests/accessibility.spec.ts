@@ -103,7 +103,7 @@ test.describe('Dynamic Project Pages', () => {
     const projectSlugs = [
       'poke-collector',
       'protein-checker',
-      'cosmic-recipes',
+      // 'cosmic-recipes', // Commented out - placeholder project
     ];
 
     for (const slug of projectSlugs) {

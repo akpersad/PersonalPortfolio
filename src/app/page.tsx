@@ -100,9 +100,7 @@ export default function Home() {
               const slug =
                 project.project === 'POKÉ COLLECTOR'
                   ? 'poke-collector'
-                  : project.project === 'Protein Quality Calculator'
-                    ? 'protein-checker'
-                    : 'cosmic-recipes';
+                  : 'protein-checker';
               return (
                 <div
                   key={project.project}

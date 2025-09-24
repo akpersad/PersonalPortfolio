@@ -10,7 +10,6 @@ import { getBreadcrumbSchema } from '@/lib/seo';
 const projectSlugs: Record<string, string> = {
   'POKÉ COLLECTOR': 'poke-collector',
   'Protein Quality Calculator': 'protein-checker',
-  'Cosmic Recipe Generator': 'cosmic-recipes',
 };
 
 export default function WorkClient() {
