@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useAnalytics } from '@/hooks/useAnalytics';
 
 interface FormData {
   name: string;
@@ -15,6 +16,8 @@ interface FormErrors {
 }
 
 export default function Contact() {
+  const { trackContactFormSubmission, trackExternalLinkClick } = useAnalytics();
+
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
@@ -101,6 +104,8 @@ export default function Contact() {
         setSubmitMessage(
           "Thank you! Your message has been sent successfully. I'll get back to you within 24-48 hours."
         );
+        // Track successful form submission
+        trackContactFormSubmission(formData.role || 'general', true);
         setFormData({
           name: '',
           email: '',
@@ -110,6 +115,8 @@ export default function Contact() {
         });
       } else {
         setSubmitStatus('error');
+        // Track failed form submission
+        trackContactFormSubmission(formData.role || 'general', false);
         if (result.details && Array.isArray(result.details)) {
           setSubmitMessage(result.details.join('. '));
         } else {
@@ -120,6 +127,8 @@ export default function Contact() {
       }
     } catch {
       setSubmitStatus('error');
+      // Track failed form submission due to network error
+      trackContactFormSubmission(formData.role || 'general', false);
       setSubmitMessage(
         'Network error. Please check your connection and try again.'
       );
@@ -329,6 +338,13 @@ export default function Contact() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-3 text-text-secondary hover:text-primary-green transition-colors"
+                  onClick={() =>
+                    trackExternalLinkClick(
+                      'LinkedIn',
+                      'https://www.linkedin.com/in/andrew-persad-aa496432/',
+                      'contact_page'
+                    )
+                  }
                 >
                   <svg
                     className="w-5 h-5"
@@ -349,6 +365,13 @@ export default function Contact() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-3 text-text-secondary hover:text-primary-green transition-colors"
+                  onClick={() =>
+                    trackExternalLinkClick(
+                      'GitHub',
+                      'https://github.com/akpersad',
+                      'contact_page'
+                    )
+                  }
                 >
                   <svg
                     className="w-5 h-5"

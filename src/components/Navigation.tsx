@@ -2,7 +2,8 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
+import { useState, memo, useCallback } from 'react';
+import { useAnalytics } from '@/hooks/useAnalytics';
 
 const navigation = [
   { name: 'Home', href: '/' },
@@ -12,9 +13,25 @@ const navigation = [
   { name: 'Contact', href: '/contact' },
 ];
 
-export default function Navigation() {
+const Navigation = () => {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
+  const { trackNavigationClick } = useAnalytics();
+
+  const handleNavigationClick = useCallback(
+    (navItem: string, source: string) => {
+      trackNavigationClick(navItem, source);
+    },
+    [trackNavigationClick]
+  );
+
+  const toggleMobileMenu = useCallback(() => {
+    setIsOpen(prev => !prev);
+  }, []);
+
+  const closeMobileMenu = useCallback(() => {
+    setIsOpen(false);
+  }, []);
 
   return (
     <nav
@@ -27,6 +44,7 @@ export default function Navigation() {
           <Link
             href="/"
             className="text-xl font-semibold text-text-primary hover:text-primary-green transition-colors"
+            onClick={() => handleNavigationClick('Logo', 'header')}
           >
             Andrew Persad
           </Link>
@@ -43,6 +61,7 @@ export default function Navigation() {
                     ? 'text-nav-active-text bg-nav-active-bg shadow-sm border border-medium-green'
                     : 'text-text-primary hover:text-text-primary hover:bg-nav-active-bg/30'
                 }`}
+                onClick={() => handleNavigationClick(item.name, 'desktop_nav')}
               >
                 {item.name}
               </Link>
@@ -52,7 +71,7 @@ export default function Navigation() {
           {/* Mobile menu button */}
           <div className="md:hidden">
             <button
-              onClick={() => setIsOpen(!isOpen)}
+              onClick={toggleMobileMenu}
               className="text-text-primary hover:text-primary-green focus:outline-none focus:text-primary-green"
               aria-label="Toggle menu"
             >
@@ -87,7 +106,10 @@ export default function Navigation() {
                       ? 'text-nav-active-text bg-nav-active-bg shadow-sm border border-medium-green'
                       : 'text-text-primary hover:text-text-primary hover:bg-nav-active-bg/30'
                   }`}
-                  onClick={() => setIsOpen(false)}
+                  onClick={() => {
+                    handleNavigationClick(item.name, 'mobile_nav');
+                    closeMobileMenu();
+                  }}
                 >
                   {item.name}
                 </Link>
@@ -98,4 +120,6 @@ export default function Navigation() {
       </div>
     </nav>
   );
-}
+};
+
+export default memo(Navigation);

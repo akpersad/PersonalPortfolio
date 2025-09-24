@@ -1,21 +1,22 @@
-name: Accessibility Testing
+name: Lighthouse CI
 
 on:
-  pull_request:
-    branches: [main]
   push:
+    branches: [main, develop]
+  pull_request:
     branches: [main]
 
 jobs:
-  accessibility-tests:
-    timeout-minutes: 60
+  lighthouse-ci:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: lts/*
+          node-version: '18'
           cache: 'npm'
 
       - name: Install dependencies
@@ -44,7 +45,7 @@ jobs:
           restore-keys: |
             nextjs-${{ hashFiles('package-lock.json') }}-
 
-      - name: Build Next.js app
+      - name: Build application
         run: npm run build
         env:
           CI: true
@@ -57,18 +58,22 @@ jobs:
         env:
           NEXT_PUBLIC_GA_MEASUREMENT_ID: ${{ secrets.NEXT_PUBLIC_GA_MEASUREMENT_ID }}
 
-      - name: Install Lighthouse CI
-        run: npm install -g @lhci/cli@0.12.x
-
       - name: Run Lighthouse CI
-        run: lhci autorun
+        run: npm run lighthouse:ci
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
           NEXT_PUBLIC_GA_MEASUREMENT_ID: ${{ secrets.NEXT_PUBLIC_GA_MEASUREMENT_ID }}
 
-      - uses: actions/upload-artifact@v4
+      - name: Upload Lighthouse CI results
+        uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: playwright-report
-          path: playwright-report/
-          retention-days: 30
+          name: lighthouse-results
+          path: .lighthouseci/
+
+      - name: Upload accessibility test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: accessibility-results
+          path: test-results/

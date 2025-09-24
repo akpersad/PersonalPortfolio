@@ -42,7 +42,7 @@ export default function About() {
                 <li>Tailwind CSS, SCSS, CSS-in-JS</li>
                 <li>axe DevTools, Lighthouse, Performance</li>
                 <li>MUI X Charts, Data Visualization</li>
-                <li>Veneer, Meridian Design Systems</li>
+                <li>Veneer, Meridian, Lilly Design Systems</li>
               </ul>
             </div>
           </div>
@@ -52,13 +52,13 @@ export default function About() {
             </h3>
             <div className="flex flex-wrap gap-2 text-sm">
               <span className="bg-medium-green text-text-primary px-3 py-1 rounded">
-                Salesforce Admin
+                Salesforce Certified Admin
               </span>
               <span className="bg-medium-green text-text-primary px-3 py-1 rounded">
-                Salesforce PD1
+                Salesforce Certified Platform Developer 1
               </span>
               <span className="bg-medium-green text-text-primary px-3 py-1 rounded">
-                Unqork Configurator
+                Certified Associate Configurator - Unqork
               </span>
             </div>
           </div>
@@ -67,20 +67,21 @@ export default function About() {
         {/* Extended Bio - Placeholder */}
         <div className="space-y-6 text-text-primary">
           <p className="text-lg">
-            I&apos;m a Lead Software Engineer with extensive experience building
-            enterprise-scale web applications for Fortune 500 companies. My
-            passion lies in creating pixel-perfect interfaces that don&apos;t
-            just look great—they perform exceptionally and provide inclusive
-            experiences for millions of users.
+            I&apos;m a Lead Software Engineer at Deloitte Digital with extensive
+            experience building enterprise-scale web applications for Fortune
+            500 companies. My passion lies in creating pixel-perfect interfaces
+            that don&apos;t just look great—they perform exceptionally and
+            provide inclusive experiences for millions of users.
           </p>
 
           <p>
             Currently, I lead frontend development for HP&apos;s Workforce
-            Experience Platform, serving 9+ million users with SSO-secured
-            dashboards and real-time fleet telemetry visualization. Previously,
-            I delivered Eli Lilly&apos;s consumer site redesign with 200K
-            monthly visitors and contributed to Amazon&apos;s Buy with Prime
-            merchant portal serving 9+ million vendors.
+            Experience Platform through Deloitte Digital, serving 9+ million
+            users with SSO-secured dashboards and real-time fleet telemetry
+            visualization. Previously, I delivered Eli Lilly&apos;s consumer
+            site redesign with 150K-200K monthly visitors and contributed to
+            Amazon&apos;s Buy with Prime merchant portal serving 9+ million
+            vendors.
           </p>
 
           <p>
@@ -89,6 +90,9 @@ export default function About() {
             WCAG accessibility requirements. These systems are designed to be
             white-label and highly customizable, accommodating diverse brand
             guidelines and client color schemes across enterprise environments.
+            I&apos;ve worked with design systems including HP&apos;s Veneer,
+            Amazon&apos;s Meridian, and contributed to the Lilly Design System
+            (LOS).
           </p>
 
           <p>
@@ -104,7 +108,8 @@ export default function About() {
             stakeholders to transform telemetry into actionable insights and
             ensure that technical solutions align with business objectives. My
             approach combines technical excellence with clear communication and
-            strategic thinking to deliver measurable results.
+            strategic thinking to deliver measurable results across enterprise
+            environments.
           </p>
         </div>
       </div>

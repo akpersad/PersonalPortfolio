@@ -1,0 +1,23 @@
+{
+  "timestamp": "2025-09-24T12:57:25.141Z",
+  "totalSize": 1195999,
+  "chunks": {
+    "other": 1011553,
+    "assets": 141221,
+    "css": 43225
+  },
+  "thresholds": {
+    "main": 256000,
+    "vendor": 512000,
+    "total": 1024000
+  },
+  "violations": [
+    {
+      "type": "total",
+      "size": 1195999,
+      "threshold": 1024000,
+      "message": "Total bundle size exceeded threshold: 1.14 MB > 1000 KB"
+    }
+  ],
+  "withinThresholds": false
+}

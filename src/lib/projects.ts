@@ -1,4 +1,30 @@
-export const projects = [
+export interface Project {
+  project: string;
+  shortDescription: string;
+  description: string;
+  repo: Array<{ web: string; iOS?: string }>;
+  link: string;
+  images: Array<{ web: string; mobile: string; iOS?: string }>;
+  stack: string[];
+  keywords: string[];
+  role: string;
+  complexity: string;
+  architecture: string;
+  performance: string[];
+  testing: string[];
+  deployment: string[];
+  collaboration: string;
+  impact: string;
+  seniority: string;
+  scalability: string;
+  maintainability: string;
+  experimental?: boolean;
+  aiPowered?: boolean;
+  crossPlatform?: boolean;
+  mobileExpertise?: boolean;
+}
+
+export const projects: Project[] = [
   {
     project: 'POKÉ COLLECTOR',
     shortDescription:
@@ -212,100 +238,5 @@ export const projects = [
     maintainability: 'Excellent',
     crossPlatform: true,
     mobileExpertise: true,
-  },
-  {
-    project: 'Cosmic Recipe Generator',
-    shortDescription:
-      'AI-powered recipe generator that creates intergalactic cuisine based on your mood, available ingredients, and cosmic alignment. Features voice commands, holographic ingredient visualization, and quantum taste prediction algorithms.',
-    description:
-      'An experimental culinary AI platform that combines machine learning with absurd creativity to generate recipes that would make Gordon Ramsay question reality. Built with cutting-edge technologies like React 19, TypeScript, and a healthy dose of imagination, this project demonstrates advanced state management, voice recognition integration, and the ability to make developers laugh while maintaining professional code quality. Features include mood-based recipe generation, ingredient substitution algorithms, nutritional analysis with questionable accuracy, and a "surprise me" button that occasionally suggests recipes involving unicorn tears and stardust. The app integrates with multiple APIs including weather data (for cosmic alignment), Spotify (for mood detection), and a custom-built "Recipe Absurdity Engine" that ensures every suggestion is both technically feasible and completely ridiculous.',
-    repo: [{ web: 'https://github.com/akpersad/cosmic-recipes' }],
-    link: 'https://cosmic-recipes.vercel.app/',
-    images: [
-      {
-        web: '/projects/cosmic-recipes-web.png',
-        mobile: '/projects/cosmic-recipes-mobile.png',
-      },
-    ],
-    stack: [
-      'Next.js 15',
-      'React 19',
-      'TypeScript',
-      'Tailwind CSS 4',
-      'Framer Motion',
-      'Web Speech API',
-      'OpenAI API',
-      'Spotify API',
-      'Weather API',
-      'React Query',
-      'Zustand',
-      'React Hook Form',
-      'React Hot Toast',
-      'Lucide Icons',
-      'Turbopack',
-      'ESLint',
-      'Prettier',
-    ],
-    keywords: [
-      'Next.js',
-      'React',
-      'TypeScript',
-      'AI Integration',
-      'Machine Learning',
-      'Voice Recognition',
-      'API Integration',
-      'State Management',
-      'Modern React Patterns',
-      'Frontend Development',
-      'Creative Coding',
-      'Experimental UI',
-      'Animation',
-      'Framer Motion',
-      'Web APIs',
-      'Speech Recognition',
-      'Real-time Data',
-      'Responsive Design',
-      'Accessibility',
-      'Performance Optimization',
-      'Modern JavaScript',
-      'ES6+',
-      'CSS-in-JS',
-      'Tailwind CSS',
-      'Component Architecture',
-      'Custom Hooks',
-      'Context API',
-      'Error Handling',
-      'User Experience',
-      'UI/UX Design',
-      'Progressive Web App',
-      'Client-Side Rendering',
-      'Server-Side Rendering',
-      'Web Development',
-      'Frontend Architecture',
-      'Creative Development',
-      'Experimental Features',
-      'AI/ML Integration',
-      'Voice UI',
-      'Interactive Design',
-    ],
-    // Hidden ATS fields (not displayed in UI)
-    role: 'Lead Creative Developer',
-    complexity: 'Experimental',
-    architecture: 'AI-Driven',
-    performance: [
-      'Voice Processing',
-      'Real-time AI',
-      'Animation Optimization',
-      'API Caching',
-    ],
-    testing: ['Unit Testing', 'Integration Testing', 'Voice Testing'],
-    deployment: ['Vercel', 'CI/CD'],
-    collaboration: 'Solo Project',
-    impact: 'Proof of Concept',
-    seniority: 'Senior Level',
-    scalability: 'Medium',
-    maintainability: 'Good',
-    experimental: true,
-    aiPowered: true,
   },
 ];

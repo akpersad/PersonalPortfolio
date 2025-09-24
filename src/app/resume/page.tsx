@@ -1,8 +1,18 @@
 'use client';
 
 import { resumeData } from '@/lib/resume';
+import { useAnalytics } from '@/hooks/useAnalytics';
 
 export default function Resume() {
+  const { trackResumeDownload } = useAnalytics();
+
+  const handlePDFDownload = () => {
+    trackResumeDownload('PDF', 'resume_page');
+  };
+
+  const handleJSONDownload = () => {
+    trackResumeDownload('JSON', 'resume_page');
+  };
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="text-center mb-8">
@@ -12,6 +22,7 @@ export default function Resume() {
             href="/documents/Andrew_Persad_Resume.pdf"
             download="Andrew_Persad_Resume.pdf"
             className="bg-primary-green text-text-on-dark px-6 py-3 rounded-lg font-medium hover:bg-dark-green transition-colors inline-flex items-center justify-center gap-2"
+            onClick={handlePDFDownload}
           >
             Download PDF
             <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
@@ -25,6 +36,7 @@ export default function Resume() {
           <button
             className="border border-medium-green text-text-secondary px-6 py-3 rounded-lg font-medium hover:bg-medium-green hover:text-text-primary transition-colors"
             onClick={() => {
+              handleJSONDownload();
               const resumeJson = JSON.stringify(
                 {
                   name: 'Andrew Persad',

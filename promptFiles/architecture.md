@@ -5,6 +5,7 @@ This document outlines the technical architecture, site structure, and developme
 ## 🗺️ Site Map (Next.js App Router)
 
 ### **Core Pages**
+
 - **`/`** — **Landing/Home**
   - Hero splash with avatar, headline, sub-blurb, CTAs
   - Mini About preview (2–3 sentences, keywords)
@@ -57,13 +58,17 @@ src/
 ├── components/
 │   ├── Navigation.tsx       # Responsive navigation bar
 │   ├── Footer.tsx          # Persistent footer
-│   ├── Hero.tsx            # Landing page hero section
-│   ├── ProjectCard.tsx     # Project preview cards
-│   └── ContactForm.tsx     # Contact form component
+│   ├── OptimizedImage.tsx  # Image optimization component
+│   ├── CoreWebVitals.tsx   # Performance monitoring
+│   └── PerformanceMonitor.tsx # Real-time performance tracking
 ├── lib/
 │   ├── projects.ts         # Project data and schemas
+│   ├── resume.ts          # Resume data and JSON export
 │   ├── seo.ts             # SEO utilities and metadata
-│   └── analytics.ts       # Performance tracking
+│   ├── analytics.ts       # Google Analytics 4 integration
+│   └── performance.ts     # Core Web Vitals monitoring
+├── hooks/
+│   └── useAnalytics.ts    # Analytics hook for event tracking
 public/
 ├── icons/                  # Avatar and icon assets
 ├── projects/              # Project screenshots/assets
@@ -71,6 +76,11 @@ public/
 tests/
 ├── accessibility.spec.ts   # Comprehensive a11y tests
 └── playwright.config.ts   # Test configuration
+scripts/
+├── bundle-monitor.js      # Bundle size monitoring
+└── bundle-monitor.mjs     # ES module bundle analysis
+.github/workflows/
+└── lighthouse-ci.yml      # GitHub Actions CI/CD
 promptFiles/               # Project documentation
 └── [various-docs].md
 ```
@@ -78,28 +88,30 @@ promptFiles/               # Project documentation
 ## 🏗️ Data Architecture
 
 ### **Project Schema**
+
 ```typescript
 export type Project = {
-  slug: string;              // URL identifier
-  company: string;           // "Personal Project"
-  title: string;            // Project name
-  summary: string;          // Brief description
-  timeframe: string;        // Development period
-  role: string;             // "Full-stack Developer"
-  impact: string[];         // Key achievements/outcomes
-  stack: string[];          // Technologies used
-  repo?: string;            // GitHub repository URL
-  live?: string;            // Live demo URL
-  tags: string[];           // Technology/category tags
-  featured: boolean;        // Show on homepage
-  description: string;      // Detailed case study content
-  challenges: string[];     // Technical challenges solved
-  solutions: string[];      // How challenges were addressed
-  screenshots: string[];    // Project image assets
+  slug: string; // URL identifier
+  company: string; // "Personal Project"
+  title: string; // Project name
+  summary: string; // Brief description
+  timeframe: string; // Development period
+  role: string; // "Full-stack Developer"
+  impact: string[]; // Key achievements/outcomes
+  stack: string[]; // Technologies used
+  repo?: string; // GitHub repository URL
+  live?: string; // Live demo URL
+  tags: string[]; // Technology/category tags
+  featured: boolean; // Show on homepage
+  description: string; // Detailed case study content
+  challenges: string[]; // Technical challenges solved
+  solutions: string[]; // How challenges were addressed
+  screenshots: string[]; // Project image assets
 };
 ```
 
 ### **SEO Metadata Schema**
+
 ```typescript
 export type PageMetadata = {
   title: string;
@@ -117,23 +129,26 @@ export type PageMetadata = {
     description: string;
     images: string[];
   };
-  jsonLd: object;           // Structured data
+  jsonLd: object; // Structured data
 };
 ```
 
 ## ⚡ Performance Architecture
 
 ### **Code Splitting Strategy**
+
 - **Route-level splitting**: Next.js App Router (automatic)
 - **Component lazy loading**: React.lazy() for heavy components
 - **Dynamic imports**: For non-critical functionality
 
 ### **Asset Optimization**
+
 - **Images**: next/image with WebP conversion
 - **Fonts**: next/font with Geist Sans/Mono optimization
 - **Bundle analysis**: @next/bundle-analyzer integration
 
 ### **Caching Strategy**
+
 - **Static pages**: Generated at build time
 - **Dynamic content**: ISR (Incremental Static Regeneration) for project updates
 - **Assets**: CDN caching with appropriate headers
@@ -141,6 +156,7 @@ export type PageMetadata = {
 ## 🔧 Development Workflow
 
 ### **Build Pipeline**
+
 1. **Development**: `npm run dev` with Turbopack
 2. **Type checking**: TypeScript validation
 3. **Accessibility testing**: Playwright + axe-core
@@ -148,12 +164,14 @@ export type PageMetadata = {
 5. **Production build**: `npm run build`
 
 ### **Quality Gates**
+
 - All accessibility tests must pass (8/9 currently passing)
 - Lighthouse performance score 90+
 - TypeScript compilation without errors
 - No console errors in production build
 
 ### **CI/CD Integration**
+
 - **GitHub Actions**: Automated accessibility testing
 - **Vercel**: Automatic deployments on push
 - **Performance monitoring**: Core Web Vitals tracking
