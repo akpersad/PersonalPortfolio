@@ -45,6 +45,7 @@ jobs:
         run: npm run build
         env:
           CI: true
+          LIGHTHOUSE_CI: true
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           NEXT_PUBLIC_GA_MEASUREMENT_ID: ${{ secrets.NEXT_PUBLIC_GA_MEASUREMENT_ID }}
 
