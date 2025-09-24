@@ -11,7 +11,7 @@ const nextConfig: NextConfig = {
     optimizePackageImports: ['@/components', '@/lib', '@/hooks'],
   },
   turbopack: {
-    root: '/Users/apersad/Documents/Development/PersonalProjects/personal-portfolio',
+    root: process.cwd(),
   },
   images: {
     formats: ['image/webp', 'image/avif'],
