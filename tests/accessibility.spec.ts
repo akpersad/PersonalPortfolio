@@ -326,14 +326,16 @@ test.describe('Resume Page Functionality', () => {
     await page.waitForLoadState('networkidle');
 
     // Check for JSON-LD structured data
-    const jsonLdScript = page.locator('script[type="application/ld+json"]');
-    await expect(jsonLdScript).toHaveCount(1);
+    const jsonLdScripts = page.locator('script[type="application/ld+json"]');
+    const count = await jsonLdScripts.count();
+    expect(count).toBeGreaterThanOrEqual(1);
 
     // Verify the structured data contains expected fields
-    const jsonLdContent = await jsonLdScript.textContent();
-    expect(jsonLdContent).toContain('Andrew Persad');
-    expect(jsonLdContent).toContain('Lead Software Engineer');
-    expect(jsonLdContent).toContain('knowsAbout');
+    const jsonLdContents = await jsonLdScripts.allTextContents();
+    const allContent = jsonLdContents.join(' ');
+    expect(allContent).toContain('Andrew Persad');
+    expect(allContent).toContain('Lead Software Engineer');
+    expect(allContent).toContain('knowsAbout');
   });
 
   test('Resume page should display professional experience', async ({

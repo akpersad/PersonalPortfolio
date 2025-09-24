@@ -1,4 +1,30 @@
-export const projects = [
+export interface Project {
+  project: string;
+  shortDescription: string;
+  description: string;
+  repo: Array<{ web: string; iOS?: string }>;
+  link: string;
+  images: Array<{ web: string; mobile: string; iOS?: string }>;
+  stack: string[];
+  keywords: string[];
+  role: string;
+  complexity: string;
+  architecture: string;
+  performance: string[];
+  testing: string[];
+  deployment: string[];
+  collaboration: string;
+  impact: string;
+  seniority: string;
+  scalability: string;
+  maintainability: string;
+  experimental?: boolean;
+  aiPowered?: boolean;
+  crossPlatform?: boolean;
+  mobileExpertise?: boolean;
+}
+
+export const projects: Project[] = [
   {
     project: 'POKÉ COLLECTOR',
     shortDescription:

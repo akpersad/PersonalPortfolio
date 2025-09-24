@@ -1,4 +1,17 @@
-export default function Footer() {
+'use client';
+
+import { memo, useCallback } from 'react';
+import { useAnalytics } from '@/hooks/useAnalytics';
+
+const Footer = () => {
+  const { trackExternalLinkClick } = useAnalytics();
+
+  const handleExternalLinkClick = useCallback(
+    (platform: string, url: string) => {
+      trackExternalLinkClick(platform, url, 'footer');
+    },
+    [trackExternalLinkClick]
+  );
   return (
     <footer className="bg-darkest text-text-on-dark py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
@@ -19,6 +32,9 @@ export default function Footer() {
               className="text-sm hover:text-medium-green transition-colors"
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() =>
+                handleExternalLinkClick('GitHub', 'https://github.com/akpersad')
+              }
             >
               GitHub
             </a>
@@ -27,6 +43,12 @@ export default function Footer() {
               className="text-sm hover:text-medium-green transition-colors"
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() =>
+                handleExternalLinkClick(
+                  'LinkedIn',
+                  'https://www.linkedin.com/in/andrew-persad-aa496432/'
+                )
+              }
             >
               LinkedIn
             </a>
@@ -41,4 +63,6 @@ export default function Footer() {
       </div>
     </footer>
   );
-}
+};
+
+export default memo(Footer);
