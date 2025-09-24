@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "type-check": "tsc --noEmit",
-    "test:a11y": "playwright test --config=playwright.config.ts --reporter=list",
+    "test:a11y": "playwright test --config=playwright.config.ts",
+    "test:a11y:ci": "CI=true playwright test --config=playwright.config.ts --reporter=list",
     "test:a11y:ui": "playwright test --config=playwright.config.ts --ui",
     "test:a11y:html": "playwright test --config=playwright.config.ts --reporter=html",
     "lighthouse": "lighthouse http://localhost:3000 --output html --output-path ./lighthouse-report.html --preset desktop",
@@ -30,10 +31,13 @@
     "@types/react": "^19",
     "@types/react-axe": "^3.1.0",
     "@types/react-dom": "^19",
+    "@typescript-eslint/eslint-plugin": "^8.44.1",
+    "@typescript-eslint/parser": "^8.44.1",
     "eslint": "^9",
     "eslint-config-next": "15.5.3",
     "lighthouse": "^12.8.2",
     "playwright": "^1.55.0",
+    "prettier": "^3.6.2",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
