@@ -6,9 +6,9 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
-  reporter: 'html',
+  reporter: process.env.CI ? 'list' : 'html',
   use: {
-    baseURL: 'http://localhost:3001',
+    baseURL: 'http://localhost:3000',
     trace: 'on-first-retry',
   },
 
@@ -37,8 +37,14 @@ export default defineConfig({
 
   webServer: {
     command: 'npm run dev',
-    url: 'http://localhost:3001',
-    reuseExistingServer: true, // Always reuse existing server for development
-    timeout: 120 * 1000, // 2 minutes timeout
+    url: 'http://localhost:3000',
+    reuseExistingServer: !process.env.CI, // Don't reuse in CI to ensure clean state
+    timeout: 180 * 1000, // 3 minutes timeout for CI
+    stdout: 'pipe',
+    stderr: 'pipe',
+    env: {
+      ...process.env,
+      NODE_ENV: 'development',
+    },
   },
 });
