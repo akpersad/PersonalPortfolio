@@ -67,11 +67,11 @@ export default function About() {
         {/* Extended Bio - Placeholder */}
         <div className="space-y-6 text-text-primary">
           <p className="text-lg">
-            I&apos;m a Lead Software Engineer at Deloitte Digital with extensive
-            experience building enterprise-scale web applications for Fortune
-            500 companies. My passion lies in creating pixel-perfect interfaces
-            that don&apos;t just look great—they perform exceptionally and
-            provide inclusive experiences for millions of users.
+            I&apos;m a Lead Software Engineer with extensive experience building
+            enterprise-scale web applications for Fortune 500 companies. My
+            passion lies in creating pixel-perfect interfaces that don&apos;t
+            just look great—they perform exceptionally and provide inclusive
+            experiences for millions of users.
           </p>
 
           <p>

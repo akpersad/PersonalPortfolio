@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { projects } from '@/lib/projects';
 
 export default function Home() {
   return (
@@ -12,17 +13,13 @@ export default function Home() {
             <div className="text-center lg:text-left">
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-text-primary leading-tight mb-6">
                 Lead Software Engineer
-                <span className="block text-text-primary font-semibold">
-                  at Deloitte Digital
-                </span>
               </h1>
 
               <p className="text-xl text-text-secondary mb-8 leading-relaxed">
                 I develop responsive, accessible front-end interfaces with
-                pixel-perfect precision. Building modular component libraries
-                and design systems for enterprise clients like HP, Eli Lilly,
-                and Amazon—delivering measurable performance improvements and
-                scalable solutions.
+                pixel-perfect precision. Building modern web applications with
+                React, Next.js, and TypeScript—delivering measurable performance
+                improvements and scalable solutions.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
@@ -70,12 +67,11 @@ export default function Home() {
             About My Work
           </h2>
           <p className="text-lg text-text-secondary leading-relaxed mb-8">
-            I architect enterprise-grade solutions for Fortune 500 companies,
-            delivering SSO-secured platforms and data-driven dashboards. My
-            recent work includes HP's Workforce Experience Platform serving 9M+
-            users, Eli Lilly's consumer site redesign with 200K monthly
-            visitors, and Amazon's Buy with Prime merchant portal—all built with
-            modern React/TypeScript stacks and accessibility-first design.
+            I architect modern web applications with a focus on performance,
+            accessibility, and user experience. My personal projects showcase
+            expertise in React, Next.js, TypeScript, and cross-platform
+            development—from Pokemon collection apps to nutrition calculators
+            and experimental AI-powered experiences.
           </p>
           <Link
             href="/about"
@@ -94,96 +90,49 @@ export default function Home() {
               Featured Projects
             </h2>
             <p className="text-lg text-text-secondary">
-              Enterprise projects showcasing technical expertise and scalable
-              frontend architecture for Fortune 500 companies
+              Personal projects showcasing technical expertise and creative
+              problem-solving across different domains
             </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {/* Project 1: HP Workforce Platform */}
-            <div className="bg-light-neutral border border-medium-green rounded-lg p-6 hover:shadow-lg transition-shadow">
-              <h3 className="text-xl font-semibold text-text-primary mb-3">
-                HP Workforce Platform
-              </h3>
-              <p className="text-text-secondary mb-4 text-sm">
-                Enterprise platform for IT administrators managing fleet
-                operations, employee engagement, and security systems for 9M+
-                users.
-              </p>
-              <div className="flex flex-wrap gap-2 mb-4">
-                <span className="text-xs bg-darkest text-text-on-dark px-2 py-1 rounded">
-                  TypeScript
-                </span>
-                <span className="text-xs bg-darkest text-text-on-dark px-2 py-1 rounded">
-                  React
-                </span>
-                <span className="text-xs bg-darkest text-text-on-dark px-2 py-1 rounded">
-                  SSO
-                </span>
-              </div>
-              <Link
-                href="/work/hp-workforce-platform"
-                className="text-text-link-primary font-medium hover:text-text-secondary transition-colors"
-              >
-                View Details →
-              </Link>
-            </div>
-
-            {/* Project 2: Eli Lilly Site */}
-            <div className="bg-light-neutral border border-medium-green rounded-lg p-6 hover:shadow-lg transition-shadow">
-              <h3 className="text-xl font-semibold text-text-primary mb-3">
-                Eli Lilly Consumer Site
-              </h3>
-              <p className="text-text-secondary mb-4 text-sm">
-                Full redesign with medicine exploration, pricing experience, and
-                healthcare provider integration for 200K monthly users.
-              </p>
-              <div className="flex flex-wrap gap-2 mb-4">
-                <span className="text-xs bg-darkest text-text-on-dark px-2 py-1 rounded">
-                  Next.js
-                </span>
-                <span className="text-xs bg-darkest text-text-on-dark px-2 py-1 rounded">
-                  Tailwind
-                </span>
-                <span className="text-xs bg-darkest text-text-on-dark px-2 py-1 rounded">
-                  AEM
-                </span>
-              </div>
-              <Link
-                href="/work/lilly-consumer-site"
-                className="text-text-link-primary font-medium hover:text-text-secondary transition-colors"
-              >
-                View Details →
-              </Link>
-            </div>
-
-            {/* Project 3: Amazon Buy with Prime */}
-            <div className="bg-light-neutral border border-medium-green rounded-lg p-6 hover:shadow-lg transition-shadow">
-              <h3 className="text-xl font-semibold text-text-primary mb-3">
-                Amazon Buy with Prime
-              </h3>
-              <p className="text-text-secondary mb-4 text-sm">
-                Merchant portal with product listings and order management
-                dashboards for 9M+ vendors using Meridian design system.
-              </p>
-              <div className="flex flex-wrap gap-2 mb-4">
-                <span className="text-xs bg-darkest text-text-on-dark px-2 py-1 rounded">
-                  React
-                </span>
-                <span className="text-xs bg-darkest text-text-on-dark px-2 py-1 rounded">
-                  Meridian
-                </span>
-                <span className="text-xs bg-darkest text-text-on-dark px-2 py-1 rounded">
-                  Testing
-                </span>
-              </div>
-              <Link
-                href="/work/amazon-buy-with-prime"
-                className="text-text-link-primary font-medium hover:text-text-secondary transition-colors"
-              >
-                View Details →
-              </Link>
-            </div>
+            {projects.slice(0, 3).map(project => {
+              const slug =
+                project.project === 'POKÉ COLLECTOR'
+                  ? 'poke-collector'
+                  : project.project === 'Protein Quality Calculator'
+                    ? 'protein-checker'
+                    : 'cosmic-recipes';
+              return (
+                <div
+                  key={project.project}
+                  className="bg-light-neutral border border-medium-green rounded-lg p-6 hover:shadow-lg transition-shadow"
+                >
+                  <h3 className="text-xl font-semibold text-text-primary mb-3">
+                    {project.project}
+                  </h3>
+                  <p className="text-text-secondary mb-4 text-sm">
+                    {project.shortDescription}
+                  </p>
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {project.stack.slice(0, 3).map(tech => (
+                      <span
+                        key={tech}
+                        className="text-xs bg-darkest text-text-on-dark px-2 py-1 rounded"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                  <Link
+                    href={`/work/${slug}`}
+                    className="text-text-link-primary font-medium hover:text-text-secondary transition-colors"
+                  >
+                    View Details →
+                  </Link>
+                </div>
+              );
+            })}
           </div>
 
           <div className="text-center mt-12">
@@ -212,9 +161,9 @@ export default function Home() {
           </h2>
           <p className="text-lg text-text-muted-on-dark mb-8">
             I&apos;m open to new Lead Software Engineer opportunities where I
-            can leverage my experience building enterprise-scale applications
-            and design systems. Let&apos;s discuss how I can contribute to your
-            team&apos;s success.
+            can leverage my experience building modern web applications and
+            creative problem-solving. Let&apos;s discuss how I can contribute to
+            your team&apos;s success.
           </p>
           <Link
             href="/contact"
@@ -239,7 +188,7 @@ export default function Home() {
             name: 'Andrew Persad',
             jobTitle: 'Lead Software Engineer',
             description:
-              'Lead Software Engineer at Deloitte Digital specializing in React/Next.js, enterprise design systems, and accessible web applications for Fortune 500 companies.',
+              'Lead Software Engineer specializing in React/Next.js, TypeScript, and modern web application development.',
             url: 'https://andrewpersad.com',
             sameAs: [
               'https://github.com/akpersad',

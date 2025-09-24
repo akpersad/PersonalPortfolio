@@ -1,10 +1,4 @@
-import type { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: 'Resume - Andrew Persad',
-  description:
-    "Andrew Persad's resume - Lead Frontend Engineer with 8+ years of experience in React, Next.js, TypeScript, design systems, and performance optimization.",
-};
+'use client';
 
 export default function Resume() {
   return (
@@ -372,8 +366,8 @@ export default function Resume() {
                     Helped launch the Buy with Prime Merchant Portal, a
                     collection of dashboards for product listings and order
                     management using internal design system (Meridian), enabling
-                    a place for centralized insights available to Amazon's 9
-                    million+ vendors.
+                    a place for centralized insights available to Amazon&apos;s
+                    9 million+ vendors.
                   </p>
                   <div className="flex flex-wrap gap-2 mb-3">
                     <span className="text-xs bg-darkest text-text-on-dark px-2 py-1 rounded">

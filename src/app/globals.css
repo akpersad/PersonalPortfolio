@@ -1,30 +1,30 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 :root {
   /* Earthy Forest Palette */
-  --light-neutral: #DAD7CD;
-  --medium-green: #A3B18A;
-  --primary-green: #527A51;
+  --light-neutral: #dad7cd;
+  --medium-green: #a3b18a;
+  --primary-green: #527a51;
   /* Slightly darker for 4.5:1+ contrast with white */
-  --dark-green: #3A5A40;
-  --darkest: #344E41;
+  --dark-green: #3a5a40;
+  --darkest: #344e41;
 
   /* WCAG AAA Compliant Text Colors */
-  --text-on-light: #1A2B1F;
+  --text-on-light: #1a2b1f;
   /* Even darker for AAA compliance */
-  --text-muted-on-light: #2A3B2E;
+  --text-muted-on-light: #2a3b2e;
   /* Darker secondary text */
-  --text-on-dark: #FFFFFF;
+  --text-on-dark: #ffffff;
   /* Pure white for maximum contrast on green backgrounds */
-  --text-muted-on-dark: #F5F3F0;
+  --text-muted-on-dark: #f5f3f0;
   /* Lighter muted text on dark */
-  --text-link-primary: #1A2B1F;
+  --text-link-primary: #1a2b1f;
   /* High contrast link color - AAA compliant */
 
   /* Navigation active state colors */
-  --nav-active-bg: #FFFFFF;
+  --nav-active-bg: #ffffff;
   /* White background for active nav items */
-  --nav-active-text: #1A2B1F;
+  --nav-active-text: #1a2b1f;
   /* Dark text on white background */
 
   /* Semantic colors */
@@ -78,4 +78,12 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Line clamp utility for text truncation */
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }

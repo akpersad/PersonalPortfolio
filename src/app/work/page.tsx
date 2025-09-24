@@ -1,71 +1,20 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
+import { projects } from '@/lib/projects';
 
 export const metadata: Metadata = {
   title: 'Work - Andrew Persad',
   description:
-    'Featured projects by Andrew Persad showcasing expertise in React, Next.js, design systems, and frontend architecture.',
+    'Featured projects by Andrew Persad showcasing expertise in React, Next.js, TypeScript, and modern frontend development.',
 };
 
-// Real client projects from Deloitte Digital experience
-const projects = [
-  {
-    slug: 'hp-workforce-platform',
-    title: 'HP Workforce Experience Platform',
-    summary:
-      'Enterprise platform for IT administrators and procurement specialists managing fleet operations, employee engagement, and security systems for 9M+ users.',
-    timeframe: '2025',
-    stack: [
-      'TypeScript',
-      'React',
-      'Veneer Design System',
-      'React Testing Library',
-      'MUI X Charts',
-      'SSO',
-    ],
-    featured: true,
-    status: 'live',
-    client: 'Hewlett Packard',
-    link: null, // Internal enterprise platform
-  },
-  {
-    slug: 'lilly-consumer-site',
-    title: 'Eli Lilly Consumer Site Redesign',
-    summary:
-      'Full redesign of consumer-facing site with medicine exploration, pricing experience, and healthcare provider integration for 200K monthly users.',
-    timeframe: '2025',
-    stack: [
-      'TypeScript',
-      'Next.js',
-      'React Router',
-      'SCSS',
-      'Tailwind',
-      'Contentful',
-      'Adobe Experience Manager',
-    ],
-    featured: true,
-    status: 'live',
-    client: 'Eli Lilly',
-    link: 'https://www.lilly.com/',
-  },
-  {
-    slug: 'amazon-buy-with-prime',
-    title: 'Amazon Buy with Prime Portal',
-    summary:
-      'Merchant portal with product listings and order management dashboards using internal Meridian design system for 9M+ vendors.',
-    timeframe: '2023',
-    stack: [
-      'TypeScript',
-      'React',
-      'React Testing Library',
-      'Meridian Design System',
-    ],
-    featured: true,
-    status: 'live',
-    client: 'Amazon',
-    link: null, // Internal enterprise platform
-  },
-];
+// Create slug mapping for projects
+const projectSlugs: Record<string, string> = {
+  'POKÉ COLLECTOR': 'poke-collector',
+  'Protein Quality Calculator': 'protein-checker',
+  'Cosmic Recipe Generator': 'cosmic-recipes',
+};
 
 export default function Work() {
   return (
@@ -75,88 +24,113 @@ export default function Work() {
           Featured Work
         </h1>
         <p className="text-lg text-text-secondary max-w-2xl mx-auto">
-          Enterprise projects delivered at Deloitte Digital showcasing expertise
-          in React/Next.js, design systems, and scalable frontend architecture
-          for Fortune 500 companies.
+          Personal projects showcasing expertise in React/Next.js, TypeScript,
+          and modern frontend development. Each project demonstrates different
+          aspects of full-stack development and creative problem-solving.
         </p>
       </div>
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {projects.map(project => (
-          <div
-            key={project.slug}
-            className="bg-light-neutral border border-medium-green rounded-lg p-6 hover:shadow-lg transition-shadow duration-300"
-          >
-            <div className="flex items-start justify-between mb-4">
-              <div>
-                <h2 className="text-xl font-semibold text-text-primary">
-                  {project.title}
-                </h2>
-                <p className="text-sm text-text-secondary font-medium">
-                  {project.client}
-                </p>
-              </div>
-              <span className="text-xs text-text-secondary bg-medium-green px-2 py-1 rounded">
-                {project.timeframe}
-              </span>
-            </div>
-
-            <p className="text-text-primary mb-4 text-sm leading-relaxed">
-              {project.summary}
-            </p>
-
-            <div className="mb-6">
-              <h3 className="text-sm font-medium text-text-secondary mb-2">
-                Tech Stack
-              </h3>
-              <div className="flex flex-wrap gap-2">
-                {project.stack.map(tech => (
-                  <span
-                    key={tech}
-                    className="text-xs bg-darkest text-text-on-dark px-2 py-1 rounded"
-                  >
-                    {tech}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            <div className="flex gap-3">
-              <Link
-                href={`/work/${project.slug}`}
-                className="flex-1 bg-primary-green text-text-on-dark text-center py-2 px-4 rounded text-sm font-medium hover:bg-dark-green transition-colors"
-              >
-                View Details
-              </Link>
-              {project.link ? (
-                <a
-                  href={project.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-4 py-2 border border-medium-green text-text-secondary text-sm rounded hover:bg-medium-green hover:text-text-primary transition-colors"
-                >
-                  Live Site
-                </a>
-              ) : (
-                <span className="px-4 py-2 border border-medium-green text-text-secondary text-sm rounded opacity-50">
-                  Internal Platform
-                </span>
+        {projects.map(project => {
+          const slug = projectSlugs[project.project];
+          const mainImage = project.images?.[0];
+          return (
+            <div
+              key={project.project}
+              className="bg-light-neutral border border-medium-green rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300 group"
+            >
+              {/* Project Image */}
+              {mainImage?.web && (
+                <div className="relative h-48 overflow-hidden">
+                  <Image
+                    src={mainImage.web}
+                    alt={`${project.project} screenshot`}
+                    width={400}
+                    height={192}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+                  <div className="absolute top-3 right-3">
+                    <span className="text-xs text-white bg-black/50 px-2 py-1 rounded backdrop-blur-sm">
+                      {project.experimental ? 'Experimental' : 'Production'}
+                    </span>
+                  </div>
+                </div>
               )}
+
+              <div className="p-6">
+                <div className="mb-4">
+                  <h2 className="text-xl font-semibold text-text-primary mb-1">
+                    {project.project}
+                  </h2>
+                  <p className="text-sm text-text-secondary font-medium">
+                    {project.role}
+                  </p>
+                </div>
+
+                <p className="text-text-primary mb-4 text-sm leading-relaxed line-clamp-3">
+                  {project.shortDescription}
+                </p>
+
+                <div className="mb-6">
+                  <h3 className="text-sm font-medium text-text-secondary mb-2">
+                    Key Technologies
+                  </h3>
+                  <div className="flex flex-wrap gap-2">
+                    {project.stack.slice(0, 5).map(tech => (
+                      <span
+                        key={tech}
+                        className="text-xs bg-darkest text-text-on-dark px-2 py-1 rounded"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                    {project.stack.length > 5 && (
+                      <span className="text-xs text-text-secondary">
+                        +{project.stack.length - 5} more
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                <div className="flex gap-3">
+                  <Link
+                    href={`/work/${slug}`}
+                    className="flex-1 bg-primary-green text-text-on-dark text-center py-2 px-4 rounded text-sm font-medium hover:bg-dark-green transition-colors"
+                  >
+                    View Details
+                  </Link>
+                  {project.link ? (
+                    <a
+                      href={project.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-4 py-2 border border-medium-green text-text-secondary text-sm rounded hover:bg-medium-green hover:text-text-primary transition-colors"
+                    >
+                      Live Site
+                    </a>
+                  ) : (
+                    <span className="px-4 py-2 border border-medium-green text-text-secondary text-sm rounded opacity-50">
+                      Coming Soon
+                    </span>
+                  )}
+                </div>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       <div className="text-center mt-16">
         <div className="bg-medium-green/20 rounded-lg p-8">
           <h2 className="text-2xl font-semibold text-text-primary mb-4">
-            Enterprise Experience
+            Personal Projects
           </h2>
           <p className="text-text-secondary mb-6">
-            These projects represent a sample of enterprise-scale applications
-            I&apos;ve delivered at Deloitte Digital. Each project showcases
-            different aspects of modern frontend development and design system
-            architecture.
+            These projects represent my personal exploration of modern web
+            technologies and creative problem-solving. Each project showcases
+            different aspects of frontend development, from enterprise-scale
+            applications to experimental AI-powered experiences.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
@@ -192,6 +166,91 @@ export default function Work() {
           </div>
         </div>
       </div>
+
+      {/* ATS Hidden Keywords Section - For automated systems */}
+      <section className="sr-only" aria-hidden="true">
+        <h2>Technical Skills and Project Portfolio</h2>
+        <div>
+          <span>
+            React Developer, Next.js Developer, TypeScript Developer, Frontend
+            Engineer,{' '}
+          </span>
+          <span>
+            JavaScript Expert, Web Developer, Software Engineer, Lead
+            Developer,{' '}
+          </span>
+          <span>
+            UI Developer, UX Developer, Component Developer, Full Stack
+            Developer,{' '}
+          </span>
+          <span>
+            Mobile Developer, iOS Developer, Cross Platform Developer,{' '}
+          </span>
+          <span>
+            Performance Optimization, Accessibility, WCAG Compliance,{' '}
+          </span>
+          <span>Design Systems, Component Libraries, API Integration, </span>
+          <span>
+            State Management, Responsive Design, Modern JavaScript, ES6+,{' '}
+          </span>
+          <span>CSS-in-JS, Tailwind CSS, SCSS, MongoDB, Database Design, </span>
+          <span>Authentication, Security, Progressive Web Apps, PWA, </span>
+          <span>Code Splitting, Lazy Loading, Image Optimization, SEO, </span>
+          <span>
+            Search Engine Optimization, Core Web Vitals, User Experience,{' '}
+          </span>
+          <span>User Interface, Interaction Design, Project Management, </span>
+          <span>
+            Technical Leadership, Code Review, Documentation, Testing,{' '}
+          </span>
+          <span>Problem Solving, Debugging, Performance Analysis, </span>
+          <span>
+            Cross Browser Compatibility, CI/CD, Continuous Integration,{' '}
+          </span>
+          <span>Version Control, Git, Agile Development, Build Tools, </span>
+          <span>
+            Webpack, Vite, Turbopack, ESLint, Code Quality, Clean Code,{' '}
+          </span>
+          <span>
+            SOLID Principles, Architecture Patterns, Design Patterns,{' '}
+          </span>
+          <span>Pokemon TCG, Collection Management, Protein Calculator, </span>
+          <span>
+            Nutrition Tracking, Data Visualization, Real-time Search,{' '}
+          </span>
+          <span>
+            Advanced Filtering, User Authentication, Collection
+            Persistence,{' '}
+          </span>
+          <span>Multi-platform Development, Native iOS, Swift, SwiftUI, </span>
+          <span>Core Data, JSON Handling, Protocol-Oriented Programming, </span>
+          <span>
+            Generics, Async/Await, Combine Framework, Swift Concurrency,{' '}
+          </span>
+          <span>iOS Design Patterns, Mobile UX, Adaptive Layouts, </span>
+          <span>
+            Navigation Patterns, Haptic Feedback, Memory Management, ARC,{' '}
+          </span>
+          <span>iOS Testing, Xcode, iOS Simulator, App Store Guidelines, </span>
+          <span>
+            iOS Human Interface Guidelines, AI Integration, Machine
+            Learning,{' '}
+          </span>
+          <span>
+            Voice Recognition, Creative Coding, Experimental UI, Animation,{' '}
+          </span>
+          <span>
+            Framer Motion, Web APIs, Speech Recognition, Real-time Data,{' '}
+          </span>
+          <span>
+            Interactive Design, Creative Development, Experimental
+            Features,{' '}
+          </span>
+          <span>
+            Voice UI, API Caching, Animation Optimization, Voice Processing
+          </span>
+        </div>
+      </section>
     </div>
   );
 }
