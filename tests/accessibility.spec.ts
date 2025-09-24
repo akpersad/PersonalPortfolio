@@ -204,14 +204,16 @@ test.describe('External Links Security', () => {
     await page.goto('/work');
     await page.waitForLoadState('networkidle');
 
-    // Check GitHub link (the main profile link)
-    const githubLink = page.locator('a[href="https://github.com/akpersad"]');
+    // Check GitHub link (the main profile link in work page)
+    const githubLink = page
+      .locator('a[href="https://github.com/akpersad"]')
+      .first();
     await expect(githubLink).toBeVisible();
 
-    // Check LinkedIn link (the main profile link)
-    const linkedinLink = page.locator(
-      'a[href="https://www.linkedin.com/in/andrew-persad-aa496432/"]'
-    );
+    // Check LinkedIn link (the main profile link in work page)
+    const linkedinLink = page
+      .locator('a[href="https://www.linkedin.com/in/andrew-persad-aa496432/"]')
+      .first();
     await expect(linkedinLink).toBeVisible();
 
     // Test accessibility of these links
@@ -414,7 +416,9 @@ test.describe('Contact Page Functionality', () => {
     await page.waitForLoadState('networkidle');
 
     // Check for direct contact information
-    await expect(page.locator('text=andrew@example.com')).toBeVisible();
+    await expect(
+      page.locator('text=Use the contact form to get in touch')
+    ).toBeVisible();
     await expect(page.locator('text=LinkedIn Profile')).toBeVisible();
     await expect(page.locator('text=GitHub Profile')).toBeVisible();
 

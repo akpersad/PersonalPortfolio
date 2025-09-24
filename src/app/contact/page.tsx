@@ -325,7 +325,7 @@ export default function Contact() {
                 </p>
 
                 <a
-                  href="https://linkedin.com/in/yourprofile"
+                  href="https://www.linkedin.com/in/andrew-persad-aa496432/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-3 text-text-secondary hover:text-primary-green transition-colors"
@@ -345,7 +345,7 @@ export default function Contact() {
                 </a>
 
                 <a
-                  href="https://github.com/yourusername"
+                  href="https://github.com/akpersad"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-3 text-text-secondary hover:text-primary-green transition-colors"
