@@ -170,7 +170,7 @@ _"Andrew Persad — Lead Frontend Engineer (React/Next.js). I build scalable, ac
 
 ### **Copyright Notice**
 
-_"© 2024 Andrew Persad • Built with Next.js"_
+_"© 2025 Andrew Persad • Built with Next.js"_
 
 ## 📝 Content Guidelines
 

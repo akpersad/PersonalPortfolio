@@ -1,5 +1,7 @@
 'use client';
 
+import { resumeData } from '@/lib/resume';
+
 export default function Resume() {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -27,20 +29,11 @@ export default function Resume() {
                 {
                   name: 'Andrew Persad',
                   title: 'Lead Software Engineer',
-                  experience: 'Deloitte Digital',
-                  skills: [
-                    'React',
-                    'Next.js',
-                    'TypeScript',
-                    'Design Systems',
-                    'Web Accessibility',
-                    'Performance Optimization',
-                  ],
-                  certifications: [
-                    'Salesforce Admin',
-                    'Salesforce PD1',
-                    'Unqork Configurator',
-                  ],
+                  company: 'Deloitte Digital',
+                  techStack: resumeData.techStack,
+                  certifications: resumeData.certifications,
+                  experience: resumeData.experience,
+                  links: resumeData.links,
                 },
                 null,
                 2
@@ -399,15 +392,14 @@ export default function Resume() {
                   Certifications
                 </h3>
                 <div className="flex flex-wrap gap-2 mt-2">
-                  <span className="bg-primary-green text-text-on-dark px-3 py-1 rounded text-sm">
-                    Salesforce Admin
-                  </span>
-                  <span className="bg-primary-green text-text-on-dark px-3 py-1 rounded text-sm">
-                    Salesforce PD1
-                  </span>
-                  <span className="bg-primary-green text-text-on-dark px-3 py-1 rounded text-sm">
-                    Unqork Configurator
-                  </span>
+                  {resumeData.certifications.map((cert, index) => (
+                    <span
+                      key={index}
+                      className="bg-primary-green text-text-on-dark px-3 py-1 rounded text-sm"
+                    >
+                      {cert}
+                    </span>
+                  ))}
                 </div>
               </div>
 
@@ -466,11 +458,7 @@ export default function Resume() {
               'axe DevTools',
               'Lighthouse',
             ],
-            hasCredential: [
-              'Salesforce Admin',
-              'Salesforce PD1',
-              'Unqork Configurator',
-            ],
+            hasCredential: resumeData.certifications,
           }),
         }}
       />
