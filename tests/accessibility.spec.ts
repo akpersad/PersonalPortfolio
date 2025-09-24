@@ -456,7 +456,7 @@ test.describe('Navigation and Site Structure', () => {
     await expect(page.locator('footer')).toBeVisible();
 
     // Check for copyright
-    await expect(page.locator('text=© 2024 Andrew Persad')).toBeVisible();
+    await expect(page.locator('text=© 2025 Andrew Persad')).toBeVisible();
 
     // Check for "Built with Next.js" text in footer
     await expect(

@@ -15,12 +15,6 @@ export default function Footer() {
 
           <div className="flex items-center gap-6">
             <a
-              href="mailto:andrew@example.com"
-              className="text-sm hover:text-medium-green transition-colors"
-            >
-              Email
-            </a>
-            <a
               href="https://github.com/yourusername"
               className="text-sm hover:text-medium-green transition-colors"
               target="_blank"
@@ -41,7 +35,7 @@ export default function Footer() {
 
         <div className="border-t border-dark-green mt-6 pt-4 text-center">
           <p className="text-xs text-text-muted-on-dark">
-            © 2024 Andrew Persad • Built with Next.js
+            © 2025 Andrew Persad • Built with Next.js
           </p>
         </div>
       </div>

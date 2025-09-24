@@ -17,7 +17,7 @@ export const resumeData = {
           descriptions: [
             'Led delivery of the web portal for the Workforce Experience Platform, a distributed platform allowing IT Administrators and procurement specialists an overview of their systems, handling fleet management, employee engagement, digital workspaces, and security systems',
             'Architected a modular, component-driven front-end (React+ HP design system) with enterprise-grade security, SSO integration, and WCAG-compliant accessibility, ensuring a seamless experience for advanced users on any device.',
-            'Worked with the Data team to extract, process, and transform the fleet telemetry from the data lake to create APls for the web portal',
+            'Worked with the Data team to extract, process, and transform the fleet telemetry from the data lake to create APIs for the web portal',
             'Enabled near real-time monitoring and visualization of fleet health KPls, empowering administrators to proactively detect and address issues before they escalate',
           ],
           keyContributions: [
@@ -59,7 +59,7 @@ export const resumeData = {
         {
           name: 'Amazon',
           project: 'Buy with Prime',
-          data: '2023',
+          date: '2023',
           descriptions: [
             "Helped launch the Buy with Prime Merchant Portal, a collection of dashboards for product listings and order management using internal design system (Meridian), enabling a place for centralized insights available to Amazon's 9 million+ vendors",
           ],
@@ -78,7 +78,7 @@ export const resumeData = {
     'Typescript/JavaScript React',
     'Next.js',
     'React Router',
-    'SOL',
+    'SQL',
     'CSS',
     'SCSS',
     'CSS-in-JS',

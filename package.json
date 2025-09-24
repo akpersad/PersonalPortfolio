@@ -17,9 +17,11 @@
     "a11y:audit": "npm run lighthouse && npm run test:a11y"
   },
   "dependencies": {
+    "@react-email/render": "^1.3.0",
     "next": "15.5.3",
     "react": "19.1.0",
-    "react-dom": "19.1.0"
+    "react-dom": "19.1.0",
+    "resend": "^6.1.0"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.10.2",
