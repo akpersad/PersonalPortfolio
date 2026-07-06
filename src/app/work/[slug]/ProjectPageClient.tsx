@@ -3,7 +3,7 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import OptimizedImage from '@/components/OptimizedImage';
-import { projects, type Project } from '@/lib/projects';
+import { projects, projectSlugs, type Project } from '@/lib/projects';
 import { useAnalytics } from '@/hooks/useAnalytics';
 import { useEffect, useState } from 'react';
 import {
@@ -11,12 +11,6 @@ import {
   getBreadcrumbSchema,
   getArticleSchema,
 } from '@/lib/seo';
-
-// Create slug mapping for projects
-const projectSlugs: Record<string, string> = {
-  'POKÉ COLLECTOR': 'poke-collector',
-  'Protein Quality Calculator': 'protein-checker',
-};
 
 // Create reverse mapping for lookup
 const slugToProject: Record<string, string> = Object.fromEntries(
