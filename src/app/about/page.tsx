@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'About - Andrew Persad',
   description:
-    'Learn more about Andrew Persad, Lead Frontend Engineer with expertise in React, Next.js, TypeScript, design systems, and performance optimization.',
+    'Learn more about Andrew Persad, Lead Software Engineer with expertise in React, Next.js, TypeScript, design systems, and performance optimization.',
 };
 
 export default function About() {
@@ -70,7 +70,7 @@ export default function About() {
             I&apos;m a Lead Software Engineer at Deloitte Digital with extensive
             experience building enterprise-scale web applications for Fortune
             500 companies. My passion lies in creating pixel-perfect interfaces
-            that don&apos;t just look great—they perform exceptionally and
+            that don&apos;t just look great. They perform exceptionally and
             provide inclusive experiences for millions of users.
           </p>
 
@@ -96,7 +96,8 @@ export default function About() {
           </p>
 
           <p>
-            Performance optimization is a core strength—I improve UI performance
+            Performance optimization is a core strength. I improve UI
+            performance
             through targeted memoization, render profiling, and
             architecture-level optimizations that reduce latency across critical
             paths. I create starter kits and tooling that enable repeatable,

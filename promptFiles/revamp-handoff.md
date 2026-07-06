@@ -17,12 +17,18 @@ so nothing depends on chat history.
 
 ## Phase status
 
-- [x] **Phase 0 — Plan.** Branch `feature/revamp-plan`, pushed. PR by owner.
-- [ ] **Phase 1 — Credibility hotfix.** Remove sr-only keyword stuffing + ghost Cosmic Recipe
-      content; fix fabricated schema (fake university/email/SearchAction/static dates);
-      consolidate domain to andrewpersad.com; standardize title to Lead Software Engineer;
-      remove education section; replace 1.7 MB avatar asset (≤30 KB export), delete 2.6 MB twin;
-      fix contact route rate-limit bug (seeds count 5 vs cap 3, in-memory store).
+- [x] **Phase 0 — Plan.** Branch `feature/revamp-plan`, merged (PR #10).
+- [x] **Phase 1 — Credibility hotfix.** Branch `feature/phase-1-credibility-hotfix`, pushed.
+      PR by owner. All items done: sr-only ATS blocks removed (work index + project pages);
+      Cosmic Recipe ghost refs gone; fabricated schema fixed (alumniOf, fake email,
+      SearchAction, static/fake dates, softwareVersion, license, wordCount removed;
+      ProfessionalService schema deleted entirely); domain consolidated to andrewpersad.com
+      (sitemap/robots now derive from BASE_URL); title standardized to Lead Software Engineer
+      everywhere (incl. contact status pill "Available for Lead Software Engineer Roles");
+      education section dropped from resume (incl. "Education details will be added" ghost
+      text); avatar replaced with 13 KB 768px WebP (`public/icons/avatar.webp`), both
+      multi-MB SVGs deleted; contact rate limit fixed (seeds 1, prunes expired entries);
+      em dashes removed from site copy; footer year now dynamic; tests updated (130 pass).
 - [ ] **Phase 2 — Design direction + foundation.** 2-3 rendered direction comps + 3-4 avatar
       treatments, OWNER PICKS. Then tokens/fonts/theming/motion primitives/shell.
 - [ ] **Phase 3 — Core pages.** Home, about (experience timeline first), work index, contact,
@@ -69,3 +75,13 @@ so nothing depends on chat history.
 - **2026-07-06** — Research (3 parallel agents: exemplars/hiring, site audit, repo refresh),
   plan written + decisions resolved, handoff + research docs created. Branch
   `feature/revamp-plan` pushed. Next: owner PRs Phase 0, then start Phase 1 on a fresh branch.
+- **2026-07-06 (later)** — Phase 1 executed on `feature/phase-1-credibility-hotfix` (see
+  checklist above). Lint, type-check, build, and full Playwright/axe suite green (130 tests).
+  Gotchas found: contact page had a second title-drift spot ("Available for Lead Frontend
+  Roles"); `project.role` in projects.ts is real displayed data (kept). Known gaps deferred:
+  `/og-image.jpg` + `/twitter-image.jpg` are referenced in metadata but don't exist in
+  `public/` (Phase 7 OG work); contact email `from:` still `onboarding@resend.dev` (needs
+  Resend domain verification); GA4 fake-ecommerce events + hand-rolled CoreWebVitals/
+  PerformanceMonitor removal deferred to the rebuild phases; Vercel env
+  `NEXT_PUBLIC_BASE_URL` should be confirmed as `https://andrewpersad.com`.
+  Next: owner PRs Phase 1, then Phase 2 (design direction comps + avatar treatments).

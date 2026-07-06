@@ -18,8 +18,8 @@ export default function Home() {
               <p className="text-xl text-text-secondary mb-8 leading-relaxed">
                 I develop responsive, accessible front-end interfaces with
                 pixel-perfect precision. Building modern web applications with
-                React, Next.js, and TypeScript—delivering measurable performance
-                improvements and scalable solutions.
+                React, Next.js, and TypeScript, delivering measurable
+                performance improvements and scalable solutions.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
@@ -43,8 +43,8 @@ export default function Home() {
               <div className="relative">
                 <div className="w-80 h-80 sm:w-96 sm:h-96 rounded-full overflow-hidden border-4 border-medium-green shadow-2xl">
                   <Image
-                    src="/icons/avatar_earthy_forest_embedded_v2.svg"
-                    alt="Andrew Persad - Lead Frontend Engineer"
+                    src="/icons/avatar.webp"
+                    alt="Andrew Persad - Lead Software Engineer"
                     width={400}
                     height={400}
                     priority
@@ -70,8 +70,8 @@ export default function Home() {
             I architect modern web applications with a focus on performance,
             accessibility, and user experience. My personal projects showcase
             expertise in React, Next.js, TypeScript, and cross-platform
-            development—from Pokemon collection apps to nutrition calculators
-            and experimental AI-powered experiences.
+            development, from a group dining decision app to nutrition
+            calculators and collection management tools.
           </p>
           <Link
             href="/about"

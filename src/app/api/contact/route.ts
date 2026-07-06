@@ -10,10 +10,18 @@ const MAX_REQUESTS_PER_WINDOW = 3;
 
 function checkRateLimit(ip: string): boolean {
   const now = Date.now();
+
+  // Prune expired entries so the map doesn't grow unbounded
+  for (const [key, value] of rateLimitMap) {
+    if (now > value.resetTime) {
+      rateLimitMap.delete(key);
+    }
+  }
+
   const userLimit = rateLimitMap.get(ip);
 
-  if (!userLimit || now > userLimit.resetTime) {
-    rateLimitMap.set(ip, { count: 5, resetTime: now + RATE_LIMIT_WINDOW });
+  if (!userLimit) {
+    rateLimitMap.set(ip, { count: 1, resetTime: now + RATE_LIMIT_WINDOW });
     return true;
   }
 

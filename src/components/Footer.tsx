@@ -18,7 +18,7 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="text-center md:text-left">
             <p className="text-sm">
-              <strong>Andrew Persad</strong> — Lead Frontend Engineer
+              <strong>Andrew Persad</strong>, Lead Software Engineer
               (React/Next.js)
             </p>
             <p className="text-xs text-text-muted-on-dark mt-1">
@@ -57,7 +57,7 @@ const Footer = () => {
 
         <div className="border-t border-dark-green mt-6 pt-4 text-center">
           <p className="text-xs text-text-muted-on-dark">
-            © 2025 Andrew Persad • Built with Next.js
+            © {new Date().getFullYear()} Andrew Persad • Built with Next.js
           </p>
         </div>
       </div>

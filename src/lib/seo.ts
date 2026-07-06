@@ -7,7 +7,7 @@ import { projects, projectSlugs } from './projects';
 
 // Base URL for the site
 export const BASE_URL =
-  process.env.NEXT_PUBLIC_BASE_URL || 'https://andrewpersad.dev';
+  process.env.NEXT_PUBLIC_BASE_URL || 'https://andrewpersad.com';
 
 // Person Schema for homepage
 export const getPersonSchema = () => ({
@@ -85,7 +85,6 @@ export const getPersonSchema = () => ({
     'Design Patterns',
     'Best Practices',
   ],
-  alumniOf: 'University of Technology',
   workLocation: {
     '@type': 'Place',
     name: 'Remote / United States',
@@ -103,10 +102,10 @@ export const getPersonSchema = () => ({
   },
 });
 
-// SoftwareSourceCode Schema for projects (excluding Cosmic Recipes)
+// SoftwareSourceCode Schema for projects
 export const getProjectSchema = (projectName: string) => {
   const project = projects.find(p => p.project === projectName);
-  if (!project || projectName === 'Cosmic Recipe Generator') return null;
+  if (!project) return null;
 
   const slug =
     projectSlugs[projectName] ?? projectName.toLowerCase().replace(/\s+/g, '-');
@@ -125,21 +124,12 @@ export const getProjectSchema = (projectName: string) => {
     runtimePlatform: 'Web Browser',
     applicationCategory: 'WebApplication',
     operatingSystem: 'Any',
-    softwareVersion: '1.0.0',
-    dateCreated: '2024-01-01',
-    dateModified: new Date().toISOString().split('T')[0],
     codeRepository: project.repo[0]?.web || project.repo[0]?.iOS,
     url: `${BASE_URL}/work/${slug}`,
     keywords: project.keywords,
     featureList: project.performance,
     screenshot: project.images?.[0]?.web,
-    license: 'MIT',
     isAccessibleForFree: true,
-    offers: {
-      '@type': 'Offer',
-      price: '0',
-      priceCurrency: 'USD',
-    },
   };
 };
 
@@ -180,21 +170,13 @@ export const getBreadcrumbSchema = (path: string) => {
 export const getWebsiteSchema = () => ({
   '@context': 'https://schema.org',
   '@type': 'WebSite',
-  name: 'Andrew Persad - Lead Frontend Engineer',
+  name: 'Andrew Persad - Lead Software Engineer',
   description:
     'Professional portfolio of Andrew Persad, Lead Software Engineer specializing in React, Next.js, TypeScript, and modern frontend development.',
   url: BASE_URL,
   author: {
     '@type': 'Person',
     name: 'Andrew Persad',
-  },
-  potentialAction: {
-    '@type': 'SearchAction',
-    target: {
-      '@type': 'EntryPoint',
-      urlTemplate: `${BASE_URL}/search?q={search_term_string}`,
-    },
-    'query-input': 'required name=search_term_string',
   },
   publisher: {
     '@type': 'Person',
@@ -221,30 +203,6 @@ export const getOrganizationSchema = () => ({
   },
 });
 
-// Professional Service Schema
-export const getProfessionalServiceSchema = () => ({
-  '@context': 'https://schema.org',
-  '@type': 'ProfessionalService',
-  name: 'Andrew Persad - Frontend Development Services',
-  description:
-    'Professional frontend development services specializing in React, Next.js, TypeScript, design systems, and performance optimization.',
-  provider: {
-    '@type': 'Person',
-    name: 'Andrew Persad',
-    email: 'contact@andrewpersad.dev',
-    url: BASE_URL,
-  },
-  serviceType: 'Frontend Development',
-  areaServed: 'Worldwide',
-  availableLanguage: 'English',
-  offers: {
-    '@type': 'Offer',
-    description: 'Lead Frontend Engineer services for enterprise applications',
-    category: 'Software Development',
-    areaServed: 'Worldwide',
-  },
-});
-
 // Article Schema for project case studies
 export const getArticleSchema = (projectName: string, slug: string) => {
   const project = projects.find(p => p.project === projectName);
@@ -265,13 +223,10 @@ export const getArticleSchema = (projectName: string, slug: string) => {
       name: 'Andrew Persad',
       url: BASE_URL,
     },
-    datePublished: '2024-01-01',
-    dateModified: new Date().toISOString().split('T')[0],
     url: `${BASE_URL}/work/${slug}`,
     image: project.images?.[0]?.web,
     keywords: project.keywords.join(', '),
     articleSection: 'Technology',
-    wordCount: 500,
     inLanguage: 'en-US',
   };
 };
@@ -302,7 +257,7 @@ export const getFAQSchema = () => ({
       name: 'Is Andrew available for new opportunities?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Yes, Andrew is currently seeking Lead Frontend Engineer opportunities. He is open to remote, hybrid, or on-site positions and can be contacted through the contact form on this website.',
+        text: 'Yes, Andrew is currently seeking Lead Software Engineer opportunities. He is open to remote, hybrid, or on-site positions and can be contacted through the contact form on this website.',
       },
     },
     {
@@ -310,7 +265,7 @@ export const getFAQSchema = () => ({
       name: 'What kind of projects has Andrew worked on?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Andrew has worked on a variety of projects including Pokemon TCG collection apps, protein quality calculators with iOS versions, and experimental AI-powered applications. He specializes in building scalable, accessible web applications with modern technologies.',
+        text: 'Andrew has worked on a variety of projects including Fork In The Road, a group dining decision app, a cross-platform protein quality calculator with a native iOS version, and a Pokemon TCG collection manager. He specializes in building scalable, accessible web applications with modern technologies.',
       },
     },
   ],
@@ -332,7 +287,7 @@ export const getOpenGraphData = (
   title,
   description,
   url: `${BASE_URL}${path}`,
-  siteName: 'Andrew Persad - Lead Frontend Engineer',
+  siteName: 'Andrew Persad - Lead Software Engineer',
   locale: 'en_US',
   type: 'website',
   images: image

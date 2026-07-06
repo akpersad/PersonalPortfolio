@@ -103,7 +103,7 @@ test.describe('Dynamic Project Pages', () => {
     const projectSlugs = [
       'poke-collector',
       'protein-checker',
-      // 'cosmic-recipes', // Commented out - placeholder project
+      'fork-in-the-road',
     ];
 
     for (const slug of projectSlugs) {
@@ -354,9 +354,7 @@ test.describe('Resume Page Functionality', () => {
     await expect(
       page.locator('h2:has-text("Professional Experience")')
     ).toBeVisible();
-    await expect(
-      page.locator('h2:has-text("Education & Certifications")')
-    ).toBeVisible();
+    await expect(page.locator('h2:has-text("Certifications")')).toBeVisible();
 
     // Check for Deloitte Digital experience
     await expect(page.locator('text=Deloitte Digital')).toBeVisible();
@@ -426,7 +424,7 @@ test.describe('Contact Page Functionality', () => {
 
     // Check status indicator
     await expect(
-      page.locator('text=Available for Lead Frontend Roles')
+      page.locator('text=Available for Lead Software Engineer Roles')
     ).toBeVisible();
   });
 
@@ -461,8 +459,10 @@ test.describe('Navigation and Site Structure', () => {
     // Check footer content
     await expect(page.locator('footer')).toBeVisible();
 
-    // Check for copyright
-    await expect(page.locator('text=© 2025 Andrew Persad')).toBeVisible();
+    // Check for copyright (year is rendered dynamically)
+    await expect(
+      page.locator(`text=© ${new Date().getFullYear()} Andrew Persad`)
+    ).toBeVisible();
 
     // Check for "Built with Next.js" text in footer
     await expect(
@@ -482,6 +482,6 @@ test.describe('Navigation and Site Structure', () => {
       .locator('meta[name="description"]')
       .getAttribute('content');
     expect(description).toBeTruthy();
-    expect(description).toContain('Frontend Engineer');
+    expect(description).toContain('Software Engineer');
   });
 });

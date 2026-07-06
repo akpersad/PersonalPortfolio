@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     description:
       'Frontend development projects showcasing React, TypeScript, and modern web technologies.',
     type: 'website',
-    url: 'https://andrewpersad.dev/work',
+    url: 'https://andrewpersad.com/work',
   },
   twitter: {
     card: 'summary_large_image',
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
       'Frontend development projects showcasing React, TypeScript, and modern web technologies.',
   },
   alternates: {
-    canonical: 'https://andrewpersad.dev/work',
+    canonical: 'https://andrewpersad.com/work',
   },
 };
 

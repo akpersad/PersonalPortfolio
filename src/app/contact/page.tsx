@@ -143,7 +143,7 @@ export default function Contact() {
           Get In Touch
         </h1>
         <p className="text-lg text-text-secondary max-w-2xl mx-auto">
-          I&apos;m currently seeking Lead Frontend Engineer opportunities.
+          I&apos;m currently seeking Lead Software Engineer opportunities.
           Let&apos;s discuss how I can contribute to your team&apos;s success.
         </p>
       </div>
@@ -396,7 +396,7 @@ export default function Contact() {
               <div className="flex items-center gap-2 mb-2">
                 <div className="w-3 h-3 bg-primary-green rounded-full"></div>
                 <span className="text-text-primary font-medium">
-                  Available for Lead Frontend Roles
+                  Available for Lead Software Engineer Roles
                 </span>
               </div>
               <p className="text-sm text-text-secondary">

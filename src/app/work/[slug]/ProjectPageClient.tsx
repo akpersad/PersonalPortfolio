@@ -227,61 +227,6 @@ export default function ProjectPageClient({ params }: PageProps) {
               ))}
             </div>
           </section>
-
-          {/* ATS Hidden Keywords Section - For automated systems */}
-          <section className="sr-only" aria-hidden="true">
-            <h2>Technical Skills and Keywords</h2>
-            <div>
-              {project.keywords.map(keyword => (
-                <span key={keyword}>{keyword}, </span>
-              ))}
-            </div>
-            <div>
-              <span>
-                React Developer, Next.js Developer, TypeScript Developer,
-                Frontend Engineer,{' '}
-              </span>
-              <span>JavaScript Expert, Web Developer, Software Engineer, </span>
-              <span>UI Developer, UX Developer, Component Developer, </span>
-              <span>
-                Full Stack Developer, Mobile Developer, iOS Developer,{' '}
-              </span>
-              <span>
-                Performance Optimization, Accessibility, WCAG Compliance,{' '}
-              </span>
-              <span>
-                Design Systems, Component Libraries, API Integration,{' '}
-              </span>
-              <span>
-                State Management, Responsive Design, Cross Platform
-                Development,{' '}
-              </span>
-              <span>
-                Modern JavaScript, ES6+, CSS-in-JS, Tailwind CSS, SCSS,{' '}
-              </span>
-              <span>Git, Version Control, Agile Development, Testing, </span>
-              <span>Build Tools, Webpack, Vite, Turbopack, ESLint, </span>
-              <span>MongoDB, Database Design, Authentication, Security, </span>
-              <span>Progressive Web Apps, PWA, Service Workers, </span>
-              <span>Code Splitting, Lazy Loading, Image Optimization, </span>
-              <span>SEO, Search Engine Optimization, Core Web Vitals, </span>
-              <span>User Experience, User Interface, Interaction Design, </span>
-              <span>
-                Project Management, Technical Leadership, Code Review,{' '}
-              </span>
-              <span>Documentation, Technical Writing, Mentoring, </span>
-              <span>Problem Solving, Debugging, Performance Analysis, </span>
-              <span>Cross Browser Compatibility, Browser Testing, </span>
-              <span>
-                CI/CD, Continuous Integration, Continuous Deployment,{' '}
-              </span>
-              <span>Version Control, Git Flow, Feature Branches, </span>
-              <span>Code Quality, Clean Code, SOLID Principles, </span>
-              <span>
-                Architecture Patterns, Design Patterns, Best Practices
-              </span>
-            </div>
-          </section>
         </div>
 
         {/* Sidebar */}

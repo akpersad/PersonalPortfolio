@@ -9,7 +9,6 @@ import {
   getPersonSchema,
   getWebsiteSchema,
   getOrganizationSchema,
-  getProfessionalServiceSchema,
   getFAQSchema,
 } from '@/lib/seo';
 const geistSans = Geist({
@@ -23,12 +22,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://andrewpersad.dev'),
-  title: 'Andrew Persad - Lead Frontend Engineer | React & Next.js Expert',
+  metadataBase: new URL('https://andrewpersad.com'),
+  title: 'Andrew Persad - Lead Software Engineer | React & Next.js Expert',
   description:
-    'Lead Frontend Engineer specializing in React/Next.js, design systems, and accessible enterprise UIs. 8+ years building scalable frontend applications for Fortune 500 companies.',
+    'Lead Software Engineer specializing in React/Next.js, design systems, and accessible enterprise UIs. 8+ years building scalable frontend applications for Fortune 500 companies.',
   keywords:
-    'React, Next.js, TypeScript, Frontend Engineer, Design Systems, Accessibility, Performance, Storybook, Lead Developer, Enterprise Software, WCAG, Component Libraries, Deloitte Digital',
+    'React, Next.js, TypeScript, Software Engineer, Design Systems, Accessibility, Performance, Storybook, Lead Developer, Enterprise Software, WCAG, Component Libraries, Deloitte Digital',
   authors: [{ name: 'Andrew Persad' }],
   creator: 'Andrew Persad',
   publisher: 'Andrew Persad',
@@ -44,19 +43,19 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: 'Andrew Persad - Lead Frontend Engineer',
+    title: 'Andrew Persad - Lead Software Engineer',
     description:
-      'Lead Frontend Engineer specializing in React/Next.js, design systems, and accessible enterprise UIs. 8+ years building scalable frontend applications.',
+      'Lead Software Engineer specializing in React/Next.js, design systems, and accessible enterprise UIs. 8+ years building scalable frontend applications.',
     type: 'website',
     locale: 'en_US',
     siteName: 'Andrew Persad Portfolio',
-    url: 'https://andrewpersad.dev',
+    url: 'https://andrewpersad.com',
     images: [
       {
-        url: 'https://andrewpersad.dev/og-image.jpg',
+        url: 'https://andrewpersad.com/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'Andrew Persad - Lead Frontend Engineer',
+        alt: 'Andrew Persad - Lead Software Engineer',
       },
     ],
   },
@@ -64,13 +63,13 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     site: '@andrewpersad',
     creator: '@andrewpersad',
-    title: 'Andrew Persad - Lead Frontend Engineer',
+    title: 'Andrew Persad - Lead Software Engineer',
     description:
-      'Lead Frontend Engineer specializing in React/Next.js, design systems, and accessible enterprise UIs.',
-    images: ['https://andrewpersad.dev/twitter-image.jpg'],
+      'Lead Software Engineer specializing in React/Next.js, design systems, and accessible enterprise UIs.',
+    images: ['https://andrewpersad.com/twitter-image.jpg'],
   },
   alternates: {
-    canonical: 'https://andrewpersad.dev',
+    canonical: 'https://andrewpersad.com',
   },
   verification: {
     google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
@@ -124,12 +123,6 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(getOrganizationSchema()),
-          }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(getProfessionalServiceSchema()),
           }}
         />
         <script
