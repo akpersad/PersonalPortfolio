@@ -18,8 +18,7 @@ so nothing depends on chat history.
 ## Phase status
 
 - [x] **Phase 0 — Plan.** Branch `feature/revamp-plan`, merged (PR #10).
-- [x] **Phase 1 — Credibility hotfix.** Branch `feature/phase-1-credibility-hotfix`, pushed.
-      PR by owner. All items done: sr-only ATS blocks removed (work index + project pages);
+- [x] **Phase 1 — Credibility hotfix.** Merged (PR #11, 2026-07-06). All items done: sr-only ATS blocks removed (work index + project pages);
       Cosmic Recipe ghost refs gone; fabricated schema fixed (alumniOf, fake email,
       SearchAction, static/fake dates, softwareVersion, license, wordCount removed;
       ProfessionalService schema deleted entirely); domain consolidated to andrewpersad.com
@@ -85,3 +84,17 @@ so nothing depends on chat history.
   PerformanceMonitor removal deferred to the rebuild phases; Vercel env
   `NEXT_PUBLIC_BASE_URL` should be confirmed as `https://andrewpersad.com`.
   Next: owner PRs Phase 1, then Phase 2 (design direction comps + avatar treatments).
+- **2026-07-06 (later still)** — Phase 1 merged (PR #11). Branch
+  `feature/phase-2-design-direction` created off main for Phase 2. Phase 2 kickoff checklist
+  for the next session:
+  1. Read `../you-hungry/DESIGN-UI-UX-SKILLS.md` (design constitution) BEFORE any design work.
+  2. Deliverable A: 2-3 full design directions as rendered comps (tokens, type pair, hero
+     composition, one interior page each), each backed by reasoning from the manual.
+  3. Deliverable B: 3-4 avatar treatments, full redraw from photos in `temp/me/` (gitignored;
+     HEIC may need `sips -s format jpeg` first; in IMG_4191.jpeg he is the man on the right).
+     Keep the illustrated "animated" feel. The interim 13 KB `public/icons/avatar.webp` is a
+     recolor of the old art, meant to be replaced.
+  4. OWNER PICKS direction + avatar before implementation starts.
+  5. Then implement: token system (CSS variables as source of truth, Tailwind 4), fonts,
+     theming (light/dark), motion primitives, nav/footer shell, colophon skeleton.
+  Done when: direction chosen, tokens power a themed shell at 360/768/1280, both modes pass axe.
