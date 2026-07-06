@@ -104,11 +104,13 @@ table (before/after). 6. What I would do differently. Captioned screenshots, dia
    DB-layer privacy, Postgres integration tests.
 3. **PersadPay** — stakes. Real payroll, statutory tax engine tested to exact dollars,
    W-2/W-3/NYS-45.
-4. **The 90th** — breadth. Autonomous YouTube channel: self-hosted n8n pipelines, Remotion
-   render pipeline, zero-dependency HMAC-auth monitoring PWA. Framed as the system.
-5. **pawscriptions** — craft in miniature (shelf or fifth study; freshly redesigned).
-- Drop: TCG-Demo (dead deploy, known security holes), ProteinChecker to the shelf unless a
-  native-platform checkbox matters for a specific application, POKÉ COLLECTOR from featured.
+4. **pawscriptions** — craft in miniature. Race-safe notification dedup, deny-all RLS,
+   client-side OCR, freshly redesigned June 2026. Promoted to featured.
+5. **ProteinChecker (web + iOS)** — cross-platform breadth: the same product shipped as
+   React web and native SwiftUI. Fifth study or shelf item, depending on the application.
+- **The 90th is out** (owner decision 2026-07-06: the channel stays faceless and unlinked
+  from this identity). Do not reference it anywhere on the site.
+- Drop: TCG-Demo (dead deploy, known security holes), POKÉ COLLECTOR from featured.
 
 **Gaps the revamp itself fixes:** publishing portfolio-story.md content = public technical
 writing; the colophon = the performance case study; the site's token system, documented =
@@ -129,13 +131,13 @@ worth a few merged PRs to Remotion/n8n-adjacent libs you already use.)
 - Every state designed: empty, loading, error, focus-visible. This is the anti-slop tell that
   matters most.
 
-**Avatar:** current asset is the same flat head-and-shoulders illustration twice: a
-green-monochrome recolor (in use, unnatural skin) and the natural-palette original (unused).
-Phase 2 delivers 3 to 4 treatments side by side for you to pick: (a) original natural palette,
-properly exported (≤30 KB AVIF/WebP, correct sizes), (b) recolor into the NEW palette done
-right (natural skin, tinted background), (c) true-vector redraw (crisp at any size, themeable
-via CSS variables, dark-mode variant for free), (d) one creative treatment (duotone/halftone/
-generative frame) as the wildcard.
+**Avatar:** owner decision 2026-07-06: complete redraw approved, no need to preserve the
+current illustration's likeness, but keep the "animated"/illustrated feel. Reference photos
+of Andrew live in `temp/me/` (gitignored; never commit, this is a public repo). Reference
+traits: short dark curly hair, full beard, warm smile, brown skin. Phase 2 delivers 3 to 4
+new illustrated treatments drawn from the photos, side by side in the new palette, each
+working in light and dark modes and exported properly (true vector SVG preferred, themeable
+via CSS variables; otherwise ≤30 KB AVIF/WebP). The old 1.7 MB and 2.6 MB assets are deleted.
 
 ## 5. Architecture
 
@@ -159,10 +161,10 @@ generative frame) as the wildcard.
 **Phase 0 — This plan.** (this PR)
 
 **Phase 1 — Credibility hotfix on the live site.** Small, ships immediately, no redesign:
-remove keyword-stuffing blocks and ghost content; fix fabricated schema data; resolve
-title/domain drift (needs your call, §7); fix or remove the education placeholder (needs your
-input); replace the 1.7 MB avatar asset with a properly exported ≤30 KB image; delete the
-unused twin; fix the contact rate-limit bug.
+remove keyword-stuffing blocks and ghost content; fix fabricated schema data; consolidate
+every reference to **andrewpersad.com**; standardize the title to **Lead Software Engineer**;
+remove the education section; replace the 1.7 MB avatar asset with a properly exported
+≤30 KB image; delete the unused twin; fix the contact rate-limit bug.
 *Done when: no fabricated data anywhere, LCP asset under 50 KB, axe and Lighthouse CI green.*
 
 **Phase 2 — Design direction + foundation.** Two to three full design directions presented as
@@ -182,8 +184,8 @@ components, then the Fork In The Road study written from `docs/portfolio-story.m
 sets the bar for the other three.
 *Done when: FITR study live, skimmable in 30 seconds, deep-readable in 10 minutes.*
 
-**Phase 5 — Remaining case studies.** overlapp, PersadPay, The 90th (needs screenshots/write-up
-since the dashboard is password-gated), pawscriptions shelf entry. Small-hacks shelf.
+**Phase 5 — Remaining case studies.** overlapp, PersadPay, pawscriptions, plus the
+ProteinChecker cross-platform entry and the small-hacks shelf.
 *Done when: four studies + shelf live with real screenshots and numbers.*
 
 **Phase 6 — Craft layer + notes.** Signature interaction rollout, view transitions, scroll
@@ -201,15 +203,16 @@ the canonical domain.*
 Sequencing note: 1 is independent; 2 blocks 3 blocks 4 blocks 5; 6 and 7 close. Each PR keeps
 the deployed site releasable.
 
-## 7. Decisions needed from you (the no-guess list)
+## 7. Decisions log (all resolved by owner, 2026-07-06)
 
-1. **Canonical domain**: andrewpersad.dev or .com? (Both appear in the code today.)
-2. **Title**: "Lead Frontend Engineer," "Lead Software Engineer," or "Design Engineer"-flavored?
-   My recommendation: primary "Lead Software Engineer" for ATS truth, with design-engineer
-   positioning in the copy, but this is your name on the door.
-3. **Education**: real details for the resume, or drop the section entirely?
-4. **The 90th**: comfortable publicly tying the channel/automation system to your name?
-5. **Employer work**: HP, Eli Lilly, Amazon are already named on the live site. Confirm
-   that framing (and the metrics used) stays within what you can publicly claim.
-6. **Avatar attachment**: any hard constraint on keeping the current illustration's likeness,
-   or is a redraw acceptable if it keeps the vibe?
+1. **Canonical domain**: **andrewpersad.com**. Consolidate everywhere; `.dev` references go.
+2. **Title**: **Lead Software Engineer**, with design-engineer positioning carried by the copy.
+3. **Education**: **drop the section entirely.**
+4. **The 90th**: stays faceless and off the site. Replaced in the lineup by pawscriptions
+   (featured) and ProteinChecker (cross-platform slot).
+5. **Employer work**: HP, Eli Lilly, Amazon naming and metrics confirmed safe to keep.
+6. **Avatar**: full redraw approved from reference photos in `temp/me/` (gitignored). Keep
+   the illustrated/"animated" feel; likeness continuity with the old avatar not required.
+
+Living state for cross-session continuity is tracked in `promptFiles/revamp-handoff.md`.
+Read that first when resuming work after a context clear.
