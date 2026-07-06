@@ -28,10 +28,13 @@ so nothing depends on chat history.
       text); avatar replaced with 13 KB 768px WebP (`public/icons/avatar.webp`), both
       multi-MB SVGs deleted; contact rate limit fixed (seeds 1, prunes expired entries);
       em dashes removed from site copy; footer year now dynamic; tests updated (130 pass).
-- [~] **Phase 2 — Design direction + foundation.** Comps DONE, awaiting owner pick (see
-      `design/comps/index.html`): 3 directions (Annotated / Ink & Margin / Night Shift) +
-      4 avatar treatments (flat / mono-line / duotone / sticker). After the pick: implement
-      tokens/fonts/theming/motion primitives/shell + avatar likeness-refinement pass.
+- [~] **Phase 2 — Design direction + foundation.** DIRECTION PICKED (owner, 2026-07-06):
+      **Direction 1 "Annotated"** (`design/comps/direction-1-annotated.html`): hue-245 slate
+      tinted neutrals, signal-orange (hue 40) markup accent, annotation/dimension-line motif,
+      Bricolage Grotesque / Geist / Geist Mono. Avatar narrowed to **Flat vs Sticker**,
+      refined finalists in `design/comps/avatar-final.html`; owner picks from that pair.
+      NEXT: implement foundation (tokens as CSS vars + Tailwind 4, fonts, light/dark theming,
+      motion primitives, nav/footer shell, colophon skeleton; axe both modes at 360/768/1280).
 - [ ] **Phase 3 — Core pages.** Home, about (experience timeline first), work index, contact,
       resume. All copy rewritten (voice rules below).
 - [ ] **Phase 4 — Case-study engine (MDX) + Fork In The Road flagship study.**
