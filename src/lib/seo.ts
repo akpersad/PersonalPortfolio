@@ -3,7 +3,7 @@
  * Comprehensive SEO implementation with structured data schemas
  */
 
-import { projects } from './projects';
+import { projects, projectSlugs } from './projects';
 
 // Base URL for the site
 export const BASE_URL =
@@ -108,7 +108,8 @@ export const getProjectSchema = (projectName: string) => {
   const project = projects.find(p => p.project === projectName);
   if (!project || projectName === 'Cosmic Recipe Generator') return null;
 
-  const slug = projectName.toLowerCase().replace(/\s+/g, '-');
+  const slug =
+    projectSlugs[projectName] ?? projectName.toLowerCase().replace(/\s+/g, '-');
 
   return {
     '@context': 'https://schema.org',
@@ -378,9 +379,9 @@ export const getSitemapData = () => {
   ];
 
   const projectPages = projects
-    .filter(project => project.project !== 'Cosmic Recipe Generator')
+    .filter(project => projectSlugs[project.project])
     .map(project => ({
-      url: `/work/${project.project.toLowerCase().replace(/\s+/g, '-')}`,
+      url: `/work/${projectSlugs[project.project]}`,
       priority: 0.8,
       changefreq: 'monthly',
     }));

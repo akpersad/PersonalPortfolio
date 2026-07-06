@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { projects } from '@/lib/projects';
+import { projects, projectSlugs } from '@/lib/projects';
 
 export default function Home() {
   return (
@@ -97,10 +97,7 @@ export default function Home() {
 
           <div className="grid md:grid-cols-3 gap-8">
             {projects.slice(0, 3).map(project => {
-              const slug =
-                project.project === 'POKÉ COLLECTOR'
-                  ? 'poke-collector'
-                  : 'protein-checker';
+              const slug = projectSlugs[project.project];
               return (
                 <div
                   key={project.project}

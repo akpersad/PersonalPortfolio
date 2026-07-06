@@ -2,15 +2,9 @@
 
 import Link from 'next/link';
 import OptimizedImage from '@/components/OptimizedImage';
-import { projects } from '@/lib/projects';
+import { projects, projectSlugs } from '@/lib/projects';
 import { useAnalytics } from '@/hooks/useAnalytics';
 import { getBreadcrumbSchema } from '@/lib/seo';
-
-// Create slug mapping for projects
-const projectSlugs: Record<string, string> = {
-  'POKÉ COLLECTOR': 'poke-collector',
-  'Protein Quality Calculator': 'protein-checker',
-};
 
 export default function WorkClient() {
   const { trackProjectView, trackExternalLinkClick } = useAnalytics();

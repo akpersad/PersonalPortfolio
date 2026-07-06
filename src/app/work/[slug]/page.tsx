@@ -1,12 +1,6 @@
 import type { Metadata } from 'next';
-import { projects } from '@/lib/projects';
+import { projects, projectSlugs } from '@/lib/projects';
 import ProjectPageClient from './ProjectPageClient';
-
-// Create slug mapping for projects
-const projectSlugs: Record<string, string> = {
-  'POKÉ COLLECTOR': 'poke-collector',
-  'Protein Quality Calculator': 'protein-checker',
-};
 
 // Create reverse mapping for lookup
 const slugToProject: Record<string, string> = Object.fromEntries(
