@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Direction 3: Night Shift — Andrew Persad comp</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   DIRECTION 3 — "NIGHT SHIFT"
+   The theme toggle is the story: enterprise scale by day,
+   his own products by night. Dark-first, deep blue-slate
+   surfaces that elevate by getting lighter, one ember accent.
+   Light mode is the "day shift" and is equally designed.
+   Tokens: hue 265 slate; ember accent hue 60. Dark surfaces
+   oklch 0.19 to 0.28 (never pure black), accents desaturated
+   in dark per Material dark-theme rules.
+   Type: Clash Display (Fontshare) + Geist + Geist Mono.
+   ============================================================ */
+:root {
+  /* PRIMITIVE */
+  --hue: 265;
+  --slate-950: oklch(0.19 0.022 var(--hue));
+  --slate-900: oklch(0.235 0.024 var(--hue));
+  --slate-850: oklch(0.28 0.026 var(--hue));
+  --day-0: oklch(0.975 0.006 var(--hue));
+  --day-1: oklch(0.94 0.01 var(--hue));
+  --ember-300: oklch(0.80 0.13 60);
+  --ember-400: oklch(0.74 0.15 60);
+  --ember-600: oklch(0.55 0.14 55);
+  --text-xs: 0.75rem; --text-sm: 0.875rem; --text-base: 1rem;
+  --text-lg: 1.125rem; --text-xl: 1.25rem; --text-2xl: 1.5rem;
+  --text-3xl: clamp(1.75rem, 1.3rem + 1.8vw, 2.25rem);
+  --text-hero: clamp(2.5rem, 1.5rem + 4.6vw, 5.5rem);
+  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px;
+  --space-6: 24px; --space-8: 32px; --space-12: 48px; --space-16: 64px; --space-24: 96px;
+  --radius-sm: 6px; --radius-md: 10px; --radius-lg: 16px;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  /* SEMANTIC (day / light) */
+  --bg: var(--day-0);
+  --surface: var(--day-1);
+  --surface-2: oklch(0.90 0.014 var(--hue));
+  --line: oklch(0.25 0.02 var(--hue) / 0.14);
+  --line-strong: oklch(0.25 0.02 var(--hue) / 0.35);
+  --fg: oklch(0.25 0.024 var(--hue));
+  --fg-muted: oklch(0.46 0.02 var(--hue));
+  --accent: var(--ember-600);
+  --accent-ink: oklch(0.50 0.13 55);
+  --accent-contrast: oklch(0.98 0.008 60);
+  --ring: var(--ember-600);
+  --shift-label: "day shift";
+  color-scheme: light;
+}
+.dark {
+  --bg: var(--slate-950);
+  --surface: var(--slate-900);
+  --surface-2: var(--slate-850);
+  --line: oklch(0.95 0.01 var(--hue) / 0.13);
+  --line-strong: oklch(0.95 0.01 var(--hue) / 0.30);
+  --fg: oklch(0.93 0.01 var(--hue));
+  --fg-muted: oklch(0.70 0.016 var(--hue));
+  --accent: var(--ember-400);
+  --accent-ink: var(--ember-300);
+  --accent-contrast: oklch(0.17 0.02 60);
+  --ring: var(--ember-400);
+  --shift-label: "night shift";
+  color-scheme: dark;
+}
+* { box-sizing: border-box; margin: 0; }
+html { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+body { background: var(--bg); color: var(--fg);
+  font-family: "Geist", system-ui, sans-serif;
+  font-size: var(--text-base); line-height: 1.55; }
+.dark body { line-height: 1.6; }
+.mono { font-family: "Geist Mono", monospace; font-size: var(--text-xs);
+  letter-spacing: 0.06em; text-transform: uppercase; color: var(--fg-muted); }
+h1, h2, h3 { font-family: "Clash Display", "Geist", sans-serif; font-weight: 600;
+  line-height: 1.04; letter-spacing: -0.02em; text-wrap: balance; }
+a { color: inherit; }
+:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--ring); border-radius: var(--radius-sm); }
+.wrap { max-width: 74rem; margin-inline: auto; padding-inline: clamp(16px, 4vw, 40px); }
+
+/* nav */
+header { position: sticky; top: 0; z-index: 5; border-bottom: 1px solid var(--line);
+  background: oklch(from var(--bg) l c h / 0.85); backdrop-filter: blur(14px) saturate(160%); }
+.nav { display: flex; align-items: center; gap: var(--space-6); padding-block: var(--space-4); }
+.nav .brand { font-family: "Clash Display", sans-serif; font-weight: 600; font-size: var(--text-lg);
+  text-decoration: none; letter-spacing: -0.01em; }
+.nav ul { display: flex; gap: var(--space-6); list-style: none; padding: 0; margin-left: auto; }
+.nav ul a { font-size: var(--text-sm); color: var(--fg-muted); text-decoration: none; }
+.nav ul a:hover { color: var(--accent-ink); }
+/* the shift switch: sun/moon track, the signature control */
+.shift { margin-left: var(--space-4); display: inline-flex; align-items: center; gap: var(--space-2);
+  background: var(--surface); border: 1px solid var(--line-strong); border-radius: 999px;
+  padding: 4px 6px; cursor: pointer; font: inherit; color: var(--fg); }
+.shift .knob { width: 18px; height: 18px; border-radius: 50%; background: var(--accent);
+  box-shadow: inset -4px -3px 0 0 oklch(from var(--accent) calc(l - 0.18) c h); }
+.dark .shift .knob { box-shadow: inset 4px 3px 0 0 oklch(from var(--bg) l c h); background: var(--accent-ink); }
+.shift small { font-family: "Geist Mono", monospace; font-size: 10px; letter-spacing: 0.08em;
+  text-transform: uppercase; }
+.shift small::after { content: var(--shift-label); }
+
+/* hero */
+.hero { padding-block: var(--space-24) var(--space-16); }
+.hero .kicker { color: var(--accent-ink); }
+.hero h1 { font-size: var(--text-hero); max-width: 13ch; margin-top: var(--space-4); }
+.hero h1 .day-word, .hero h1 .night-word { color: var(--accent-ink); }
+.hero .lede { margin-top: var(--space-8); max-width: 56ch; font-size: var(--text-lg); color: var(--fg-muted); }
+.hero .lede strong { color: var(--fg); font-weight: 600; }
+.cta-row { display: flex; flex-wrap: wrap; gap: var(--space-4); margin-top: var(--space-8); }
+.btn { display: inline-block; text-decoration: none; font-weight: 500; font-size: var(--text-sm);
+  padding: 10px 20px; border-radius: 999px; border: 1px solid transparent; }
+@media (prefers-reduced-motion: no-preference) { .btn { transition: transform 120ms var(--ease-out), background-color 150ms var(--ease-out); } }
+.btn:active { transform: scale(0.97); }
+.btn-primary { background: var(--accent); color: var(--accent-contrast); }
+.btn-primary:hover { background: oklch(from var(--accent) calc(l + 0.04) c h); }
+.btn-ghost { border-color: var(--line-strong); }
+.btn-ghost:hover { border-color: var(--accent); color: var(--accent-ink); }
+/* the two shifts, stated */
+.shifts { display: grid; gap: var(--space-4); margin-top: var(--space-16); grid-template-columns: 1fr; }
+@media (min-width: 768px) { .shifts { grid-template-columns: 1fr 1fr; gap: var(--space-6); } }
+.shift-card { border: 1px solid var(--line); border-radius: var(--radius-lg);
+  padding: var(--space-6); background: var(--surface); }
+.shift-card.active { background: var(--surface-2); border-color: var(--line-strong); }
+.shift-card h3 { font-size: var(--text-xl); display: flex; align-items: baseline; gap: var(--space-3); }
+.shift-card h3 .mono { color: var(--accent-ink); }
+.shift-card p { margin-top: var(--space-3); color: var(--fg-muted); font-size: var(--text-sm); max-width: 40ch; }
+
+/* featured work: bento, unequal on purpose */
+.work { padding-block: var(--space-16); }
+.section-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: var(--space-8); }
+.bento { display: grid; gap: var(--space-4); grid-template-columns: 1fr; }
+@media (min-width: 768px) { .bento { grid-template-columns: repeat(3, 1fr); }
+  .bento .b1 { grid-column: span 2; } }
+.tile { display: block; text-decoration: none; border: 1px solid var(--line);
+  border-radius: var(--radius-lg); padding: var(--space-6); background: var(--surface); }
+@media (prefers-reduced-motion: no-preference) { .tile { transition: border-color 150ms var(--ease-out), background-color 150ms var(--ease-out); } }
+.tile:hover { border-color: var(--accent); background: var(--surface-2); }
+.tile h3 { font-size: var(--text-2xl); }
+.b1 h3 { font-size: var(--text-3xl); }
+.tile p { margin-top: var(--space-3); color: var(--fg-muted); font-size: var(--text-sm); max-width: 48ch; }
+.tile .metric { display: inline-block; margin-top: var(--space-6); font-family: "Geist Mono", monospace;
+  font-size: var(--text-sm); font-variant-numeric: tabular-nums; color: var(--accent-ink); }
+
+/* case study interior */
+.study { border-top: 1px solid var(--line-strong); padding-block: var(--space-16); }
+.study .kicker { color: var(--accent-ink); }
+.study h2 { font-size: var(--text-3xl); max-width: 24ch; margin-top: var(--space-4); }
+.study .context { max-width: 60ch; margin-top: var(--space-6); color: var(--fg-muted); }
+.meta-row { display: flex; flex-wrap: wrap; gap: var(--space-4); margin-top: var(--space-8); }
+.meta-row .chip { border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px;
+  font-size: var(--text-xs); font-family: "Geist Mono", monospace; color: var(--fg-muted); }
+.decisions { display: grid; gap: var(--space-4); margin-top: var(--space-12); grid-template-columns: 1fr; }
+@media (min-width: 900px) { .decisions { grid-template-columns: 1fr 1fr; gap: var(--space-6); } }
+.decision { border: 1px solid var(--line); border-radius: var(--radius-lg); padding: var(--space-6);
+  background: var(--surface); }
+.decision h4 { font-family: "Clash Display", sans-serif; font-weight: 500; font-size: var(--text-xl);
+  letter-spacing: -0.01em; }
+.decision p { margin-top: var(--space-3); color: var(--fg-muted); font-size: var(--text-sm); }
+.decision .tradeoff b { color: var(--accent-ink); font-weight: 500; }
+table { border-collapse: collapse; margin-top: var(--space-12); width: 100%; max-width: 42rem; }
+caption { text-align: left; padding-bottom: var(--space-3); }
+th, td { text-align: left; padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--line); font-size: var(--text-sm); }
+th { font-family: "Geist Mono", monospace; font-size: var(--text-xs); text-transform: uppercase;
+  letter-spacing: 0.06em; color: var(--fg-muted); font-weight: 500; }
+td.num { font-family: "Geist Mono", monospace; font-variant-numeric: tabular-nums; }
+td .delta { color: var(--accent-ink); font-weight: 500; }
+
+/* spec sheet */
+.spec { background: var(--surface); border-top: 1px solid var(--line-strong); padding-block: var(--space-16); }
+.spec-grid { display: grid; gap: var(--space-8); grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); margin-top: var(--space-8); }
+.swatches { display: flex; gap: var(--space-2); flex-wrap: wrap; }
+.sw { width: 56px; height: 72px; border-radius: var(--radius-sm); border: 1px solid var(--line); position: relative; }
+.sw i { position: absolute; bottom: 4px; left: 6px; font-style: normal; font-family: "Geist Mono", monospace; font-size: 10px; }
+.spec p { color: var(--fg-muted); font-size: var(--text-sm); max-width: 60ch; margin-top: var(--space-3); }
+.type-specimen div { border-bottom: 1px dashed var(--line); padding-block: var(--space-3); }
+footer { padding: var(--space-8) 0; color: var(--fg-muted); font-size: var(--text-sm); }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+}
+</style>
+</head>
+<body>
+<header>
+  <nav class="nav wrap" aria-label="Main">
+    <a class="brand" href="#">Andrew Persad</a>
+    <ul>
+      <li><a href="#">work</a></li>
+      <li><a href="#">about</a></li>
+      <li><a href="#">notes</a></li>
+      <li><a href="#">colophon</a></li>
+      <li><a href="#">contact</a></li>
+    </ul>
+    <button class="shift" onclick="document.documentElement.classList.toggle('dark')" aria-label="Toggle day and night theme">
+      <span class="knob" aria-hidden="true"></span><small></small>
+    </button>
+  </nav>
+</header>
+
+<main>
+  <section class="hero wrap">
+    <p class="mono kicker">Lead software engineer</p>
+    <h1>Enterprise scale by <span class="day-word">day.</span> My own products by <span class="night-word">night.</span></h1>
+    <p class="lede">I'm Andrew Persad. The day shift is frontend leadership on platforms serving <strong>9 million users at HP</strong>, with prior builds for Eli Lilly and Amazon. The night shift is <strong>five live products I own end to end</strong>: design, security model, deploy, and the pager. Flip the switch above; this site keeps both shifts honest.</p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="#study">See the flagship rebuild</a>
+      <a class="btn btn-ghost" href="#">About me</a>
+    </div>
+    <div class="shifts">
+      <div class="shift-card" data-shift="day">
+        <h3><span class="mono">09:00</span> The day shift</h3>
+        <p>Leading frontend for HP retail platforms. Before that: Eli Lilly patient tools at 150k+ monthly users, Amazon Buy with Prime.</p>
+      </div>
+      <div class="shift-card active" data-shift="night">
+        <h3><span class="mono">21:00</span> The night shift</h3>
+        <p>Fork In The Road, overlapp, PersadPay, pawscriptions, ProteinChecker. Shipped, live, and maintained. No demos.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="work wrap">
+    <div class="section-head">
+      <h2 style="font-size: var(--text-xl)">Night shift output</h2>
+      <span class="mono">4 studies + shelf</span>
+    </div>
+    <div class="bento">
+      <a class="tile b1" href="#study">
+        <h3>Fork In The Road</h3>
+        <p>Group dining decisions without the group chat meltdown. Rewritten from scratch: HMAC guest voting on an unauthenticated write surface, SSE rooms, no cron anywhere.</p>
+        <span class="metric">113k &rarr; 18k LOC, same features</span>
+      </a>
+      <a class="tile" href="#">
+        <h3>overlapp</h3>
+        <p>Calendar overlap with dual OAuth sync and DB-layer privacy.</p>
+        <span class="metric">RRULE in plpgsql</span>
+      </a>
+      <a class="tile" href="#">
+        <h3>PersadPay</h3>
+        <p>Household payroll with a statutory tax engine tested to exact dollars.</p>
+        <span class="metric">W-2 / W-3 / NYS-45</span>
+      </a>
+      <a class="tile" href="#">
+        <h3>pawscriptions</h3>
+        <p>Pet meds with race-safe notification dedup and deny-all RLS.</p>
+        <span class="metric">client-side OCR</span>
+      </a>
+    </div>
+  </section>
+
+  <article class="study wrap" id="study">
+    <p class="mono kicker">Case study / fork in the road</p>
+    <h2>Rebuilding Fork In The Road: 113,000 lines became 18,000 that do more</h2>
+    <p class="context">Fork In The Road helps groups decide where to eat. Version one worked but had grown to 113k lines, 27 runtime dependencies, and 77 API routes nobody could hold in their head. The constraint for version two: keep every shipped feature, cut everything else, and let guests vote securely without accounts.</p>
+    <div class="meta-row">
+      <span class="chip">role: solo, end to end</span>
+      <span class="chip">9 phases, one PR each</span>
+      <span class="chip">live: forkintheroad.app</span>
+    </div>
+    <div class="decisions">
+      <div class="decision">
+        <h4>Sign the ballot, not the guest</h4>
+        <p>Each guest gets an HMAC-signed httpOnly cookie holding zero personal data. Revotes replace the ballot in place; signing up later claims history via a one-way pointer.</p>
+        <p class="tradeoff"><b>Tradeoff:</b> clear cookies, lose your vote. Better than an account wall that kills group adoption.</p>
+      </div>
+      <div class="decision">
+        <h4>Kill the cron</h4>
+        <p>Expiry is lazy: any read seals an expired round, and the SSE stream doubles as the timer. Crash-safe because the seal derives from timestamps, not from a job having run.</p>
+        <p class="tradeoff"><b>Tradeoff:</b> a round nobody reads seals late. Nobody is waiting on it.</p>
+      </div>
+    </div>
+    <table>
+      <caption class="mono">Before / after, measured</caption>
+      <thead><tr><th scope="col">Metric</th><th scope="col">v1</th><th scope="col">v2</th><th scope="col">Delta</th></tr></thead>
+      <tbody>
+        <tr><td>Lines of code (src)</td><td class="num">113,000</td><td class="num">17,900</td><td class="num"><span class="delta">-84%</span></td></tr>
+        <tr><td>Runtime dependencies</td><td class="num">27</td><td class="num">10</td><td class="num"><span class="delta">-63%</span></td></tr>
+        <tr><td>API routes</td><td class="num">77</td><td class="num">20</td><td class="num"><span class="delta">-74%</span></td></tr>
+      </tbody>
+    </table>
+  </article>
+</main>
+
+<section class="spec">
+  <div class="wrap">
+    <p class="mono">Spec sheet, not part of the page</p>
+    <div class="spec-grid">
+      <div>
+        <h3 style="font-size: var(--text-lg)">Tokens</h3>
+        <p>Dark-first. Hue 265 slate surfaces at oklch 0.19 / 0.235 / 0.28: elevation by lightness, no pure black, no glow shadows. One ember accent (hue 60), desaturated in dark mode per the Material dark rules. Day mode uses the same slate hue so both shifts are one system.</p>
+        <div class="swatches" style="margin-top: 12px">
+          <div class="sw" style="background: var(--slate-950)"><i style="color:white">950</i></div>
+          <div class="sw" style="background: var(--slate-900)"><i style="color:white">900</i></div>
+          <div class="sw" style="background: var(--slate-850)"><i style="color:white">850</i></div>
+          <div class="sw" style="background: var(--ember-400)"><i>emb</i></div>
+          <div class="sw" style="background: var(--day-0)"><i>day</i></div>
+        </div>
+      </div>
+      <div class="type-specimen">
+        <h3 style="font-size: var(--text-lg)">Type</h3>
+        <div style="font-family:'Clash Display'; font-size: var(--text-2xl); font-weight: 600">Clash Display, headings</div>
+        <div>Geist 400/500/600, body and UI</div>
+        <div class="mono" style="text-transform:none">Geist Mono, data + timestamps</div>
+        <p>Contrast axis: high-personality display against a neutral body. Dark mode body gets line-height 1.6 (thin-on-dark compensation, manual &sect;3).</p>
+      </div>
+      <div>
+        <h3 style="font-size: var(--text-lg)">Signature + reasoning</h3>
+        <p>Signature: the shift switch. The theme toggle is the narrative device (day shift / night shift), so dark mode is identity, not an afterthought. Elevation by lighter surfaces, borders over shadows, bento with unequal tiles (manual &sect;3 dark elevation, &sect;13 no three equal cards). Risk to weigh: dark-first portfolios are a crowded genre; the narrative hook is what earns it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<footer class="wrap">Direction 3 of 3: Night Shift. Toggle the shift switch, resize to 360 / 768 / 1280.</footer>
+</body>
+</html>

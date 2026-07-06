@@ -28,8 +28,10 @@ so nothing depends on chat history.
       text); avatar replaced with 13 KB 768px WebP (`public/icons/avatar.webp`), both
       multi-MB SVGs deleted; contact rate limit fixed (seeds 1, prunes expired entries);
       em dashes removed from site copy; footer year now dynamic; tests updated (130 pass).
-- [ ] **Phase 2 — Design direction + foundation.** 2-3 rendered direction comps + 3-4 avatar
-      treatments, OWNER PICKS. Then tokens/fonts/theming/motion primitives/shell.
+- [~] **Phase 2 — Design direction + foundation.** Comps DONE, awaiting owner pick (see
+      `design/comps/index.html`): 3 directions (Annotated / Ink & Margin / Night Shift) +
+      4 avatar treatments (flat / mono-line / duotone / sticker). After the pick: implement
+      tokens/fonts/theming/motion primitives/shell + avatar likeness-refinement pass.
 - [ ] **Phase 3 — Core pages.** Home, about (experience timeline first), work index, contact,
       resume. All copy rewritten (voice rules below).
 - [ ] **Phase 4 — Case-study engine (MDX) + Fork In The Road flagship study.**
@@ -98,3 +100,22 @@ so nothing depends on chat history.
   5. Then implement: token system (CSS variables as source of truth, Tailwind 4), fonts,
      theming (light/dark), motion primitives, nav/footer shell, colophon skeleton.
   Done when: direction chosen, tokens power a themed shell at 360/768/1280, both modes pass axe.
+- **2026-07-06 (Phase 2, session 1)** — Deliverables A + B built and screenshot-verified
+  (360/768/1280, light+dark, via Playwright; scratch shots in gitignored `temp/comp-shots/`).
+  `design/comps/index.html` is the pick sheet. The three directions, each a self-contained
+  HTML comp with three-layer OKLCH tokens, hero, FITR case-study interior, and a spec-sheet
+  footer with reasoning:
+  1. **Annotated** — hue-245 slate paper, signal-orange (hue 40) markup accent, dimension-line/
+     annotation motif, ledger rows. Bricolage Grotesque / Geist / Geist Mono.
+  2. **Ink & Margin** — hue-25 warm-gray paper (whisper chroma, not beige), oxblood accent,
+     Tufte margin notes, numbered TOC. Newsreader / Instrument Sans / JetBrains Mono.
+  3. **Night Shift** — dark-first (hue-265 slate, elevation by lightness), ember accent
+     (hue 60), theme toggle as the day/night narrative. Clash Display (Fontshare) / Geist.
+  Avatars: one master SVG bust geometry redrawn from `temp/me/` photos (receded temples,
+  forehead curl, thick brows, full beard, broad smile, crew-neck), rendered 4 ways in
+  `design/comps/avatars.html` (flat / mono-line / duotone print / sticker), themeable via
+  CSS vars, shown under all 3 palettes both themes. Gotchas: duotone must keep theme-invariant
+  ink+paper (dark mode turned his hair white before the fix); the mono-line treatment needs
+  low-opacity mass fills or he reads bald. NEXT: owner picks direction + avatar treatment,
+  then implementation starts (tokens, fonts, theming, motion, shell, colophon skeleton) and
+  the chosen avatar gets a likeness pass against the photos.

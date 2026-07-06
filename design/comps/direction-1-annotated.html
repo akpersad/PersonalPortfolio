@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Direction 1: Annotated — Andrew Persad comp</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   DIRECTION 1 — "ANNOTATED"
+   The engineer's drafting table. Paper, ink, one signal accent
+   used the way a red pen marks up a drawing. Mono annotations,
+   hairline rules, dimension-line motifs. Design-engineer energy
+   worn literally.
+   Tokens: three-layer OKLCH. Hue 245 (cool slate) tints every
+   neutral; accent is signal orange (hue 40), <10% of surface.
+   Type: Bricolage Grotesque display / Geist body / Geist Mono
+   annotations. Contrast axis: characterful grotesk vs neutral.
+   ============================================================ */
+:root {
+  /* PRIMITIVE */
+  --hue: 245;
+  --paper-0: oklch(0.985 0.004 var(--hue));
+  --paper-1: oklch(0.955 0.006 var(--hue));
+  --paper-2: oklch(0.92 0.008 var(--hue));
+  --ink-0: oklch(0.24 0.02 var(--hue));
+  --ink-1: oklch(0.45 0.02 var(--hue));
+  --ink-2: oklch(0.58 0.018 var(--hue));
+  --signal-600: oklch(0.60 0.19 40);
+  --signal-500: oklch(0.66 0.19 40);
+  --signal-300: oklch(0.80 0.10 40);
+  /* type scale: 1.25 ratio, hand-rounded, fluid at the top */
+  --text-xs: 0.75rem; --text-sm: 0.875rem; --text-base: 1rem;
+  --text-lg: 1.125rem; --text-xl: 1.25rem; --text-2xl: 1.5rem;
+  --text-3xl: clamp(1.75rem, 1.3rem + 1.8vw, 2.25rem);
+  --text-hero: clamp(2.5rem, 1.6rem + 4.2vw, 5rem);
+  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px;
+  --space-6: 24px; --space-8: 32px; --space-12: 48px; --space-16: 64px;
+  --space-24: 96px;
+  --radius-sm: 4px; --radius-md: 8px;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  /* SEMANTIC (light) */
+  --bg: var(--paper-0);
+  --surface: var(--paper-1);
+  --line: oklch(0.24 0.02 var(--hue) / 0.14);
+  --line-strong: oklch(0.24 0.02 var(--hue) / 0.35);
+  --fg: var(--ink-0);
+  --fg-muted: var(--ink-1);
+  --accent: var(--signal-600);
+  --accent-ink: var(--signal-600);
+  --ring: var(--signal-500);
+  color-scheme: light;
+}
+.dark {
+  --bg: oklch(0.20 0.018 var(--hue));
+  --surface: oklch(0.245 0.02 var(--hue));
+  --line: oklch(0.95 0.01 var(--hue) / 0.14);
+  --line-strong: oklch(0.95 0.01 var(--hue) / 0.32);
+  --fg: oklch(0.93 0.008 var(--hue));
+  --fg-muted: oklch(0.72 0.012 var(--hue));
+  --accent: oklch(0.72 0.16 45);
+  --accent-ink: oklch(0.78 0.14 45);
+  --ring: oklch(0.72 0.16 45);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; margin: 0; }
+html { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+body {
+  background: var(--bg); color: var(--fg);
+  font-family: "Geist", system-ui, sans-serif;
+  font-size: var(--text-base); line-height: 1.55;
+}
+.mono { font-family: "Geist Mono", monospace; font-size: var(--text-xs);
+  letter-spacing: 0.06em; text-transform: uppercase; color: var(--fg-muted); }
+h1, h2, h3 { font-family: "Bricolage Grotesque", sans-serif; line-height: 1.05;
+  letter-spacing: -0.015em; text-wrap: balance; font-weight: 640; }
+a { color: inherit; }
+:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--ring); border-radius: var(--radius-sm); }
+.wrap { max-width: 72rem; margin-inline: auto; padding-inline: clamp(16px, 4vw, 40px); }
+
+/* nav */
+header { border-bottom: 1px solid var(--line); position: sticky; top: 0;
+  background: oklch(from var(--bg) l c h / 0.88); backdrop-filter: blur(12px); z-index: 5; }
+.nav { display: flex; align-items: baseline; gap: var(--space-6);
+  padding-block: var(--space-4); }
+.nav .brand { font-family: "Geist Mono", monospace; font-weight: 500; font-size: var(--text-sm);
+  text-decoration: none; }
+.brand b { color: var(--accent-ink); font-weight: 500; }
+.nav ul { display: flex; gap: var(--space-6); list-style: none; padding: 0; margin-left: auto; }
+.nav ul a { font-size: var(--text-sm); color: var(--fg-muted); text-decoration: none; position: relative; }
+.nav ul a::after { content: ""; position: absolute; left: 0; bottom: -3px; height: 1px; width: 100%;
+  background: var(--accent); transform: scaleX(0); transform-origin: left; }
+@media (prefers-reduced-motion: no-preference) { .nav ul a::after { transition: transform 200ms var(--ease-out); } }
+.nav ul a:hover { color: var(--fg); } .nav ul a:hover::after { transform: scaleX(1); }
+.theme-btn { margin-left: var(--space-4); background: none; border: 1px solid var(--line-strong);
+  color: var(--fg); border-radius: 999px; padding: 4px 12px; font: inherit; font-size: var(--text-xs);
+  cursor: pointer; }
+.theme-btn:hover { border-color: var(--accent); color: var(--accent-ink); }
+
+/* hero */
+.hero { padding-block: var(--space-24) var(--space-16); position: relative; }
+.fig { display: inline-flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-6); }
+.fig::before { content: ""; width: 40px; height: 1px; background: var(--accent); }
+.hero h1 { font-size: var(--text-hero); max-width: 14ch; }
+.hero h1 .mark { position: relative; white-space: nowrap; }
+.hero h1 .mark::after { content: ""; position: absolute; inset: auto 0 0.04em 0; height: 0.08em;
+  background: var(--accent); }
+.hero .lede { margin-top: var(--space-8); max-width: 58ch; font-size: var(--text-lg);
+  color: var(--fg-muted); }
+.hero .lede strong { color: var(--fg); font-weight: 600; }
+.now { margin-top: var(--space-8); display: flex; align-items: center; gap: var(--space-3);
+  font-family: "Geist Mono", monospace; font-size: var(--text-sm); color: var(--fg-muted); }
+.now .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+.cta-row { display: flex; flex-wrap: wrap; gap: var(--space-4); margin-top: var(--space-8); }
+.btn { display: inline-block; text-decoration: none; font-weight: 500; font-size: var(--text-sm);
+  padding: 10px 20px; border-radius: var(--radius-md); border: 1px solid transparent; }
+@media (prefers-reduced-motion: no-preference) { .btn { transition: transform 120ms var(--ease-out); } }
+.btn:active { transform: scale(0.97); }
+.btn-primary { background: var(--accent); color: oklch(0.99 0.005 40); }
+.dark .btn-primary { color: oklch(0.16 0.02 40); }
+.btn-ghost { border-color: var(--line-strong); color: var(--fg); }
+.btn-ghost:hover { border-color: var(--accent); color: var(--accent-ink); }
+
+/* dimension-line motif */
+.dim { position: absolute; right: clamp(16px, 4vw, 40px); top: var(--space-24); bottom: var(--space-16);
+  width: 1px; background: var(--line-strong); display: none; }
+.dim::before, .dim::after { content: ""; position: absolute; left: -4px; width: 9px; height: 1px;
+  background: var(--line-strong); }
+.dim::before { top: 0; } .dim::after { bottom: 0; }
+.dim span { position: absolute; top: 50%; left: 10px; transform: rotate(90deg);
+  transform-origin: left; white-space: nowrap; }
+@media (min-width: 1024px) { .dim { display: block; } }
+
+/* featured work: asymmetric ledger rows, not equal cards */
+.section-head { display: flex; align-items: baseline; justify-content: space-between;
+  border-top: 1px solid var(--line-strong); padding-top: var(--space-4); margin-bottom: var(--space-8); }
+.work { padding-block: var(--space-16); }
+.entry { display: grid; grid-template-columns: 1fr; gap: var(--space-3) var(--space-8);
+  padding-block: var(--space-8); border-top: 1px solid var(--line); text-decoration: none; }
+@media (min-width: 768px) { .entry { grid-template-columns: minmax(0, 7fr) minmax(0, 4fr) auto; align-items: baseline; } }
+.entry h3 { font-size: var(--text-2xl); }
+@media (prefers-reduced-motion: no-preference) { .entry h3 { transition: color 150ms var(--ease-out); } }
+.entry:hover h3 { color: var(--accent-ink); }
+.entry p { color: var(--fg-muted); font-size: var(--text-sm); max-width: 44ch; }
+.entry .metric { font-family: "Geist Mono", monospace; font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums; color: var(--fg); }
+.entry.flagship h3 { font-size: var(--text-3xl); }
+
+/* case study interior */
+.study { border-top: 1px solid var(--line-strong); padding-block: var(--space-16); }
+.study .kicker { color: var(--accent-ink); }
+.study h2 { font-size: var(--text-3xl); max-width: 24ch; margin-top: var(--space-4); }
+.study .context { max-width: 62ch; margin-top: var(--space-6); color: var(--fg-muted); }
+.meta-row { display: flex; flex-wrap: wrap; gap: var(--space-8); margin-top: var(--space-8);
+  padding: var(--space-4) 0; border-block: 1px solid var(--line); }
+.meta-row div b { display: block; font-weight: 600; font-size: var(--text-sm); }
+.meta-row div span { font-size: var(--text-xs); color: var(--fg-muted); text-transform: uppercase;
+  letter-spacing: 0.06em; font-family: "Geist Mono", monospace; }
+.decision { margin-top: var(--space-12); padding-left: var(--space-6); border-left: 2px solid var(--accent);
+  max-width: 62ch; }
+.decision h4 { font-family: "Bricolage Grotesque", sans-serif; font-size: var(--text-xl);
+  letter-spacing: -0.01em; }
+.decision p { margin-top: var(--space-3); color: var(--fg-muted); }
+.decision .tradeoff { margin-top: var(--space-3); font-size: var(--text-sm); }
+.decision .tradeoff b { color: var(--accent-ink); font-weight: 600; }
+table { border-collapse: collapse; margin-top: var(--space-12); width: 100%; max-width: 40rem; }
+caption { text-align: left; padding-bottom: var(--space-3); }
+th, td { text-align: left; padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--line);
+  font-size: var(--text-sm); }
+th { font-family: "Geist Mono", monospace; font-size: var(--text-xs); text-transform: uppercase;
+  letter-spacing: 0.06em; color: var(--fg-muted); font-weight: 500; }
+td.num { font-family: "Geist Mono", monospace; font-variant-numeric: tabular-nums; }
+td .delta { color: var(--accent-ink); font-weight: 500; }
+
+/* spec sheet */
+.spec { background: var(--surface); border-top: 1px solid var(--line-strong); padding-block: var(--space-16); }
+.spec-grid { display: grid; gap: var(--space-8); grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); margin-top: var(--space-8); }
+.swatches { display: flex; gap: var(--space-2); flex-wrap: wrap; }
+.sw { width: 56px; height: 72px; border-radius: var(--radius-sm); border: 1px solid var(--line); position: relative; }
+.sw i { position: absolute; bottom: 4px; left: 6px; font-style: normal; font-family: "Geist Mono", monospace; font-size: 10px; }
+.spec p { color: var(--fg-muted); font-size: var(--text-sm); max-width: 60ch; margin-top: var(--space-3); }
+.type-specimen div { border-bottom: 1px dashed var(--line); padding-block: var(--space-3); }
+footer { padding: var(--space-8) 0; color: var(--fg-muted); font-size: var(--text-sm); }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+}
+</style>
+</head>
+<body>
+<header>
+  <nav class="nav wrap" aria-label="Main">
+    <a class="brand" href="#"><b>AP</b>/andrew-persad</a>
+    <ul>
+      <li><a href="#">work</a></li>
+      <li><a href="#">about</a></li>
+      <li><a href="#">notes</a></li>
+      <li><a href="#">colophon</a></li>
+      <li><a href="#">contact</a></li>
+    </ul>
+    <button class="theme-btn" onclick="document.documentElement.classList.toggle('dark')">light / dark</button>
+  </nav>
+</header>
+
+<main>
+  <section class="hero wrap">
+    <div class="dim" aria-hidden="true"><span class="mono">fig. 01 &nbsp;hero, 1 of 1</span></div>
+    <p class="fig mono">Andrew Persad, lead software engineer</p>
+    <h1>Built to spec. <span class="mark">Measured</span> before it ships.</h1>
+    <p class="lede">By day I lead frontend work on platforms serving <strong>9 million users at HP</strong>, with prior builds for Eli Lilly and Amazon. At night I design, build, and run my own products end to end: <strong>five shipped and live</strong>, from a payroll engine tested to exact dollars to a group decision app rebuilt at one sixth its original size.</p>
+    <p class="now"><span class="dot" aria-hidden="true"></span> now: lead software engineer, open to lead roles</p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="#study">Read the flagship rebuild</a>
+      <a class="btn btn-ghost" href="#">About me</a>
+    </div>
+  </section>
+
+  <section class="work wrap">
+    <div class="section-head">
+      <h2 style="font-size: var(--text-xl)">Selected work</h2>
+      <span class="mono">04 studies + shelf</span>
+    </div>
+    <a class="entry flagship" href="#study">
+      <div><h3>Fork In The Road</h3>
+        <p>A group decision app rewritten from scratch. HMAC-signed guest voting on an unauthenticated write surface, SSE rooms, and zero cron jobs.</p></div>
+      <p>The rewrite kept every feature and deleted six of every seven lines.</p>
+      <span class="metric">113k &rarr; 18k LOC</span>
+    </a>
+    <a class="entry" href="#">
+      <div><h3>overlapp</h3>
+        <p>Calendar overlap finder with dual OAuth sync and privacy enforced at the database layer.</p></div>
+      <p>Recurrence expansion in plpgsql, tested against Postgres itself.</p>
+      <span class="metric">2 OAuth providers</span>
+    </a>
+    <a class="entry" href="#">
+      <div><h3>PersadPay</h3>
+        <p>Real household payroll: statutory tax engine, W-2, W-3, and NYS-45 generation.</p></div>
+      <p>Tax math verified to exact dollars in tests.</p>
+      <span class="metric">$0.00 variance</span>
+    </a>
+  </section>
+
+  <article class="study wrap" id="study">
+    <p class="mono kicker">Case study / fork in the road</p>
+    <h2>Rebuilding Fork In The Road: 113,000 lines became 18,000 that do more</h2>
+    <p class="context">Fork In The Road helps groups decide where to eat without a group chat meltdown. Version one worked but had grown to 113k lines, 27 runtime dependencies, and 77 API routes that nobody could hold in their head. The constraint for version two: keep every shipped feature, cut everything else, and let guests vote securely without accounts.</p>
+    <div class="meta-row">
+      <div><span>role</span><b>Solo: design, build, ship</b></div>
+      <div><span>timeline</span><b>9 phases, one PR each</b></div>
+      <div><span>status</span><b>Live at forkintheroad.app</b></div>
+    </div>
+    <div class="decision">
+      <h4>Decision: sign the ballot, not the guest</h4>
+      <p>Guest voting is an unauthenticated write surface, which is normally a security hole. Instead of forcing accounts, each guest gets an HMAC-signed httpOnly cookie holding zero personal data. A revote replaces the ballot in place, and a guest who later signs up claims their history through a one-way pointer.</p>
+      <p class="tradeoff"><b>Tradeoff taken:</b> a guest who clears cookies loses their vote. Acceptable, because the alternative was an account wall that kills group adoption.</p>
+    </div>
+    <div class="decision">
+      <h4>Decision: kill the cron</h4>
+      <p>Rounds need to expire on time, but cron jobs fail silently and cost money at idle. Expiry became lazy: any read seals an expired round, and the SSE stream that pushes live results doubles as the timer. The seal is crash-safe because it is derived from timestamps, not from a job having run.</p>
+      <p class="tradeoff"><b>Tradeoff taken:</b> a round nobody reads seals late. Nobody is waiting on a round nobody reads.</p>
+    </div>
+    <table>
+      <caption class="mono">Before / after, measured</caption>
+      <thead><tr><th scope="col">Metric</th><th scope="col">v1</th><th scope="col">v2</th><th scope="col">Delta</th></tr></thead>
+      <tbody>
+        <tr><td>Lines of code (src)</td><td class="num">113,000</td><td class="num">17,900</td><td class="num"><span class="delta">-84%</span></td></tr>
+        <tr><td>Runtime dependencies</td><td class="num">27</td><td class="num">10</td><td class="num"><span class="delta">-63%</span></td></tr>
+        <tr><td>API routes</td><td class="num">77</td><td class="num">20</td><td class="num"><span class="delta">-74%</span></td></tr>
+      </tbody>
+    </table>
+  </article>
+</main>
+
+<section class="spec">
+  <div class="wrap">
+    <p class="mono">Spec sheet, not part of the page</p>
+    <div class="spec-grid">
+      <div>
+        <h3 style="font-size: var(--text-lg)">Tokens</h3>
+        <p>Hue 245 slate tints every neutral (chroma 0.004 to 0.02). One accent: signal orange, hue 40, used for markup only: rules, deltas, the underline, primary action. 60-30-10 by weight.</p>
+        <div class="swatches" style="margin-top: 12px">
+          <div class="sw" style="background: var(--paper-0)"><i>bg</i></div>
+          <div class="sw" style="background: var(--paper-1)"><i>srf</i></div>
+          <div class="sw" style="background: var(--ink-0)"><i style="color:white">ink</i></div>
+          <div class="sw" style="background: var(--ink-1)"><i style="color:white">mut</i></div>
+          <div class="sw" style="background: var(--signal-600)"><i style="color:white">acc</i></div>
+        </div>
+      </div>
+      <div class="type-specimen">
+        <h3 style="font-size: var(--text-lg)">Type</h3>
+        <div style="font-family:'Bricolage Grotesque'; font-size: var(--text-2xl); font-weight: 640">Bricolage Grotesque, display</div>
+        <div>Geist 400/500/600, body and UI</div>
+        <div class="mono" style="text-transform:none">Geist Mono, annotations + tabular data</div>
+        <p>Contrast axis: characterful grotesk against a neutral body. Scale ratio 1.25, hero clamps at 5rem.</p>
+      </div>
+      <div>
+        <h3 style="font-size: var(--text-lg)">Signature + reasoning</h3>
+        <p>Signature motif: the annotation. Dimension lines, fig. labels, a drawn accent underline (scaleX transform, 200ms ease-out-quint). It restates the positioning: an engineer who documents decisions. Manual refs: &sect;3 tinted neutrals, &sect;4 pairing on contrast, &sect;8 felt-not-seen motion, &sect;13 no equal cards (ledger rows instead).</p>
+      </div>
+    </div>
+  </div>
+</section>
+<footer class="wrap">Direction 1 of 3: Annotated. Toggle the theme, resize to 360 / 768 / 1280.</footer>
+</body>
+</html>

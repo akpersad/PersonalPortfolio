@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Avatar treatments — Andrew Persad comp</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   AVATAR TREATMENTS — full redraw from reference photos.
+   One master geometry (so likeness is identical), four
+   rendering treatments. True vector, themeable via CSS
+   variables, shown under each direction's palette in light
+   and dark. Skin and hair stay constant (they are the person);
+   shirt, background, ink, and accent come from the theme.
+   ============================================================ */
+:root {
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  /* the person: constant across themes */
+  --av-skin: #AC7A54;
+  --av-skin-2: #916345;
+  --av-hair: #271C15;
+  --av-hair-2: #322419;
+  --av-teeth: #F7F2EC;
+}
+* { box-sizing: border-box; margin: 0; }
+body { font-family: "Geist", system-ui, sans-serif; background: #ECEDF1; color: #23252E;
+  line-height: 1.55; }
+.mono { font-family: "Geist Mono", monospace; font-size: 0.72rem; letter-spacing: 0.06em;
+  text-transform: uppercase; opacity: 0.75; }
+.wrap { max-width: 76rem; margin-inline: auto; padding: 32px clamp(16px, 4vw, 40px) 64px; }
+h1 { font-size: clamp(1.5rem, 1.2rem + 1.4vw, 2.2rem); letter-spacing: -0.015em; }
+.intro { max-width: 62ch; margin-top: 12px; opacity: 0.85; }
+
+.panel { border-radius: 16px; padding: 24px; margin-top: 24px;
+  background: var(--bg); color: var(--fg); border: 1px solid rgb(0 0 0 / 0.08); }
+.panel h2 { font-size: 1rem; font-weight: 600; }
+.row { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 16px; margin-top: 16px; }
+.cell { text-align: center; }
+.cell svg { width: 100%; height: auto; max-width: 200px; display: block; margin-inline: auto; }
+.cell figcaption { margin-top: 8px; font-size: 0.78rem; opacity: 0.75; }
+
+/* ---- direction palettes (mirrors each comp's semantic tokens) ---- */
+/* duotone ink + paper are theme-invariant per direction: a print stays printed */
+.d1-light, .d1-dark { --av-duo-ink: oklch(0.24 0.02 245); --av-duo-paper: oklch(0.985 0.004 245); }
+.d2-light, .d2-dark { --av-duo-ink: oklch(0.25 0.015 25); --av-duo-paper: oklch(0.985 0.003 25); }
+.d3-light, .d3-dark { --av-duo-ink: oklch(0.25 0.024 265); --av-duo-paper: oklch(0.975 0.006 265); }
+.d1-light { --bg: oklch(0.985 0.004 245); --fg: oklch(0.24 0.02 245);
+  --av-bg: oklch(0.92 0.008 245); --av-acc: oklch(0.60 0.19 40);
+  --av-ink: oklch(0.24 0.02 245); --av-paper: oklch(0.985 0.004 245); --av-shirt: #3C4763; }
+.d1-dark { --bg: oklch(0.20 0.018 245); --fg: oklch(0.93 0.008 245);
+  --av-bg: oklch(0.245 0.02 245); --av-acc: oklch(0.72 0.16 45);
+  --av-ink: oklch(0.93 0.008 245); --av-paper: oklch(0.20 0.018 245); --av-shirt: #55618A; }
+.d2-light { --bg: oklch(0.985 0.003 25); --fg: oklch(0.25 0.015 25);
+  --av-bg: oklch(0.945 0.006 25); --av-acc: oklch(0.42 0.15 22);
+  --av-ink: oklch(0.25 0.015 25); --av-paper: oklch(0.985 0.003 25); --av-shirt: #5C4A44; }
+.d2-dark { --bg: oklch(0.205 0.012 25); --fg: oklch(0.925 0.006 25);
+  --av-bg: oklch(0.25 0.014 25); --av-acc: oklch(0.68 0.13 28);
+  --av-ink: oklch(0.925 0.006 25); --av-paper: oklch(0.205 0.012 25); --av-shirt: #7A5D55; }
+.d3-light { --bg: oklch(0.975 0.006 265); --fg: oklch(0.25 0.024 265);
+  --av-bg: oklch(0.90 0.014 265); --av-acc: oklch(0.55 0.14 55);
+  --av-ink: oklch(0.25 0.024 265); --av-paper: oklch(0.975 0.006 265); --av-shirt: #38415F; }
+.d3-dark { --bg: oklch(0.19 0.022 265); --fg: oklch(0.93 0.01 265);
+  --av-bg: oklch(0.28 0.026 265); --av-acc: oklch(0.74 0.15 60);
+  --av-ink: oklch(0.93 0.01 265); --av-paper: oklch(0.19 0.022 265); --av-shirt: #4B5678; }
+
+/* line treatment inherits currentColor from the panel */
+.cell { color: var(--fg); }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============ shared geometry + the four treatments ============ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- master bust, flat fills (used by FLAT and STICKER) -->
+    <g id="g-bust-flat">
+      <!-- shirt -->
+      <path fill="var(--av-shirt, #3C4763)" d="M 92,512 C 96,444 138,404 196,390 C 216,384 236,382 256,382 C 276,382 296,384 316,390 C 374,404 416,444 420,512 Z"/>
+      <!-- collar band -->
+      <path fill="rgb(0 0 0 / 0.22)" d="M 212,386 C 222,402 290,402 300,386 L 300,395 C 290,411 222,411 212,395 Z"/>
+      <!-- neck -->
+      <path fill="var(--av-skin)" d="M 224,308 L 224,392 C 240,400 272,400 288,392 L 288,308 Z"/>
+      <!-- neck shadow under beard -->
+      <path fill="var(--av-skin-2)" d="M 224,308 L 224,344 C 234,362 278,362 288,344 L 288,308 Z"/>
+      <!-- face -->
+      <path fill="var(--av-skin)" d="M 256,112 C 203,112 175,152 173,204 C 172,246 182,288 205,317 C 222,338 238,350 256,350 C 274,350 290,338 307,317 C 330,288 340,246 339,204 C 337,152 309,112 256,112 Z"/>
+      <!-- ears -->
+      <ellipse fill="var(--av-skin)" cx="172" cy="224" rx="14" ry="21"/>
+      <ellipse fill="var(--av-skin)" cx="340" cy="224" rx="14" ry="21"/>
+      <path fill="var(--av-skin-2)" d="M 168,216 C 174,212 180,216 179,224 C 178,231 172,234 168,231 Z"/>
+      <path fill="var(--av-skin-2)" d="M 344,216 C 338,212 332,216 333,224 C 334,231 340,234 344,231 Z"/>
+      <!-- cheek warmth -->
+      <ellipse fill="var(--av-skin-2)" opacity="0.35" cx="207" cy="254" rx="15" ry="9"/>
+      <ellipse fill="var(--av-skin-2)" opacity="0.35" cx="305" cy="254" rx="15" ry="9"/>
+      <!-- nose -->
+      <path fill="var(--av-skin-2)" d="M 248,224 C 246,244 240,256 238,262 C 236,270 244,275 256,275 C 268,275 276,270 274,262 C 272,256 266,244 264,224 C 262,214 250,214 248,224 Z" opacity="0.55"/>
+      <path fill="var(--av-skin-2)" d="M 242,264 C 245,269 250,271 256,271 C 262,271 267,269 270,264 C 266,270 262,272 256,272 C 250,272 246,270 242,264 Z"/>
+      <!-- brows -->
+      <path fill="var(--av-hair)" d="M 198,196 C 208,184 232,182 245,190 C 246,193 244,196 241,196 C 229,192 211,193 202,200 C 199,200 197,198 198,196 Z"/>
+      <path fill="var(--av-hair)" d="M 314,196 C 304,184 280,182 267,190 C 266,193 268,196 271,196 C 283,192 301,193 310,200 C 313,200 315,198 314,196 Z"/>
+      <!-- eyes -->
+      <path fill="var(--av-teeth)" d="M 206,216 C 213,208 231,208 238,216 C 231,224 213,224 206,216 Z"/>
+      <circle fill="#4A2E1E" cx="222" cy="216" r="7"/>
+      <circle fill="#1D120C" cx="222" cy="216" r="3.4"/>
+      <circle fill="#FFFFFF" cx="224.5" cy="213.5" r="1.6"/>
+      <path fill="var(--av-teeth)" d="M 274,216 C 281,208 299,208 306,216 C 299,224 281,224 274,216 Z"/>
+      <circle fill="#4A2E1E" cx="290" cy="216" r="7"/>
+      <circle fill="#1D120C" cx="290" cy="216" r="3.4"/>
+      <circle fill="#FFFFFF" cx="292.5" cy="213.5" r="1.6"/>
+      <!-- upper lids -->
+      <path fill="none" stroke="var(--av-hair-2)" stroke-width="3" stroke-linecap="round" d="M 207,214 C 214,207 230,207 237,214"/>
+      <path fill="none" stroke="var(--av-hair-2)" stroke-width="3" stroke-linecap="round" d="M 275,214 C 282,207 298,207 305,214"/>
+      <!-- beard -->
+      <path fill="var(--av-hair-2)" d="M 176,206 C 170,256 182,302 202,330 C 222,356 240,368 256,368 C 272,368 290,356 310,330 C 330,302 342,256 336,206 C 332,238 324,258 302,268 C 292,262 278,260 272,264 C 266,259 246,259 240,264 C 234,260 220,262 210,268 C 188,258 180,238 176,206 Z"/>
+      <!-- mustache -->
+      <path fill="var(--av-hair)" d="M 232,272 C 240,262 272,262 280,272 C 276,280 268,282 256,282 C 244,282 236,280 232,272 Z"/>
+      <!-- smile: teeth + lower lip -->
+      <path fill="var(--av-teeth)" d="M 228,289 C 244,298 268,298 284,289 C 280,310 262,316 256,316 C 250,316 232,310 228,289 Z"/>
+      <path fill="none" stroke="var(--av-skin-2)" stroke-width="3" stroke-linecap="round" d="M 240,318 C 250,322 262,322 272,318" opacity="0.7"/>
+      <!-- smile creases -->
+      <path fill="none" stroke="var(--av-skin-2)" stroke-width="3" stroke-linecap="round" d="M 224,282 C 220,278 217,272 216,266" opacity="0.6"/>
+      <path fill="none" stroke="var(--av-skin-2)" stroke-width="3" stroke-linecap="round" d="M 288,282 C 292,278 295,272 296,266" opacity="0.6"/>
+      <!-- hair: curly cap, receded temples -->
+      <path fill="var(--av-hair)" d="M 166,224 C 154,160 168,106 210,90 C 226,76 250,72 256,74 C 262,72 286,76 302,90 C 344,106 358,160 346,224 C 340,224 336,220 336,214 C 338,180 330,156 318,144 C 322,160 320,170 314,176 C 316,156 306,138 288,132 C 296,142 298,152 294,160 C 288,142 272,132 256,132 C 240,132 224,142 218,160 C 214,152 216,142 224,132 C 206,138 196,156 198,176 C 192,170 190,160 194,144 C 182,156 174,180 176,214 C 176,220 172,224 166,224 Z"/>
+      <!-- forehead curl -->
+      <path fill="var(--av-hair)" d="M 240,133 C 232,126 234,114 244,111 C 252,109 260,114 260,122 C 260,128 254,132 249,130 C 252,127 252,122 248,120 C 243,118 239,123 241,128 C 242,131 243,132 240,133 Z"/>
+    </g>
+
+    <!-- FLAT: soft rounded-square background + bust -->
+    <symbol id="av-flat" viewBox="0 0 512 512">
+      <clipPath id="clip-flat"><rect x="16" y="16" width="480" height="480" rx="96"/></clipPath>
+      <rect x="16" y="16" width="480" height="480" rx="96" fill="var(--av-bg, #E8E4DC)"/>
+      <g clip-path="url(#clip-flat)"><use href="#g-bust-flat"/></g>
+    </symbol>
+
+    <!-- LINE: single-weight mono-line, inherits currentColor -->
+    <symbol id="av-line" viewBox="0 0 512 512">
+      <!-- light mass fills so hair and beard read as hair and beard -->
+      <path fill="currentColor" opacity="0.16" d="M 166,224 C 154,160 168,106 210,90 C 226,76 250,72 256,74 C 262,72 286,76 302,90 C 344,106 358,160 346,224 C 340,224 336,220 336,214 C 338,180 330,156 318,144 C 322,160 320,170 314,176 C 316,156 306,138 288,132 C 296,142 298,152 294,160 C 288,142 272,132 256,132 C 240,132 224,142 218,160 C 214,152 216,142 224,132 C 206,138 196,156 198,176 C 192,170 190,160 194,144 C 182,156 174,180 176,214 C 176,220 172,224 166,224 Z"/>
+      <path fill="currentColor" opacity="0.16" d="M 176,206 C 170,256 182,302 202,330 C 222,356 240,368 256,368 C 272,368 290,356 310,330 C 330,302 342,256 336,206 C 332,238 324,258 302,268 C 292,262 278,260 272,264 C 266,259 246,259 240,264 C 234,260 220,262 210,268 C 188,258 180,238 176,206 Z"/>
+      <path fill="currentColor" opacity="0.16" d="M 232,272 C 240,262 272,262 280,272 C 276,280 268,282 256,282 C 244,282 236,280 232,272 Z"/>
+      <g fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+        <!-- shoulders -->
+        <path d="M 110,486 C 118,436 150,404 200,390 C 220,384 238,382 256,382 C 274,382 292,384 312,390 C 362,404 394,436 402,486"/>
+        <path d="M 214,387 C 224,401 288,401 298,387"/>
+        <!-- neck -->
+        <path d="M 228,340 L 228,386 M 284,340 L 284,386"/>
+        <!-- face sides -->
+        <path d="M 174,214 C 173,244 182,288 205,317 C 222,338 238,350 256,350 C 274,350 290,338 307,317 C 330,288 339,244 338,214"/>
+        <!-- ears -->
+        <path d="M 172,206 C 162,206 158,220 162,231 C 166,241 176,244 180,238"/>
+        <path d="M 340,206 C 350,206 354,220 350,231 C 346,241 336,244 332,238"/>
+        <!-- hair silhouette + curls -->
+        <path d="M 168,220 C 156,158 170,106 212,90 C 228,77 248,72 256,74 C 264,72 284,77 300,90 C 342,106 356,158 344,220"/>
+        <path d="M 176,212 C 174,182 182,158 194,146"/>
+        <path d="M 336,212 C 338,182 330,158 318,146"/>
+        <path d="M 256,131 C 240,131 226,140 219,157 M 256,131 C 272,131 286,140 293,157"/>
+        <path d="M 240,133 C 232,126 234,114 244,111 C 252,109 260,114 259,122"/>
+        <!-- brows (filled) -->
+        <path fill="currentColor" stroke="none" d="M 198,196 C 208,184 232,182 245,190 C 246,193 244,196 241,196 C 229,192 211,193 202,200 C 199,200 197,198 198,196 Z"/>
+        <path fill="currentColor" stroke="none" d="M 314,196 C 304,184 280,182 267,190 C 266,193 268,196 271,196 C 283,192 301,193 310,200 C 313,200 315,198 314,196 Z"/>
+        <!-- eyes -->
+        <path d="M 207,214 C 214,207 230,207 237,214"/>
+        <path d="M 275,214 C 282,207 298,207 305,214"/>
+        <circle fill="currentColor" stroke="none" cx="222" cy="217" r="4.5"/>
+        <circle fill="currentColor" stroke="none" cx="290" cy="217" r="4.5"/>
+        <!-- nose -->
+        <path d="M 252,226 C 250,244 244,256 241,263 C 240,268 246,272 254,272"/>
+        <!-- beard outline -->
+        <path d="M 176,210 C 172,256 182,302 202,330 C 222,356 240,368 256,368 C 272,368 290,356 310,330 C 330,302 340,256 336,210"/>
+        <path d="M 178,224 C 184,248 192,260 210,268 C 220,262 234,260 240,264 C 246,259 266,259 272,264 C 278,260 292,262 302,268 C 320,260 328,248 334,224"/>
+        <!-- mustache + smile -->
+        <path d="M 234,272 C 242,264 270,264 278,272"/>
+        <path d="M 228,289 C 244,298 268,298 284,289 C 280,310 262,316 256,316 C 250,316 232,310 228,289 Z"/>
+        <!-- smile creases -->
+        <path d="M 224,282 C 220,278 217,272 216,266 M 288,282 C 292,278 295,272 296,266"/>
+      </g>
+    </symbol>
+
+    <!-- DUOTONE: screen-print, accent skin + ink features. Prints on the
+         direction's LIGHT paper in both themes (a print does not re-ink itself). -->
+    <symbol id="av-duo" viewBox="0 0 512 512">
+      <clipPath id="clip-duo"><rect x="16" y="16" width="480" height="480" rx="96"/></clipPath>
+      <rect x="16" y="16" width="480" height="480" rx="96" fill="var(--av-duo-paper, #F4F1EA)"/>
+      <g clip-path="url(#clip-duo)">
+        <g style="--av-skin: var(--av-acc); --av-skin-2: color-mix(in oklch, var(--av-acc), var(--av-duo-ink) 32%);
+                  --av-hair: var(--av-duo-ink); --av-hair-2: var(--av-duo-ink);
+                  --av-teeth: var(--av-duo-paper); --av-shirt: var(--av-duo-ink)">
+          <use href="#g-bust-flat"/>
+        </g>
+        <!-- print texture: coarse tint band -->
+        <rect x="16" y="16" width="480" height="480" fill="var(--av-acc)" opacity="0.08"/>
+      </g>
+      <rect x="16" y="16" width="480" height="480" rx="96" fill="none" stroke="var(--av-duo-ink)" stroke-width="4"/>
+    </symbol>
+
+    <!-- STICKER: die-cut contour on an accent disc -->
+    <symbol id="av-sticker" viewBox="0 0 512 512">
+      <clipPath id="clip-sticker"><circle cx="256" cy="256" r="232"/></clipPath>
+      <circle cx="256" cy="256" r="232" fill="color-mix(in oklch, var(--av-acc), var(--av-paper) 72%)"/>
+      <g clip-path="url(#clip-sticker)">
+        <!-- die-cut white contour -->
+        <path fill="var(--av-paper)" stroke="var(--av-paper)" stroke-width="18" stroke-linejoin="round"
+          d="M 92,512 C 96,444 138,404 205,388 L 224,384 L 224,356 C 205,340 184,300 176,250 C 162,196 160,142 196,102 C 220,76 292,76 316,102 C 352,142 350,196 336,250 C 328,300 307,340 288,356 L 288,384 L 307,388 C 374,404 416,444 420,512 Z"/>
+        <use href="#g-bust-flat"/>
+      </g>
+      <circle cx="256" cy="256" r="232" fill="none" stroke="var(--av-acc)" stroke-width="10"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <h1>Avatar treatments: one likeness, four renderings</h1>
+  <p class="intro">Full redraw from the reference photos: short dark curls with the forehead curl and receded temples, thick brows, warm brown eyes, full beard, broad smile, crew-neck shirt. Same master geometry under every treatment, so the pick is about rendering style, not likeness. All true vector; shirt, ink, accent, and background come from the direction's tokens. Skin and hair never re-theme.</p>
+
+  <section class="panel d1-light">
+    <h2>Direction 1: Annotated <span class="mono">/ light</span></h2>
+    <div class="row">
+      <figure class="cell"><svg viewBox="0 0 512 512" role="img" aria-label="Flat avatar"><use href="#av-flat"/></svg><figcaption>A. Flat</figcaption></figure>
+      <figure class="cell"><svg viewBox="0 0 512 512" role="img" aria-label="Line avatar"><use href="#av-line"/></svg><figcaption>B. Mono-line</figcaption></figure>
+      <figure class="cell"><svg viewBox="0 0 512 512" role="img" aria-label="Duotone avatar"><use href="#av-duo"/></svg><figcaption>C. Duotone print</figcaption></figure>
+      <figure class="cell"><svg viewBox="0 0 512 512" role="img" aria-label="Sticker avatar"><use href="#av-sticker"/></svg><figcaption>D. Sticker</figcaption></figure>
+    </div>
+  </section>
+  <section class="panel d1-dark">
+    <h2>Direction 1: Annotated <span class="mono">/ dark</span></h2>
+    <div class="row">
+      <figure class="cell"><svg viewBox="0 0 512 512"><use href="#av-flat"/></svg><figcaption>A. Flat</figcaption></figure>
+      <figure class="cell"><svg viewBox="0 0 512 512"><use href="#av-line"/></svg><figcaption>B. Mono-line</figcaption></figure>
+      <figure class="cell"><svg viewBox="0 0 512 512"><use href="#av-duo"/></svg><figcaption>C. Duotone print</figcaption></figure>
+      <figure class="cell"><svg viewBox="0 0 512 512"><use href="#av-sticker"/></svg><figcaption>D. Sticker</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="panel d2-light">
+    <h2>Direction 2: Ink &amp; Margin <span class="mono">/ light</span></h2>
+    <div class="row">
+      <figure class="cell"><svg viewBox="0 0 512 512"><use href="#av-flat"/></svg><figcaption>A. Flat</figcaption></figure>
+      <figure class="cell"><svg viewBox="0 0 512 512"><use href="#av-line"/></svg><figcaption>B. Mono-line</figcaption></figure>
+      <figure class="cell"><svg viewBox="0 0 512 512"><use href="#av-duo"/></svg><figcaption>C. Duotone print</figcaption></figure>
+      <figure class="cell"><svg viewBox="0 0 512 512"><use href="#av-sticker"/></svg><figcaption>D. Sticker</figcaption></figure>
+    </div>
+  </section>
+  <section class="panel d2-dark">
+    <h2>Direction 2: Ink &amp; Margin <span class="mono">/ dark</span></h2>
+    <div class="row">
+      <figure class="cell"><svg viewBox="0 0 512 512"><use href="#av-flat"/></svg><figcaption>A. Flat</figcaption></figure>
+      <figure class="cell"><svg viewBox="0 0 512 512"><use href="#av-line"/></svg><figcaption>B. Mono-line</figcaption></figure>
+      <figure class="cell"><svg viewBox="0 0 512 512"><use href="#av-duo"/></svg><figcaption>C. Duotone print</figcaption></figure>
+      <figure class="cell"><svg viewBox="0 0 512 512"><use href="#av-sticker"/></svg><figcaption>D. Sticker</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="panel d3-light">
+    <h2>Direction 3: Night Shift <span class="mono">/ day</span></h2>
+    <div class="row">
+      <figure class="cell"><svg viewBox="0 0 512 512"><use href="#av-flat"/></svg><figcaption>A. Flat</figcaption></figure>
+      <figure class="cell"><svg viewBox="0 0 512 512"><use href="#av-line"/></svg><figcaption>B. Mono-line</figcaption></figure>
+      <figure class="cell"><svg viewBox="0 0 512 512"><use href="#av-duo"/></svg><figcaption>C. Duotone print</figcaption></figure>
+      <figure class="cell"><svg viewBox="0 0 512 512"><use href="#av-sticker"/></svg><figcaption>D. Sticker</figcaption></figure>
+    </div>
+  </section>
+  <section class="panel d3-dark">
+    <h2>Direction 3: Night Shift <span class="mono">/ night</span></h2>
+    <div class="row">
+      <figure class="cell"><svg viewBox="0 0 512 512"><use href="#av-flat"/></svg><figcaption>A. Flat</figcaption></figure>
+      <figure class="cell"><svg viewBox="0 0 512 512"><use href="#av-line"/></svg><figcaption>B. Mono-line</figcaption></figure>
+      <figure class="cell"><svg viewBox="0 0 512 512"><use href="#av-duo"/></svg><figcaption>C. Duotone print</figcaption></figure>
+      <figure class="cell"><svg viewBox="0 0 512 512"><use href="#av-sticker"/></svg><figcaption>D. Sticker</figcaption></figure>
+    </div>
+  </section>
+
+  <p class="intro" style="margin-top: 24px">After the pick: the chosen treatment gets refined against the photos (a likeness pass), exported as an optimized standalone SVG bound to the site's semantic tokens, and the interim <span class="mono" style="text-transform:none">avatar.webp</span> recolor is deleted.</p>
+</div>
+</body>
+</html>

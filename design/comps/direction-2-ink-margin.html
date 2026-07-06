@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Direction 2: Ink &amp; Margin — Andrew Persad comp</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..600&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   DIRECTION 2 — "INK & MARGIN"
+   The published engineer. Case studies set like essays in a
+   serious journal: a big optical-size serif, margin notes in
+   the gutter, oxblood ink for emphasis. Writing carries the
+   authority; the layout serves the prose.
+   Tokens: hue 25 (oxblood) tints the neutrals at whisper
+   chroma (0.003) so the paper reads warm-gray, never beige.
+   Type: Newsreader (opsz variable serif) display + prose,
+   Instrument Sans UI, JetBrains Mono data.
+   ============================================================ */
+:root {
+  /* PRIMITIVE */
+  --hue: 25;
+  --paper-0: oklch(0.985 0.003 var(--hue));
+  --paper-1: oklch(0.955 0.005 var(--hue));
+  --ink-0: oklch(0.25 0.015 var(--hue));
+  --ink-1: oklch(0.46 0.015 var(--hue));
+  --oxblood-700: oklch(0.42 0.15 22);
+  --oxblood-500: oklch(0.52 0.17 25);
+  --text-xs: 0.75rem; --text-sm: 0.875rem; --text-base: 1.0625rem;
+  --text-lg: 1.1875rem; --text-xl: 1.375rem; --text-2xl: 1.75rem;
+  --text-3xl: clamp(1.9rem, 1.4rem + 2vw, 2.6rem);
+  --text-hero: clamp(2.6rem, 1.5rem + 4.6vw, 5.25rem);
+  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px;
+  --space-6: 24px; --space-8: 32px; --space-12: 48px; --space-16: 64px; --space-24: 96px;
+  --radius-sm: 4px; --radius-md: 8px;
+  --ease-out: cubic-bezier(0.25, 1, 0.5, 1);
+  /* SEMANTIC (light) */
+  --bg: var(--paper-0);
+  --surface: var(--paper-1);
+  --line: oklch(0.25 0.015 var(--hue) / 0.15);
+  --line-strong: oklch(0.25 0.015 var(--hue) / 0.4);
+  --fg: var(--ink-0);
+  --fg-muted: var(--ink-1);
+  --accent: var(--oxblood-700);
+  --accent-ink: var(--oxblood-700);
+  --ring: var(--oxblood-500);
+  color-scheme: light;
+}
+.dark {
+  --bg: oklch(0.205 0.012 var(--hue));
+  --surface: oklch(0.25 0.014 var(--hue));
+  --line: oklch(0.95 0.008 var(--hue) / 0.15);
+  --line-strong: oklch(0.95 0.008 var(--hue) / 0.35);
+  --fg: oklch(0.925 0.006 var(--hue));
+  --fg-muted: oklch(0.71 0.01 var(--hue));
+  --accent: oklch(0.68 0.13 28);
+  --accent-ink: oklch(0.74 0.12 30);
+  --ring: oklch(0.68 0.13 28);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; margin: 0; }
+html { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+body { background: var(--bg); color: var(--fg);
+  font-family: "Instrument Sans", system-ui, sans-serif;
+  font-size: var(--text-base); line-height: 1.6; }
+.serif { font-family: "Newsreader", Georgia, serif; font-optical-sizing: auto; }
+.mono { font-family: "JetBrains Mono", monospace; font-size: var(--text-xs);
+  letter-spacing: 0.05em; text-transform: uppercase; color: var(--fg-muted); }
+h1, h2, h3 { font-family: "Newsreader", Georgia, serif; font-optical-sizing: auto;
+  font-weight: 500; line-height: 1.08; letter-spacing: -0.01em; text-wrap: balance; }
+a { color: inherit; }
+:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--ring); border-radius: var(--radius-sm); }
+.wrap { max-width: 68rem; margin-inline: auto; padding-inline: clamp(16px, 4vw, 40px); }
+
+/* nav */
+header { border-bottom: 1px solid var(--line); }
+.nav { display: flex; align-items: baseline; gap: var(--space-6); padding-block: var(--space-4); }
+.nav .brand { font-family: "Newsreader", serif; font-style: italic; font-weight: 500;
+  font-size: var(--text-lg); text-decoration: none; }
+.nav ul { display: flex; gap: var(--space-6); list-style: none; padding: 0; margin-left: auto; }
+.nav ul a { font-size: var(--text-sm); color: var(--fg-muted); text-decoration: none;
+  border-bottom: 1px solid transparent; padding-bottom: 2px; }
+.nav ul a:hover { color: var(--fg); border-bottom-color: var(--accent); }
+.theme-btn { margin-left: var(--space-4); background: none; border: 1px solid var(--line-strong);
+  color: var(--fg); border-radius: 999px; padding: 4px 12px; font: inherit; font-size: var(--text-xs); cursor: pointer; }
+.theme-btn:hover { border-color: var(--accent); color: var(--accent-ink); }
+
+/* hero: asymmetric editorial opening */
+.hero { padding-block: var(--space-24) var(--space-16);
+  display: grid; gap: var(--space-8); grid-template-columns: 1fr; }
+@media (min-width: 900px) { .hero { grid-template-columns: minmax(0, 8fr) minmax(0, 3fr); gap: var(--space-16); } }
+.hero h1 { font-size: var(--text-hero); max-width: 15ch; }
+.hero h1 em { font-style: italic; color: var(--accent-ink); }
+.hero .lede { margin-top: var(--space-8); max-width: 56ch; font-size: var(--text-lg);
+  color: var(--fg-muted); font-family: "Newsreader", serif; }
+.hero .lede strong { color: var(--fg); font-weight: 600; }
+.cta-row { display: flex; flex-wrap: wrap; gap: var(--space-4); margin-top: var(--space-8); }
+.btn { display: inline-block; text-decoration: none; font-weight: 500; font-size: var(--text-sm);
+  padding: 10px 20px; border-radius: var(--radius-md); border: 1px solid transparent; }
+@media (prefers-reduced-motion: no-preference) { .btn { transition: transform 120ms var(--ease-out); } }
+.btn:active { transform: scale(0.97); }
+.btn-primary { background: var(--accent); color: oklch(0.98 0.004 25); }
+.btn-ghost { border-color: var(--line-strong); }
+.btn-ghost:hover { border-color: var(--accent); color: var(--accent-ink); }
+.aside-now { border-top: 3px double var(--line-strong); padding-top: var(--space-4);
+  font-size: var(--text-sm); color: var(--fg-muted); align-self: start; }
+.aside-now b { color: var(--fg); font-weight: 600; display: block; margin-bottom: var(--space-2); }
+.aside-now .mono { display: block; margin-bottom: var(--space-3); }
+
+/* featured: numbered contents list, like a journal TOC */
+.work { padding-block: var(--space-12) var(--space-16); }
+.work > .wrap > h2 { font-size: var(--text-xl); font-style: italic; margin-bottom: var(--space-6); }
+.toc { list-style: none; padding: 0; counter-reset: study; }
+.toc li { counter-increment: study; border-top: 1px solid var(--line); }
+.toc a { display: grid; grid-template-columns: auto 1fr auto; gap: var(--space-6);
+  align-items: baseline; padding-block: var(--space-6); text-decoration: none; }
+.toc a::before { content: counter(study, decimal-leading-zero); font-family: "JetBrains Mono", monospace;
+  font-size: var(--text-sm); color: var(--accent-ink); }
+.toc h3 { font-size: var(--text-2xl); display: inline; }
+.toc a:hover h3 { text-decoration: underline; text-decoration-color: var(--accent);
+  text-decoration-thickness: 2px; text-underline-offset: 6px; }
+.toc .sub { display: block; color: var(--fg-muted); font-size: var(--text-sm); margin-top: var(--space-2); max-width: 52ch; }
+.toc .metric { font-family: "JetBrains Mono", monospace; font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums; color: var(--fg-muted); }
+@media (max-width: 640px) { .toc .metric { display: none; } }
+
+/* case study: essay with margin notes */
+.study { border-top: 1px solid var(--line-strong); padding-block: var(--space-16); }
+.study-head h2 { font-size: var(--text-3xl); max-width: 26ch; margin-top: var(--space-4); }
+.byline { margin-top: var(--space-6); display: flex; gap: var(--space-8); flex-wrap: wrap;
+  font-size: var(--text-sm); color: var(--fg-muted); border-block: 1px solid var(--line);
+  padding-block: var(--space-3); }
+.byline b { color: var(--fg); font-weight: 500; }
+.prose { margin-top: var(--space-12); display: grid; grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-6); }
+@media (min-width: 900px) { .prose { grid-template-columns: minmax(0, 40rem) minmax(0, 16rem); column-gap: var(--space-16); } }
+.prose p { font-family: "Newsreader", serif; font-size: var(--text-lg); max-width: 62ch; }
+.prose p + p { margin-top: var(--space-4); }
+.prose > p:first-of-type::first-letter { font-size: 3.2em; float: left; line-height: 0.85;
+  padding-right: 10px; font-weight: 600; color: var(--accent-ink); }
+.note { grid-column: 1; font-size: var(--text-sm); color: var(--fg-muted);
+  border-left: 2px solid var(--accent); padding-left: var(--space-4); align-self: start; }
+@media (min-width: 900px) { .note { grid-column: 2; border-left: none; padding-left: 0;
+  border-top: 2px solid var(--accent); padding-top: var(--space-3); } }
+.note b { color: var(--fg); font-weight: 600; }
+.main-col { grid-column: 1; }
+.decision-head { font-size: var(--text-xl); font-style: italic; margin-top: var(--space-8); }
+table { border-collapse: collapse; margin-top: var(--space-8); width: 100%; max-width: 40rem; }
+caption { text-align: left; padding-bottom: var(--space-3); }
+th, td { text-align: left; padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--line); font-size: var(--text-sm); }
+th { font-family: "JetBrains Mono", monospace; font-size: var(--text-xs); text-transform: uppercase;
+  letter-spacing: 0.05em; color: var(--fg-muted); font-weight: 500; }
+td.num { font-family: "JetBrains Mono", monospace; font-variant-numeric: tabular-nums; }
+td .delta { color: var(--accent-ink); font-weight: 500; }
+
+/* spec sheet */
+.spec { background: var(--surface); border-top: 1px solid var(--line-strong); padding-block: var(--space-16); }
+.spec-grid { display: grid; gap: var(--space-8); grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); margin-top: var(--space-8); }
+.swatches { display: flex; gap: var(--space-2); flex-wrap: wrap; }
+.sw { width: 56px; height: 72px; border-radius: var(--radius-sm); border: 1px solid var(--line); position: relative; }
+.sw i { position: absolute; bottom: 4px; left: 6px; font-style: normal; font-family: "JetBrains Mono", monospace; font-size: 10px; }
+.spec p { color: var(--fg-muted); font-size: var(--text-sm); max-width: 60ch; margin-top: var(--space-3); }
+.type-specimen div { border-bottom: 1px dashed var(--line); padding-block: var(--space-3); }
+footer { padding: var(--space-8) 0; color: var(--fg-muted); font-size: var(--text-sm); }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+}
+</style>
+</head>
+<body>
+<header>
+  <nav class="nav wrap" aria-label="Main">
+    <a class="brand" href="#">Andrew Persad</a>
+    <ul>
+      <li><a href="#">work</a></li>
+      <li><a href="#">about</a></li>
+      <li><a href="#">notes</a></li>
+      <li><a href="#">colophon</a></li>
+      <li><a href="#">contact</a></li>
+    </ul>
+    <button class="theme-btn" onclick="document.documentElement.classList.toggle('dark')">light / dark</button>
+  </nav>
+</header>
+
+<main>
+  <section class="hero wrap">
+    <div>
+      <p class="mono">Lead software engineer, New York</p>
+      <h1 style="margin-top: var(--space-4)">Software is a paper trail of <em>decisions.</em> I write mine down.</h1>
+      <p class="lede">I lead frontend builds for platforms serving <strong>9 million users at HP</strong>, after shipping for Eli Lilly and Amazon. On my own time I run five live products, and every case study here names the decisions, the tradeoffs, and the numbers before and after.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#study">Read the flagship study</a>
+        <a class="btn btn-ghost" href="#">Notes</a>
+      </div>
+    </div>
+    <aside class="aside-now">
+      <span class="mono">Currently</span>
+      <b>Lead Software Engineer</b>
+      Consulting on enterprise frontend platforms. Open to lead roles where craft is part of the job description.
+    </aside>
+  </section>
+
+  <section class="work">
+    <div class="wrap">
+      <h2 class="serif">Case studies</h2>
+      <ol class="toc">
+        <li><a href="#study">
+          <span><h3>Fork In The Road</h3>
+            <span class="sub">The rewrite that kept every feature and deleted six of every seven lines. Guest voting without accounts, secured by HMAC.</span></span>
+          <span class="metric">113k &rarr; 18k</span>
+        </a></li>
+        <li><a href="#">
+          <span><h3>overlapp</h3>
+            <span class="sub">Dual OAuth calendar sync with privacy enforced in the database layer, not the UI.</span></span>
+          <span class="metric">plpgsql RRULE</span>
+        </a></li>
+        <li><a href="#">
+          <span><h3>PersadPay</h3>
+            <span class="sub">Real payroll for a real household: statutory tax engine tested to exact dollars.</span></span>
+          <span class="metric">W-2 / NYS-45</span>
+        </a></li>
+      </ol>
+    </div>
+  </section>
+
+  <article class="study wrap" id="study">
+    <div class="study-head">
+      <p class="mono">Case study no. 01</p>
+      <h2>Rebuilding Fork In The Road: 113,000 lines became 18,000 that do more</h2>
+      <div class="byline">
+        <span>Role: <b>solo, design through deploy</b></span>
+        <span>Shape: <b>9 phases, one PR each</b></span>
+        <span>Live: <b>forkintheroad.app</b></span>
+      </div>
+    </div>
+    <div class="prose">
+      <p class="main-col">Fork In The Road helps groups decide where to eat without a group chat meltdown. Version one worked, but it had grown to 113k lines, 27 runtime dependencies, and 77 API routes that nobody could hold in their head. The constraint for version two: keep every shipped feature, cut everything else, and let guests vote securely without creating accounts.</p>
+      <aside class="note"><b>Margin note.</b> The decision math was ported as pure functions with bit-identical parity tests against v1, so the rewrite could never quietly change a result.</aside>
+      <h3 class="decision-head main-col serif">Decision: sign the ballot, not the guest</h3>
+      <p class="main-col">Guest voting is an unauthenticated write surface, which is normally a security hole. Each guest gets an HMAC-signed httpOnly cookie holding zero personal data; a revote replaces the ballot in place, and a guest who signs up later claims their history through a one-way pointer. The tradeoff taken: clear your cookies, lose your vote. Acceptable, because the alternative was an account wall that kills group adoption.</p>
+      <h3 class="decision-head main-col serif">Decision: kill the cron</h3>
+      <p class="main-col">Rounds must expire on time, but cron jobs fail silently and cost money at idle. Expiry became lazy: any read seals an expired round, and the SSE stream pushing live results doubles as the timer. The tradeoff: a round nobody reads seals late, and nobody is waiting on a round nobody reads.</p>
+      <aside class="note"><b>Margin note.</b> The dark mode axe scan caught white-on-gold at 1.3:1 and forced a mode-invariant gold-ink token. Tooling is evidence; the token is the fix.</aside>
+      <div class="main-col">
+        <table>
+          <caption class="mono">Before / after, measured</caption>
+          <thead><tr><th scope="col">Metric</th><th scope="col">v1</th><th scope="col">v2</th><th scope="col">Delta</th></tr></thead>
+          <tbody>
+            <tr><td>Lines of code (src)</td><td class="num">113,000</td><td class="num">17,900</td><td class="num"><span class="delta">-84%</span></td></tr>
+            <tr><td>Runtime dependencies</td><td class="num">27</td><td class="num">10</td><td class="num"><span class="delta">-63%</span></td></tr>
+            <tr><td>API routes</td><td class="num">77</td><td class="num">20</td><td class="num"><span class="delta">-74%</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </article>
+</main>
+
+<section class="spec">
+  <div class="wrap">
+    <p class="mono">Spec sheet, not part of the page</p>
+    <div class="spec-grid">
+      <div>
+        <h3 style="font-size: var(--text-lg)">Tokens</h3>
+        <p>Hue 25 tints the neutrals at whisper chroma (0.003 to 0.015) so the paper reads warm gray, never beige. One accent: oxblood, hue 22, reserved for emphasis, the drop cap, deltas, and the primary action.</p>
+        <div class="swatches" style="margin-top: 12px">
+          <div class="sw" style="background: var(--paper-0)"><i>bg</i></div>
+          <div class="sw" style="background: var(--paper-1)"><i>srf</i></div>
+          <div class="sw" style="background: var(--ink-0)"><i style="color:white">ink</i></div>
+          <div class="sw" style="background: var(--ink-1)"><i style="color:white">mut</i></div>
+          <div class="sw" style="background: var(--oxblood-700)"><i style="color:white">acc</i></div>
+        </div>
+      </div>
+      <div class="type-specimen">
+        <h3 style="font-size: var(--text-lg)">Type</h3>
+        <div class="serif" style="font-size: var(--text-2xl); font-weight: 500">Newsreader opsz, display + prose</div>
+        <div>Instrument Sans 400/500/600, UI</div>
+        <div class="mono" style="text-transform:none">JetBrains Mono, data + labels</div>
+        <p>Contrast axis: optical-size serif against a plain grotesk UI. Prose measure 62ch, body 17px, line-height 1.6.</p>
+      </div>
+      <div>
+        <h3 style="font-size: var(--text-lg)">Signature + reasoning</h3>
+        <p>Signature motif: the margin note. Real sidenotes in the gutter at desktop, folded inline on mobile. It rewards the hiring-manager skim and proves the writing-first positioning (exemplars: leerob, rauno). Manual refs: &sect;4 serif chosen for genuinely editorial work, &sect;5 asymmetric grid, &sect;13 no identical cards (a numbered TOC instead).</p>
+      </div>
+    </div>
+  </div>
+</section>
+<footer class="wrap">Direction 2 of 3: Ink &amp; Margin. Toggle the theme, resize to 360 / 768 / 1280.</footer>
+</body>
+</html>
