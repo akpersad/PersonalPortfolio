@@ -101,7 +101,7 @@ export default function Resume() {
               Professional Summary
             </h2>
             <p className="text-text-primary leading-relaxed">
-              Lead Frontend Engineer with 8+ years of experience building
+              Lead Software Engineer with 8+ years of experience building
               scalable, accessible web applications. Specialized in
               React/Next.js architecture, design systems, and performance
               optimization. Proven track record of leading development teams,
@@ -393,32 +393,21 @@ export default function Resume() {
             </div>
           </section>
 
-          {/* Education & Certifications */}
+          {/* Certifications */}
           <section className="mb-8 not-prose">
             <h2 className="text-2xl font-semibold text-text-primary border-b-2 border-primary-green pb-2 mb-4">
-              Education & Certifications
+              Certifications
             </h2>
-            <div className="space-y-4">
-              <div className="bg-light-neutral border border-medium-green rounded-lg p-4">
-                <h3 className="font-semibold text-text-primary">
-                  Certifications
-                </h3>
-                <div className="flex flex-wrap gap-2 mt-2">
-                  {resumeData.certifications.map((cert, index) => (
-                    <span
-                      key={index}
-                      className="bg-primary-green text-text-on-dark px-3 py-1 rounded text-sm"
-                    >
-                      {cert}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              <div className="bg-medium-green/20 rounded-lg p-4">
-                <p className="text-text-secondary text-sm">
-                  Education details will be added here based on your background.
-                </p>
+            <div className="bg-light-neutral border border-medium-green rounded-lg p-4">
+              <div className="flex flex-wrap gap-2">
+                {resumeData.certifications.map((cert, index) => (
+                  <span
+                    key={index}
+                    className="bg-primary-green text-text-on-dark px-3 py-1 rounded text-sm"
+                  >
+                    {cert}
+                  </span>
+                ))}
               </div>
             </div>
           </section>

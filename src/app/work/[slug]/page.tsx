@@ -42,7 +42,7 @@ export async function generateMetadata({
       title: `${project.project} - Andrew Persad`,
       description: project.shortDescription,
       type: 'article',
-      url: `https://andrewpersad.dev/work/${slug}`,
+      url: `https://andrewpersad.com/work/${slug}`,
       images: project.images?.[0]?.web
         ? [
             {
@@ -61,7 +61,7 @@ export async function generateMetadata({
       images: project.images?.[0]?.web ? [project.images[0].web] : undefined,
     },
     alternates: {
-      canonical: `https://andrewpersad.dev/work/${slug}`,
+      canonical: `https://andrewpersad.com/work/${slug}`,
     },
   };
 }
