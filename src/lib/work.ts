@@ -114,14 +114,27 @@ export const featuredWork: WorkEntry[] = [
       'Household payroll with real compliance consequences: statutory tax math, W-2 and W-3 generation, and NYS-45 quarterly filings for an actual household employee.',
     detail:
       'The tax engine cites IRS Publication 926 and NY DOL rules inline, and unit tests assert exact dollar amounts, including the scenarios where year-to-date wages cross a cap mid-payment.',
-    metric: '$0.00 variance',
-    metricLabel: 'allowed difference between computed and statutory tax',
+    metric: '6 filing artifacts',
+    metricLabel:
+      'compliance documents generated: W-2, W-3, Schedule H, NYS-45, 1040-ES, year-end packet',
     stack: ['Next.js', 'TypeScript', 'Supabase', 'Postgres RLS', 'TOTP MFA'],
     links: {
       live: 'https://persadpay.com',
       repo: 'https://github.com/akpersad/PersadPay',
     },
     accessNote: 'Runs my family’s actual payroll, so accounts are private.',
+    study: {
+      headline:
+        'Building PersadPay: payroll where a rounding error is a compliance incident',
+      context:
+        'PersadPay runs my family\'s actual household payroll: weekly paystubs, statutory federal and New York employment taxes, and the year-end paper trail of W-2, W-3, Schedule H, NYS-45, and 1040-ES. Employing someone in your home makes you a real employer with real filing obligations, and the spreadsheet-and-hope approach does not produce defensible numbers. It was built in sixteen days across fourteen numbered phases in May 2026, for exactly three users, and every dollar it computes is a dollar the IRS or New York State can ask about.',
+      role: 'Solo: product, design, build, ship',
+      timeline: '16 days, 14 phases, May 2026',
+      status: 'Live at persadpay.com, running real payroll',
+      published: '2026-07-07',
+      description:
+        'How PersadPay computes statutory household payroll taxes with database-stored rates, a pure tax function, IEEE-754-safe rounding, and three independent authorization layers. Five named decisions with the tradeoffs taken.',
+    },
   },
   {
     slug: 'pawscriptions',

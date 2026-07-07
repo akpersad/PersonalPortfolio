@@ -1,0 +1,161 @@
+{/* PersadPay study. Facts verified against the persadpay repo (src/lib/tax.ts,
+    filings.ts, schema.sql, tests, docs/ audit reports) on 2026-07-07; framing and
+    reflection are mine. No em dashes. The figure uses synthetic typed inputs only. */}
+
+import Decision from '@/components/study/Decision';
+import NumbersTable from '@/components/study/NumbersTable';
+import Figure from '@/components/study/Figure';
+
+## The stakes fit in one sentence
+
+Hiring help in your own home quietly makes you an employer, with the tax
+math, the withholding, and the quarterly filings that word implies.
+PersadPay exists because **every number it produces is one the IRS or New
+York State can ask my family about**, which changes what "good enough"
+means for a side project.
+
+Honest scope, stated plainly: this is fixed-rate employment-tax math,
+Social Security, Medicare, FUTA, New York SUTA, and the optional SDI and
+PFL coverages, applied stub by stub with wage-base caps. It does not
+compute progressive income-tax withholding; those amounts are inputs. The
+engine's job is to get the employer obligations exactly right and to
+generate the paper trail: W-2, W-3, Schedule H, NYS-45, 1040-ES, and the
+year-end packet.
+
+<Figure
+  n={1}
+  src="/work/persadpay/stub-preview.png"
+  alt="A PersadPay stub preview computed live from typed inputs: 10 hours at 25 dollars an hour makes 250 dollars gross, employee FICA deductions of 15.50 and 3.63, net pay 230.87, and employer-side FICA, FUTA, and SUTA lines below."
+  caption="the live preview on the new-stub screen, computed from synthetic inputs typed for this screenshot. Both sides of the ledger, before anything is saved."
+  width={928}
+  height={500}
+/>
+
+## The decisions
+
+<Decision
+  n={1}
+  of={5}
+  title="Rates live in the database, math lives in a pure function"
+  tradeoff="statutory rates require a human once a year: verify against the IRS and New York publications, insert the new row. I accepted the ceremony because a hardcoded rate is a silent lie the following January, but the fallback behavior is the weakest part of the design; see the last section."
+>
+    The tax calculation is a pure function taking wages and a rates row,
+    nothing else. Rates for each year live in a Postgres table, and the
+    code cites its sources inline: IRS Publication 926 for the household
+    employee rules, New York DOL and DFS for SUTA, SDI, and PFL.
+
+    Purity is what makes the 34 unit tests meaningful: they assert exact
+    cent values, hand-verified against the 2026 rate tables, for the real
+    pay scenarios and for the nasty ones where year-to-date wages cross a
+    wage-base cap in the middle of a single stub.
+</Decision>
+
+<Decision
+  n={2}
+  of={5}
+  title="Withhold FICA from dollar one"
+  tradeoff="if the employee left before crossing the threshold, I would owe a manual refund of everything withheld, about 190 dollars across the first six weeks of a year. I took the over-collection risk because the alternative, withholding nothing and then owing double mid-year, fails in the direction that hurts."
+>
+    IRS rules say household-employee FICA only applies once annual wages
+    cross 3,000 dollars, which invites a tempting simplification: skip
+    withholding until the threshold. But a weekly babysitter always
+    crosses it, so PersadPay withholds from the first stub and reconciles
+    the threshold where the IRS actually checks it, on the year-end
+    Schedule H.
+</Decision>
+
+<Decision
+  n={3}
+  of={5}
+  title="Respect the float, or it will teach you to"
+  tradeoff="money stays a floating-point number rounded to cents at every boundary, backed by fixed-point columns in Postgres, instead of integer cents everywhere. Discipline instead of representation: cheaper to build, and one test still needs a tolerance assertion as the reminder of what I traded."
+>
+    JavaScript rounds 1.005 to 1.00 unless you make it not, so the
+    engine's rounding helper nudges by machine epsilon before rounding,
+    and cap remainders are pre-rounded so a 411.91 dollar annual cap minus
+    411.81 withheld never becomes 0.0999 repeating. There is a unit test
+    whose entire job is asserting that round(1.005) equals 1.01.
+</Decision>
+
+<Decision
+  n={4}
+  of={5}
+  title="Enforce the roles three separate times"
+  tradeoff="the same authorization rule exists in three places, which is three chances to drift. I keep all three anyway: for payroll data, the failure mode of a single missed check is someone else's wages on screen, and each layer has independently caught a mistake the others would have allowed."
+>
+    Every one of the fifteen tables has row-level security enabled. The
+    request proxy checks the session, forces TOTP enrollment, and refuses
+    admin routes to non-admins. Then every admin page and API route
+    re-verifies the role server-side anyway. There is no public sign-up;
+    the three accounts were created by hand, and multi-factor is not
+    optional for any of them.
+
+    One deliberate absence: the app never stores a Social Security
+    number. The W-2 prints with a blank for the admin to hand-write.
+</Decision>
+
+<Decision
+  n={5}
+  of={5}
+  title="Store the stub's numbers, never recompute them"
+  tradeoff="summing stored values assumes every line item shares the same taxability, which is true for this household and untrue in general. The simplification is documented where it lives, so future-me inherits a known limit instead of a surprise."
+>
+    Every tax component is persisted on the stub at generation time, and
+    the filings sum those stored values rather than recomputing history
+    with current code. A rate fix next year can never silently rewrite
+    January's stubs, and an append-only audit log written by database
+    triggers records who changed what.
+
+    The filings also respect an easy-to-miss federal quirk: 1040-ES
+    quarters are the IRS's three, two, three, four month fiscal periods,
+    not calendar quarters, while NYS-45 uses calendar quarters. The code
+    models both and says why.
+</Decision>
+
+## The numbers
+
+<NumbersTable
+  caption="Before / after: one synthetic 250-dollar stub through the engine"
+  columns={['statutory rate', 'this stub']}
+  rows={[
+    {
+      label: 'Social Security, employee side',
+      before: '6.2%',
+      after: '$15.50',
+    },
+    { label: 'Medicare, employee side', before: '1.45%', after: '$3.63' },
+    {
+      label: 'FUTA, employer side',
+      before: '0.6% to $7,000',
+      after: '$1.50',
+    },
+    {
+      label: 'NY SUTA, employer side',
+      before: '4.1% to $17,600',
+      after: '$10.25',
+    },
+    { label: 'Net pay', before: '$250.00 gross', after: '$230.87' },
+  ]}
+/>
+
+Sixteen days, 33 ordered migrations, 15 tables all under row-level
+security, six generated filing artifacts, and 34 unit tests asserting
+exact cents. Before launch the project ran a multi-agent audit of itself,
+and the findings report is checked into the repo, which is why the next
+section can be specific.
+
+## What I would do differently
+
+- **Fail loudly on a missing tax year.** If a year's rates are absent,
+  the engine falls back to the latest populated year with only a console
+  warning. That is the polite version of computing taxes with last year's
+  numbers. It should refuse.
+- **Keep test fixtures on one source of truth.** The pre-launch audit
+  caught that I had launched with the wrong New York SUTA wage base, and
+  the fix updated the engine tests but left the stale figure in a filings
+  test fixture. Two fixtures, one fact, and the audit residue is still
+  visible in the repo.
+- **Honor the retention rule in the schema.** New York requires payroll
+  records kept for six years, and the app still allows a hard delete of a
+  stub. Soft delete with the audit trail is the design the domain was
+  asking for.

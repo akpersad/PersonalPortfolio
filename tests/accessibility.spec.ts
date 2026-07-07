@@ -55,6 +55,7 @@ test.describe('Accessibility Tests', () => {
     '/work',
     '/work/fork-in-the-road',
     '/work/overlapp',
+    '/work/persadpay',
     '/work/pawscriptions',
     '/work/protein-checker',
     '/contact',
@@ -153,6 +154,7 @@ test.describe('Case Study Pages', () => {
   const studySlugs = [
     'fork-in-the-road',
     'overlapp',
+    'persadpay',
     'pawscriptions',
     'protein-checker',
   ];
