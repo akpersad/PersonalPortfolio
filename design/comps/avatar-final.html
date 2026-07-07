@@ -66,11 +66,12 @@ h1 { font-size: clamp(1.4rem, 1.1rem + 1.4vw, 2rem); letter-spacing: -0.015em; }
       <!-- neck -->
       <path fill="var(--av-skin)" d="M 222,370 L 222,432 C 238,440 274,440 290,432 L 290,370 Z"/>
       <path fill="var(--av-skin-2)" d="M 222,370 L 222,404 C 234,416 278,416 290,404 L 290,370 Z"/>
-      <!-- ears: round, tucked closer to the head -->
-      <circle fill="var(--av-skin)" cx="152" cy="252" r="15"/>
-      <circle fill="var(--av-skin)" cx="360" cy="252" r="15"/>
-      <path fill="var(--av-skin-2)" d="M 142,247 C 147,243 152,248 151,254 C 150,259 145,260 142,257 Z"/>
-      <path fill="var(--av-skin-2)" d="M 370,247 C 365,243 360,248 361,254 C 362,259 367,260 370,257 Z"/>
+      <!-- ears: sticking out of the silhouette, tucked under the sideburn stubs;
+           inner halves hide seamlessly behind the face skin drawn after them -->
+      <circle fill="var(--av-skin)" cx="146" cy="246" r="17"/>
+      <circle fill="var(--av-skin)" cx="366" cy="246" r="17"/>
+      <path fill="var(--av-skin-2)" d="M 134,241 C 140,237 145,242 144,248 C 143,254 137,255 134,252 Z"/>
+      <path fill="var(--av-skin-2)" d="M 378,241 C 372,237 367,242 368,248 C 369,254 375,255 378,252 Z"/>
       <!-- face skin base (black frame overlaps it; opening reveals it) -->
       <path fill="var(--av-skin)" d="M 256,116 C 184,116 154,168 154,240 C 154,312 196,356 256,356 C 316,356 358,312 358,240 C 358,168 328,116 256,116 Z"/>
       <!-- hair: separate cap with chunky curl crown, ending in faded sideburn stubs
@@ -105,7 +106,7 @@ h1 { font-size: clamp(1.4rem, 1.1rem + 1.4vw, 2rem); letter-spacing: -0.015em; }
       <circle cx="256" cy="256" r="234" fill="color-mix(in oklch, var(--av-acc), var(--av-paper) 74%)"/>
       <g clip-path="url(#clips)">
         <path fill="var(--av-paper)" stroke="var(--av-paper)" stroke-width="16" stroke-linejoin="round"
-          d="M 92,512 C 96,462 130,436 190,424 L 212,418 L 212,400 C 176,390 152,360 146,316 C 134,270 136,190 152,148 C 162,112 182,86 210,74 C 238,62 274,62 302,74 C 330,86 350,112 360,148 C 376,190 378,270 366,316 C 360,360 336,390 300,400 L 300,418 L 322,424 C 382,436 416,462 420,512 Z"/>
+          d="M 92,512 C 96,462 130,436 190,424 L 212,418 L 212,400 C 176,390 152,360 146,316 C 128,270 132,190 150,148 C 160,112 182,86 210,74 C 238,62 274,62 302,74 C 330,86 352,112 362,148 C 380,190 384,270 366,316 C 360,360 336,390 300,400 L 300,418 L 322,424 C 382,436 416,462 420,512 Z"/>
         <use href="#g-bust-v5"/>
       </g>
       <circle cx="256" cy="256" r="234" fill="none" stroke="var(--av-acc)" stroke-width="10"/>
