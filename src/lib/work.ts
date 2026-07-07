@@ -156,16 +156,28 @@ export const featuredWork: WorkEntry[] = [
     title: 'ProteinChecker',
     crossPlatform: true,
     summary:
-      'One nutrition calculator, shipped twice: a React web app and a native SwiftUI iOS app with documented feature parity. Quality-adjusted protein math (DIAAS and PDCAAS) across 50+ sources, with history on both platforms.',
+      'One nutrition calculator, built twice: a native SwiftUI iOS app and a React web port with a written feature-parity matrix. Quality-adjusted protein math (DIAAS and PDCAAS), a 75-source database on the web, and calculation history on both platforms.',
     detail:
-      'The same product logic expressed in two idioms: React Context and custom hooks on the web, MVVM with Core Data on iOS.',
+      'The same product logic expressed in two idioms: React Context and custom hooks on the web, SwiftUI views over a UserDefaults store on iOS, down to the same storage key and the same 100-item history cap.',
     metric: 'web + iOS',
-    metricLabel: 'platforms shipped from one product spec',
-    stack: ['Next.js', 'TypeScript', 'Swift', 'SwiftUI', 'Core Data'],
+    metricLabel: 'platforms built from one product spec',
+    stack: ['Next.js', 'TypeScript', 'Swift', 'SwiftUI', 'Tailwind'],
     links: {
       live: 'https://protein-checker-web.vercel.app',
       repo: 'https://github.com/akpersad/ProteinCheckerWeb',
       repoIOS: 'https://github.com/akpersad/ProteinCheckerSwift',
+    },
+    study: {
+      headline:
+        'Porting ProteinChecker: one line of math, kept honest across platforms',
+      context:
+        'ProteinChecker multiplies the protein grams on a label by the source\'s digestibility score (DIAAS or PDCAAS), because 30 grams of collagen is not 30 grams of whey. The algorithm fits in a sentence; the project is really about what happens when one small product is built three times, as a React Native prototype in May, a native SwiftUI app in June, and a Next.js web port in September. The port shipped with a written parity matrix instead of a shared codebase, which worked, then quietly stopped being true the day the web version pulled ahead.',
+      role: 'Solo: product, design, build, ship',
+      timeline: 'May to September 2025, three builds',
+      status: 'Web live; iOS runs from Xcode',
+      published: '2026-07-07',
+      description:
+        'ProteinChecker is a protein-quality calculator built three times: React Native, SwiftUI, and a Next.js port with a written parity matrix. An honest study of hand-maintained cross-platform parity, where it held, and exactly how it drifted.',
     },
   },
 ];

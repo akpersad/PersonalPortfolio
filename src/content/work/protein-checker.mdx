@@ -1,0 +1,137 @@
+{/* ProteinChecker study. Facts verified against protein-checker-web, ProteinCheckerSwift,
+    and the proteinChecker RN prototype on 2026-07-07; framing and reflection are mine.
+    No em dashes. */}
+
+import Decision from '@/components/study/Decision';
+import NumbersTable from '@/components/study/NumbersTable';
+import Figure from '@/components/study/Figure';
+
+## The honest scope, up front
+
+The core algorithm is one multiplication: stated protein times a
+digestibility score. There is no clever data structure here and no
+distributed system, and pretending otherwise would insult your time. What
+this project is actually about: **the same small product built three
+times, and the discipline it takes to keep three hand-written copies of
+one product truthful.**
+
+The sequence: a React Native prototype in May 2025 that never left my
+machine, a native SwiftUI app in June that got the product right, and a
+Next.js port in September, built explicitly as a conversion project with
+its own written strategy doc.
+
+<Figure
+  n={1}
+  src="/work/protein-checker/home-1280.png"
+  alt="The ProteinChecker web calculator: a protein amount field in grams, an optional Daily Value percent field, and a protein source picker, under the heading 'Protein Quality Calculator'."
+  caption="the web port. Same fields, same math, same history cap as the iOS app it was converted from."
+  width={1280}
+  height={800}
+/>
+
+## The decisions
+
+<Decision
+  n={1}
+  of={4}
+  title="Port by hand, line for line"
+  tradeoff="no shared module, no codegen, every constant re-declared per platform. The port stayed faithful because I compared the files function by function, and that is exactly the kind of promise that holds only as long as someone keeps making it."
+>
+    The Swift calculation engine became TypeScript as a deliberate
+    line-for-line translation: same function names, same fallback score
+    for unrated sources, same edge-case handling for suspicious
+    label-versus-calculation discrepancies, even the same traffic-light
+    color thresholds.
+
+    For a codebase this size, hand-porting was faster than building a
+    shared abstraction, and it kept each platform idiomatic instead of
+    lowest-common-denominator.
+</Decision>
+
+<Decision
+  n={2}
+  of={4}
+  title="Give both platforms the same persistence contract"
+  tradeoff="key-value blobs instead of a real database on both sides. Fine at a 100-item cap, and honestly sized to the product: a calculator's history is a convenience, not a ledger."
+>
+    The iOS app persists through a UserDefaults-backed store; the web port
+    mirrors it over localStorage with the same storage key, the same
+    100-item history cap, and the same method surface: save, list, delete,
+    clear, export, import, stats. Reading the two files side by side is
+    the fastest proof of parity in the project.
+</Decision>
+
+<Decision
+  n={3}
+  of={4}
+  title="Document the parity instead of testing it"
+  tradeoff="a matrix is a snapshot, not a guarantee. It was accurate the week it was written and nothing enforces it since. The honest label for this approach is manual parity, and its failure mode is decision four."
+>
+    The conversion shipped with a written strategy doc: a component-by-
+    component mapping table from SwiftUI views to React components and an
+    algorithm table asserting the engine, validation, and formatting were
+    converted one to one. Verification was manual: run both apps, compare
+    outputs.
+
+    There are zero automated tests on any platform. For pure functions
+    this small, that is not a scale problem, it is a chosen debt, and I
+    have paid interest on it.
+</Decision>
+
+<Decision
+  n={4}
+  of={4}
+  title="Let the web pull ahead, on purpose"
+  tradeoff="'100 percent feature parity' became a one-directional claim the moment the web shipped features iOS never got. The superset was the right product call and the parity story stopped being the simple one; this study is where the record gets corrected."
+>
+    The web version doubled the source database from 37 entries to 75 and
+    added multi-source weighting: log a shake that is half whey and half
+    soy, and the effective quality score is the weighted average. Neither
+    made it back to iOS. Each platform hand-maintains its own database
+    file and its own constants, so the copies drifted exactly the way
+    hand-maintained copies do.
+</Decision>
+
+## The numbers
+
+<NumbersTable
+  caption="Before / after: the iOS original versus the web port, measured"
+  columns={['iOS, June', 'web, September']}
+  rows={[
+    { label: 'Protein sources in the database', before: '37', after: '75' },
+    {
+      label: 'Calculation engine',
+      before: '157 lines of Swift',
+      after: '299 lines of TypeScript',
+    },
+    { label: 'History cap', before: '100 items', after: '100 items' },
+    {
+      label: 'Persistence',
+      before: 'UserDefaults',
+      after: 'localStorage, same key',
+    },
+    {
+      label: 'Multi-source weighting',
+      before: 'not built',
+      after: 'weighted percentages',
+    },
+    { label: 'Automated tests', before: '0', after: '0' },
+  ]}
+/>
+
+The middle rows are the parity holding. The first and fifth rows are the
+parity drifting, thirteen weeks after it was documented as total.
+
+## What I would do differently
+
+- **Share golden vectors, not vibes.** A single JSON fixture of inputs
+  and expected outputs, run by a trivial test on each platform, would turn
+  the documented parity into enforced parity for an afternoon's work. This
+  is now my default for any hand-ported logic.
+- **Generate the database.** The 37-versus-75 divergence happened because
+  each platform owns its own source file. One canonical dataset emitted to
+  Swift and TypeScript would have made drift a build error instead of a
+  discovery.
+- **Declare the superset.** When the web pulled ahead, the honest move was
+  to update the parity claim the same day. Docs that flatter the project
+  age worse than docs that describe it.
