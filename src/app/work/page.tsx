@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { featuredWork } from '@/lib/work';
+import { featuredWork, shelf } from '@/lib/work';
 import { getBreadcrumbSchema } from '@/lib/seo';
 
 export const metadata: Metadata = {
@@ -52,9 +52,9 @@ export default function Work() {
         </h1>
         <p className="mt-8 max-w-[58ch] text-lg text-fg-muted">
           A curated index, not a wall of cards. Each of these is a real product
-          I design, build, run, and answer for myself. The flagship rebuild has
-          a full written study; the rest are on the way. Every entry links to
-          the running product and its code.
+          I design, build, run, and answer for myself. Every entry carries a
+          full written study, the decisions, the tradeoffs taken, and the
+          numbers, and links to the running product and its code.
         </p>
       </section>
 
@@ -140,10 +140,46 @@ export default function Work() {
             </li>
           ))}
         </ol>
-        <div className="border-t border-line-strong pb-24 pt-4">
+      </section>
+
+      <section aria-label="The shelf" className="pb-24">
+        <div className="flex items-baseline justify-between border-t border-line-strong pt-4">
+          <h2 className="text-xl font-semibold text-fg">The shelf</h2>
+          <span className="annotation">
+            small hacks, one line each, no studies
+          </span>
+        </div>
+        <ul className="mt-4">
+          {shelf.map(item => (
+            <li
+              key={item.title}
+              className="grid gap-2 border-t border-line py-6 md:grid-cols-[minmax(0,7fr)_minmax(0,4fr)] md:gap-x-8"
+            >
+              <div>
+                <h3 className="font-mono text-sm font-semibold text-fg">
+                  {item.title}
+                </h3>
+                <p className="mt-2 max-w-[62ch] text-sm text-fg-muted">
+                  {item.line}
+                </p>
+              </div>
+              <div className="flex flex-wrap items-start gap-x-6 md:justify-end">
+                {item.links?.live && (
+                  <ExternalLink href={item.links.live}>live</ExternalLink>
+                )}
+                {item.links?.repo && (
+                  <ExternalLink href={item.links.repo}>code</ExternalLink>
+                )}
+                {item.note && (
+                  <p className="annotation mt-3 normal-case">{item.note}</p>
+                )}
+              </div>
+            </li>
+          ))}
+        </ul>
+        <div className="border-t border-line-strong pt-4">
           <p className="annotation">
-            End of index. Written studies and a shelf of small hacks join this
-            page as they ship.
+            End of the ledger. Small things stay small on purpose.
           </p>
         </div>
       </section>

@@ -195,6 +195,38 @@ export const featuredWork: WorkEntry[] = [
   },
 ];
 
+export interface ShelfItem {
+  title: string;
+  /** The one line that carries the whole story. */
+  line: string;
+  links?: {
+    live?: string;
+    repo?: string;
+  };
+  /** Honest note when there is nothing to link. */
+  note?: string;
+}
+
+/**
+ * The shelf: small hacks listed honestly, one line each, no studies.
+ * Facts verified against the local repos on 2026-07-07.
+ */
+export const shelf: ShelfItem[] = [
+  {
+    title: 'calculator',
+    line: 'An iOS-style pocket calculator built to a written spec in one day, chained operations and divide-by-zero guards included, with the whole state machine living inside a single state updater.',
+    links: {
+      live: 'https://akpersad.github.io/calculator/',
+      repo: 'https://github.com/akpersad/calculator',
+    },
+  },
+  {
+    title: 'hue-scenes',
+    line: 'A 256-line Node CLI that converts hex palettes to CIE color space and hands them to a Philips Hue bridge as native dynamic scenes, so the porch lights can cycle the Stars and Stripes with no polling loop.',
+    note: 'Lives on my LAN and talks to my bridge; nothing to link.',
+  },
+];
+
 /** Entries whose written case study is live (drives routes, sitemap, index links). */
 export const studyEntries = featuredWork.filter(
   (entry): entry is WorkEntry & { study: CaseStudy } => Boolean(entry.study)
