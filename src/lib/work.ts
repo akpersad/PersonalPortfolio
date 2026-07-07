@@ -83,15 +83,28 @@ export const featuredWork: WorkEntry[] = [
     slug: 'overlapp',
     title: 'overlapp',
     summary:
-      'Group scheduling that finds when everyone is actually free. Members connect Google or Microsoft calendars, or add recurring blocks by hand, and the group gets a live availability heatmap with proposals and quorum voting.',
+      'Group scheduling that finds when everyone is actually free. Members sync their real calendars or add recurring blocks by hand, and the group gets a live availability heatmap with proposals and quorum voting.',
     detail:
       'Recurrence expansion is hand-written plpgsql running inside Postgres, and privacy is enforced at the database layer: the group sees that you are busy, never why.',
-    metric: '2 OAuth providers',
-    metricLabel: 'calendar providers synced through one adapter seam',
+    metric: '2 built · 1 live',
+    metricLabel:
+      'calendar providers behind one adapter seam: Google shipped, Microsoft complete but flag-gated',
     stack: ['Next.js', 'React', 'TypeScript', 'Supabase', 'Postgres RLS'],
     links: {
       live: 'https://overlapp-psi.vercel.app',
       repo: 'https://github.com/akpersad/overlapp',
+    },
+    study: {
+      headline:
+        'Building overlapp: the "when are you free?" question, answered by Postgres',
+      context:
+        'overlapp replaces the one-off scheduling poll with a persistent shared calendar: each member\'s availability lives continuously, assembled from synced calendars and hand-entered recurring blocks, so a group sees overlapping free time without anyone asking. It went from empty repo to live product in eleven days, spec first: the data model and the privacy rule were written down before the first migration. The hard constraint was that a group calendar is a privacy problem wearing a convenience costume, so the "members learn when you are busy, never why" rule is enforced in the database, not in the UI.',
+      role: 'Solo: product, design, build, ship',
+      timeline: '11 days, spec first, June 2026',
+      status: 'Live at overlapp-psi.vercel.app',
+      published: '2026-07-07',
+      description:
+        'How overlapp answers "when is everyone free?" with a hand-written plpgsql recurrence expander, database-enforced privacy, and one calendar-sync seam for two OAuth providers. Five named decisions with the tradeoffs taken.',
     },
   },
   {

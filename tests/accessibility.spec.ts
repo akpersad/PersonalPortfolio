@@ -54,6 +54,7 @@ test.describe('Accessibility Tests', () => {
     '/about',
     '/work',
     '/work/fork-in-the-road',
+    '/work/overlapp',
     '/contact',
     '/resume',
     '/colophon',
@@ -147,7 +148,7 @@ test.describe('Accessibility Tests', () => {
 
 test.describe('Case Study Pages', () => {
   // One entry per shipped study; Phase 5 studies join this list as they land.
-  const studySlugs = ['fork-in-the-road'];
+  const studySlugs = ['fork-in-the-road', 'overlapp'];
 
   test('Case study pages should be accessible', async ({ page }) => {
     for (const slug of studySlugs) {
@@ -159,32 +160,40 @@ test.describe('Case Study Pages', () => {
     }
   });
 
-  test('Case study should follow the enforced format', async ({ page }) => {
-    await page.goto('/work/fork-in-the-road');
-    await page.waitForLoadState('networkidle');
+  for (const slug of studySlugs) {
+    test(`${slug} study should follow the enforced format`, async ({
+      page,
+    }) => {
+      await page.goto(`/work/${slug}`);
+      await page.waitForLoadState('networkidle');
 
-    // Outcome-stating h1 plus section h2s
-    await expect(page.locator('h1')).toBeVisible();
-    expect(await page.locator('h2').count()).toBeGreaterThan(2);
+      // Outcome-stating h1 plus section h2s
+      await expect(page.locator('h1')).toBeVisible();
+      expect(await page.locator('h2').count()).toBeGreaterThan(2);
 
-    // Role / timeline / status meta row
-    const metaRow = page.locator('dl');
-    await expect(metaRow.locator('dt', { hasText: 'role' })).toBeVisible();
-    await expect(metaRow.locator('dt', { hasText: 'timeline' })).toBeVisible();
-    await expect(metaRow.locator('dt', { hasText: 'status' })).toBeVisible();
+      // Role / timeline / status meta row
+      const metaRow = page.locator('dl');
+      await expect(metaRow.locator('dt', { hasText: 'role' })).toBeVisible();
+      await expect(
+        metaRow.locator('dt', { hasText: 'timeline' })
+      ).toBeVisible();
+      await expect(metaRow.locator('dt', { hasText: 'status' })).toBeVisible();
 
-    // Named decisions, each carrying its tradeoff
-    const decisions = page.locator('section[id^="decision-"]');
-    const decisionCount = await decisions.count();
-    expect(decisionCount).toBeGreaterThanOrEqual(3);
-    expect(decisionCount).toBeLessThanOrEqual(5);
-    expect(await page.locator('text=Tradeoff taken:').count()).toBe(
-      decisionCount
-    );
+      // Named decisions, each carrying its tradeoff
+      const decisions = page.locator('section[id^="decision-"]');
+      const decisionCount = await decisions.count();
+      expect(decisionCount).toBeGreaterThanOrEqual(3);
+      expect(decisionCount).toBeLessThanOrEqual(5);
+      expect(await page.locator('text=Tradeoff taken:').count()).toBe(
+        decisionCount
+      );
 
-    // Before/after numbers table
-    await expect(page.locator('table caption')).toContainText('Before / after');
-  });
+      // Every study closes its argument with a before/after numbers table
+      await expect(page.locator('table caption')).toContainText(
+        'Before / after'
+      );
+    });
+  }
 
   test('Case study images should have proper alt text', async ({ page }) => {
     await page.goto('/work/fork-in-the-road');

@@ -11,6 +11,7 @@ import { getBreadcrumbSchema, getStudySchema } from '@/lib/seo';
  */
 const studyBodies: Record<string, () => Promise<{ default: ComponentType }>> = {
   'fork-in-the-road': () => import('@/content/work/fork-in-the-road.mdx'),
+  overlapp: () => import('@/content/work/overlapp.mdx'),
 };
 
 export const dynamicParams = false;
