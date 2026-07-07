@@ -58,6 +58,8 @@ test.describe('Accessibility Tests', () => {
     '/work/persadpay',
     '/work/pawscriptions',
     '/work/protein-checker',
+    '/notes',
+    '/notes/deleting-93000-lines',
     '/contact',
     '/resume',
     '/colophon',
@@ -224,6 +226,44 @@ test.describe('Case Study Pages', () => {
       .getByRole('link', { name: /index \/ all work/i })
       .click();
     await expect(page).toHaveURL(/\/work$/);
+  });
+});
+
+test.describe('Notes Pages', () => {
+  // One entry per published note; essays join this list as they land.
+  const noteSlugs = ['deleting-93000-lines'];
+
+  test('Notes index should be accessible', async ({ page }) => {
+    await page.goto('/notes');
+    await page.waitForLoadState('networkidle');
+    const accessibilityScanResults = await new AxeBuilder({ page }).analyze();
+    expect(accessibilityScanResults.violations).toEqual([]);
+  });
+
+  test('Note pages should be accessible', async ({ page }) => {
+    for (const slug of noteSlugs) {
+      await page.goto(`/notes/${slug}`);
+      await page.waitForLoadState('networkidle');
+      const accessibilityScanResults = await new AxeBuilder({ page }).analyze();
+      expect(accessibilityScanResults.violations).toEqual([]);
+    }
+  });
+
+  test('Notes index should list every published note', async ({ page }) => {
+    await page.goto('/notes');
+    await page.waitForLoadState('networkidle');
+    for (const slug of noteSlugs) {
+      await expect(
+        page.locator(`a[href="/notes/${slug}"]`).first()
+      ).toBeVisible();
+    }
+  });
+
+  test('Note should link back to the notes index', async ({ page }) => {
+    await page.goto(`/notes/${noteSlugs[0]}`);
+    await page.waitForLoadState('networkidle');
+    await page.getByRole('link', { name: /index \/ all notes/i }).click();
+    await expect(page).toHaveURL(/\/notes$/);
   });
 });
 

@@ -4,6 +4,7 @@
  */
 
 import { studyEntries, type CaseStudy, type WorkEntry } from './work';
+import { notes, type Note } from './notes';
 
 // Base URL for the site
 export const BASE_URL =
@@ -73,6 +74,29 @@ export const getStudySchema = (entry: WorkEntry & { study: CaseStudy }) => ({
   },
 });
 
+// Article schema for a published note, built from the typed note entry
+export const getNoteSchema = (note: Note) => ({
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: note.title,
+  description: note.dek,
+  datePublished: note.published,
+  dateModified: note.updated ?? note.published,
+  author: {
+    '@type': 'Person',
+    name: 'Andrew Persad',
+    url: BASE_URL,
+  },
+  publisher: {
+    '@type': 'Person',
+    name: 'Andrew Persad',
+    url: BASE_URL,
+  },
+  url: `${BASE_URL}/notes/${note.slug}`,
+  mainEntityOfPage: `${BASE_URL}/notes/${note.slug}`,
+  inLanguage: 'en-US',
+});
+
 // BreadcrumbList Schema for navigation
 export const getBreadcrumbSchema = (path: string) => {
   const segments = path.split('/').filter(Boolean);
@@ -138,6 +162,7 @@ export const getSitemapData = () => {
     { url: '/work', priority: 0.9, changefreq: 'weekly' },
     { url: '/resume', priority: 0.8, changefreq: 'monthly' },
     { url: '/contact', priority: 0.7, changefreq: 'monthly' },
+    { url: '/notes', priority: 0.7, changefreq: 'weekly' },
     { url: '/colophon', priority: 0.4, changefreq: 'monthly' },
   ];
 
@@ -147,5 +172,11 @@ export const getSitemapData = () => {
     changefreq: 'monthly',
   }));
 
-  return [...staticPages, ...studyPages];
+  const notePages = notes.map(note => ({
+    url: `/notes/${note.slug}`,
+    priority: 0.6,
+    changefreq: 'monthly',
+  }));
+
+  return [...staticPages, ...studyPages, ...notePages];
 };

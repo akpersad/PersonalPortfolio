@@ -8,6 +8,7 @@ import ThemeToggle from '@/components/ThemeToggle';
 
 const navigation = [
   { name: 'Work', label: 'work', href: '/work' },
+  { name: 'Notes', label: 'notes', href: '/notes' },
   { name: 'About', label: 'about', href: '/about' },
   { name: 'Resume', label: 'resume', href: '/resume' },
   { name: 'Colophon', label: 'colophon', href: '/colophon' },
