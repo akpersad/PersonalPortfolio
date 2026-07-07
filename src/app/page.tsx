@@ -1,5 +1,5 @@
-import Image from 'next/image';
 import Link from 'next/link';
+import Avatar from '@/components/Avatar';
 import { projects, projectSlugs } from '@/lib/projects';
 
 export default function Home() {
@@ -40,21 +40,10 @@ export default function Home() {
 
             {/* Avatar */}
             <div className="flex justify-center lg:justify-end">
-              <div className="relative">
-                <div className="w-80 h-80 sm:w-96 sm:h-96 rounded-full overflow-hidden border-4 border-medium-green shadow-2xl">
-                  <Image
-                    src="/icons/avatar.webp"
-                    alt="Andrew Persad - Lead Software Engineer"
-                    width={400}
-                    height={400}
-                    priority
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                {/* Decorative elements */}
-                <div className="absolute -top-4 -right-4 w-24 h-24 bg-primary-green rounded-full opacity-20"></div>
-                <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-medium-green rounded-full opacity-15"></div>
-              </div>
+              <Avatar
+                className="w-80 h-80 sm:w-96 sm:h-96"
+                title="Illustrated portrait of Andrew Persad, lead software engineer"
+              />
             </div>
           </div>
         </div>

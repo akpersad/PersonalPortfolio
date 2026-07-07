@@ -1,86 +1,184 @@
 @import 'tailwindcss';
 
+/* Class-based dark mode: `.dark` on <html>, set pre-paint by the theme script
+   in layout.tsx. Tailwind `dark:` utilities follow the class, not the media query. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ============================================================
+   ANNOTATED token system (Phase 2 foundation)
+   Source of truth: design/comps/direction-1-annotated.html
+   Three layers: primitive -> semantic -> component.
+   Components reference semantic tokens only.
+   ============================================================ */
+
 :root {
-  /* Earthy Forest Palette */
-  --light-neutral: #dad7cd;
-  --medium-green: #a3b18a;
-  --primary-green: #527a51;
-  /* Slightly darker for 4.5:1+ contrast with white */
-  --dark-green: #3a5a40;
-  --darkest: #344e41;
+  /* PRIMITIVE */
+  --hue: 245;
+  --paper-0: oklch(0.985 0.004 var(--hue));
+  --paper-1: oklch(0.955 0.006 var(--hue));
+  --paper-2: oklch(0.92 0.008 var(--hue));
+  --ink-0: oklch(0.24 0.02 var(--hue));
+  --ink-1: oklch(0.45 0.02 var(--hue));
+  --ink-2: oklch(0.58 0.018 var(--hue));
+  --signal-600: oklch(0.6 0.19 40);
+  --signal-500: oklch(0.66 0.19 40);
+  --signal-300: oklch(0.8 0.1 40);
+  /* Darker step for accent-colored TEXT on light surfaces: 4.8:1 on paper-1,
+     5.2:1 on paper-0 at body sizes. signal-600 only hits 3.77:1 (graphics only). */
+  --signal-650: oklch(0.54 0.17 40);
 
-  /* WCAG AAA Compliant Text Colors */
-  --text-on-light: #1a2b1f;
-  /* Even darker for AAA compliance */
-  --text-muted-on-light: #2a3b2e;
-  /* Darker secondary text */
-  --text-on-dark: #ffffff;
-  /* Pure white for maximum contrast on green backgrounds */
-  --text-muted-on-dark: #f5f3f0;
-  /* Lighter muted text on dark */
-  --text-link-primary: #1a2b1f;
-  /* High contrast link color - AAA compliant */
+  /* SEMANTIC (light) */
+  --bg: var(--paper-0);
+  --surface: var(--paper-1);
+  --surface-2: var(--paper-2);
+  --line: oklch(0.24 0.02 var(--hue) / 0.14);
+  --line-strong: oklch(0.24 0.02 var(--hue) / 0.35);
+  --fg: var(--ink-0);
+  --fg-muted: var(--ink-1);
+  --accent: var(--signal-600);
+  --accent-ink: var(--signal-650);
+  --accent-contrast: oklch(0.99 0.005 40);
+  --ring: var(--signal-500);
 
-  /* Navigation active state colors */
-  --nav-active-bg: #ffffff;
-  /* White background for active nav items */
-  --nav-active-text: #1a2b1f;
-  /* Dark text on white background */
+  /* COMPONENT: avatar (geometry locked at v5.4; only these vars theme it) */
+  --av-bg: var(--surface-2);
+  --av-shirt: #3c4763;
+  --av-skin: #e9a868;
+  --av-skin-2: #c87e3f;
+  --av-hair: #17130e;
 
-  /* Semantic colors */
-  --background: var(--light-neutral);
-  --foreground: var(--text-on-light);
-  --muted: var(--text-muted-on-light);
-  --accent: var(--primary-green);
+  color-scheme: light;
+}
+
+.dark {
+  --bg: oklch(0.2 0.018 var(--hue));
+  --surface: oklch(0.245 0.02 var(--hue));
+  --surface-2: oklch(0.29 0.022 var(--hue));
+  --line: oklch(0.95 0.01 var(--hue) / 0.14);
+  --line-strong: oklch(0.95 0.01 var(--hue) / 0.32);
+  --fg: oklch(0.93 0.008 var(--hue));
+  --fg-muted: oklch(0.72 0.012 var(--hue));
+  --accent: oklch(0.72 0.16 45);
+  --accent-ink: oklch(0.78 0.14 45);
+  --accent-contrast: oklch(0.16 0.02 40);
+  --ring: oklch(0.72 0.16 45);
+
+  --av-bg: var(--surface-2);
+  --av-shirt: #55618a;
+
+  color-scheme: dark;
 }
 
 @theme inline {
-  /* Earthy Forest Color System - Background/UI Colors */
-  --color-light-neutral: var(--light-neutral);
-  --color-medium-green: var(--medium-green);
-  --color-primary-green: var(--primary-green);
-  --color-dark-green: var(--dark-green);
-  --color-darkest: var(--darkest);
+  /* Semantic colors (the new system; use these) */
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-fg: var(--fg);
+  --color-fg-muted: var(--fg-muted);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-contrast: var(--accent-contrast);
+  --color-ring: var(--ring);
 
-  /* WCAG AAA Text Colors */
-  --color-text-primary: var(--text-on-light);
-  --color-text-secondary: var(--text-muted-on-light);
-  --color-text-on-dark: var(--text-on-dark);
-  --color-text-muted-on-dark: var(--text-muted-on-dark);
-  --color-text-link-primary: var(--text-link-primary);
+  /* Type */
+  --font-sans: var(--font-geist-sans), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-display: var(--font-bricolage), var(--font-geist-sans), sans-serif;
+  /* Fluid display sizes (scale ratio 1.25, fluid at the top; body stays fixed) */
+  --text-display: clamp(2.5rem, 1.6rem + 4.2vw, 5rem);
+  --text-display--line-height: 1.05;
+  --text-title: clamp(1.75rem, 1.3rem + 1.8vw, 2.25rem);
+  --text-title--line-height: 1.15;
 
-  /* Navigation colors */
-  --color-nav-active-bg: var(--nav-active-bg);
-  --color-nav-active-text: var(--nav-active-text);
+  /* Radius (comp scale: sm 4 / md 8; larger steps keep Tailwind defaults
+     until the old pages are rebuilt) */
+  --radius-sm: 4px;
+  --radius-md: 8px;
 
-  /* Semantic colors */
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-muted: var(--muted);
-  --color-accent: var(--primary-green);
+  /* Motion (150-300ms, transform/opacity only, ease-out) */
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
 
-  /* Typography */
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* LEGACY forest palette. Only the not-yet-rebuilt pages (home, about, work,
+     resume, contact) reference these. Delete each as its page is rebuilt in
+     Phases 3-5. Do not use in new code. */
+  --color-light-neutral: #dad7cd;
+  --color-medium-green: #a3b18a;
+  --color-primary-green: #527a51;
+  --color-dark-green: #3a5a40;
+  --color-darkest: #344e41;
+  --color-text-primary: #1a2b1f;
+  --color-text-secondary: #2a3b2e;
+  --color-text-on-dark: #ffffff;
+  --color-text-muted-on-dark: #f5f3f0;
+  --color-text-link-primary: #1a2b1f;
+  --color-nav-active-bg: #ffffff;
+  --color-nav-active-text: #1a2b1f;
 }
 
-/* Disable automatic dark mode for now - we'll implement proper dark mode later */
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --background: var(--darkest);
-    --foreground: var(--text-on-dark);
-    --muted: var(--text-muted-on-dark);
-    --accent: var(--medium-green);
+/* ============================================================
+   Base
+   ============================================================ */
+
+html {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  -webkit-text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
   }
-} */
+}
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  line-height: 1.55;
 }
 
-/* Line clamp utility for text truncation */
+h1,
+h2,
+h3 {
+  font-family: var(--font-bricolage), var(--font-geist-sans), sans-serif;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+/* Keyboard focus ring (box-shadow so it follows border-radius) */
+:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--bg),
+    0 0 0 4px var(--ring);
+  border-radius: var(--radius-sm);
+}
+
+/* Mono annotation label, the direction's signature */
+.annotation {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+/* Motion is opt-in; reduced motion collapses everything */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* Line clamp utility for text truncation (used by legacy pages) */
 .line-clamp-3 {
   display: -webkit-box;
   -webkit-line-clamp: 3;

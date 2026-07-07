@@ -41,6 +41,56 @@ test.describe('Accessibility Tests', () => {
     expect(accessibilityScanResults.violations).toEqual([]);
   });
 
+  test('Colophon page should be accessible', async ({ page }) => {
+    await page.goto('/colophon');
+    await page.waitForLoadState('networkidle');
+    const accessibilityScanResults = await new AxeBuilder({ page }).analyze();
+    expect(accessibilityScanResults.violations).toEqual([]);
+  });
+
+  // Dark-mode scan is scoped to the themed shell (header/footer) until the
+  // page bodies are rebuilt on the new tokens in Phases 3-5. The legacy page
+  // content is light-palette and only tested in light mode. Widen this scan
+  // to the full page as each page is rebuilt.
+  test('Shell should be accessible in dark mode', async ({ page }) => {
+    await page.addInitScript(() => localStorage.setItem('theme', 'dark'));
+    await page.goto('/');
+    await page.waitForLoadState('networkidle');
+    await expect(page.locator('html')).toHaveClass(/dark/);
+    const accessibilityScanResults = await new AxeBuilder({ page })
+      .include('header')
+      .include('footer')
+      .analyze();
+    expect(accessibilityScanResults.violations).toEqual([]);
+  });
+
+  test('Colophon page should be accessible in dark mode', async ({ page }) => {
+    await page.addInitScript(() => localStorage.setItem('theme', 'dark'));
+    await page.goto('/colophon');
+    await page.waitForLoadState('networkidle');
+    await expect(page.locator('html')).toHaveClass(/dark/);
+    const accessibilityScanResults = await new AxeBuilder({ page }).analyze();
+    expect(accessibilityScanResults.violations).toEqual([]);
+  });
+
+  test('Theme toggle should switch themes and persist', async ({ page }) => {
+    await page.goto('/');
+    await page.waitForLoadState('networkidle');
+    const html = page.locator('html');
+    const toggle = page.getByRole('button', {
+      name: 'Toggle light and dark theme',
+    });
+    const wasDark = await html.evaluate(el => el.classList.contains('dark'));
+    await toggle.click();
+    await expect(html).toHaveClass(wasDark ? /^(?!.*dark).*$/ : /dark/);
+    await page.reload();
+    await page.waitForLoadState('networkidle');
+    const isDarkAfterReload = await html.evaluate(el =>
+      el.classList.contains('dark')
+    );
+    expect(isDarkAfterReload).toBe(!wasDark);
+  });
+
   test('Navigation should be keyboard accessible', async ({ page }) => {
     await page.goto('/');
     await page.waitForLoadState('networkidle');

@@ -214,29 +214,6 @@ export const trackEngagementTime = (timeSpent: number, page: string) => {
   });
 };
 
-// Track Core Web Vitals
-export const trackCoreWebVitals = (metric: {
-  name: string;
-  value: number;
-  id: string;
-  delta: number;
-}) => {
-  if (!isGAEnabled()) return;
-
-  window.gtag('event', metric.name, {
-    event_category: 'Web Vitals',
-    event_label: metric.id,
-    value: Math.round(
-      metric.name === 'CLS' ? metric.value * 1000 : metric.value
-    ),
-    non_interaction: true,
-    custom_map: {
-      metric_id: metric.id,
-      metric_delta: metric.delta,
-    },
-  });
-};
-
 // Track scroll depth
 export const trackScrollDepth = (depth: number, page: string) => {
   if (!isGAEnabled()) return;

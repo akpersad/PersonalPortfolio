@@ -4,14 +4,19 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState, memo, useCallback } from 'react';
 import { useAnalytics } from '@/hooks/useAnalytics';
+import ThemeToggle from '@/components/ThemeToggle';
 
 const navigation = [
-  { name: 'Home', href: '/' },
-  { name: 'About', href: '/about' },
-  { name: 'Work', href: '/work' },
-  { name: 'Resume', href: '/resume' },
-  { name: 'Contact', href: '/contact' },
+  { name: 'Work', label: 'work', href: '/work' },
+  { name: 'About', label: 'about', href: '/about' },
+  { name: 'Resume', label: 'resume', href: '/resume' },
+  { name: 'Colophon', label: 'colophon', href: '/colophon' },
+  { name: 'Contact', label: 'contact', href: '/contact' },
 ];
+
+/* Accent underline that draws in on hover and stays put on the active link. */
+const linkUnderline =
+  'relative after:absolute after:left-0 after:-bottom-1 after:h-px after:w-full after:bg-accent after:origin-left motion-safe:after:transition-transform motion-safe:after:duration-200 motion-safe:after:ease-out-quint';
 
 const Navigation = () => {
   const pathname = usePathname();
@@ -33,49 +38,65 @@ const Navigation = () => {
     setIsOpen(false);
   }, []);
 
+  const isActive = (href: string) =>
+    pathname === href || pathname.startsWith(`${href}/`);
+
   return (
-    <nav
-      className="bg-light-neutral border-b border-medium-green sticky top-0 z-50"
-      aria-label="Main navigation"
-    >
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          {/* Logo/Name */}
+    <header className="sticky top-0 z-50 border-b border-line bg-bg/85 backdrop-blur-md">
+      <nav
+        className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-10"
+        aria-label="Main navigation"
+      >
+        <div className="flex h-16 items-center justify-between gap-4">
+          {/* Brand */}
           <Link
             href="/"
-            className="text-xl font-semibold text-text-primary hover:text-primary-green transition-colors"
+            className="font-mono text-sm font-medium text-fg"
+            aria-label="Andrew Persad, home"
             onClick={() => handleNavigationClick('Logo', 'header')}
           >
-            Andrew Persad
+            <span className="text-accent-ink">AP</span>/andrew-persad
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex space-x-8">
-            {navigation.map(item => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                  pathname === item.href ||
-                  (item.href !== '/' && pathname.startsWith(item.href))
-                    ? 'text-nav-active-text bg-nav-active-bg shadow-sm border border-medium-green'
-                    : 'text-text-primary hover:text-text-primary hover:bg-nav-active-bg/30'
-                }`}
-                onClick={() => handleNavigationClick(item.name, 'desktop_nav')}
-              >
-                {item.name}
-              </Link>
-            ))}
-          </div>
+          <div className="flex items-center gap-4">
+            {/* Desktop navigation */}
+            <ul className="hidden items-baseline gap-6 md:flex">
+              {navigation.map(item => (
+                <li key={item.name}>
+                  <Link
+                    href={item.href}
+                    aria-current={isActive(item.href) ? 'page' : undefined}
+                    className={`${linkUnderline} text-sm ${
+                      isActive(item.href)
+                        ? 'text-fg after:scale-x-100'
+                        : 'text-fg-muted after:scale-x-0 hover:text-fg hover:after:scale-x-100'
+                    }`}
+                    onClick={() =>
+                      handleNavigationClick(item.name, 'desktop_nav')
+                    }
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
 
-          {/* Mobile menu button */}
-          <div className="md:hidden">
+            <ThemeToggle />
+
+            {/* Mobile menu button */}
             <button
+              type="button"
               onClick={toggleMobileMenu}
-              className="text-text-primary hover:text-primary-green focus:outline-none focus:text-primary-green"
-              aria-label="Toggle menu"
+              aria-expanded={isOpen}
+              aria-controls="mobile-nav"
+              aria-label={isOpen ? 'Close menu' : 'Open menu'}
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-line-strong text-fg hover:border-accent hover:text-accent-ink md:hidden"
             >
-              <svg className="h-6 w-6 fill-current" viewBox="0 0 24 24">
+              <svg
+                className="h-5 w-5 fill-current"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
                 {isOpen ? (
                   <path
                     fillRule="evenodd"
@@ -92,33 +113,34 @@ const Navigation = () => {
           </div>
         </div>
 
-        {/* Mobile Navigation */}
+        {/* Mobile navigation */}
         {isOpen && (
-          <div className="md:hidden border-t border-medium-green">
-            <div className="px-2 pt-2 pb-3 space-y-1">
+          <div id="mobile-nav" className="border-t border-line md:hidden">
+            <ul className="space-y-1 pb-4 pt-2">
               {navigation.map(item => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className={`block px-3 py-2 rounded-md text-base font-medium transition-colors ${
-                    pathname === item.href ||
-                    (item.href !== '/' && pathname.startsWith(item.href))
-                      ? 'text-nav-active-text bg-nav-active-bg shadow-sm border border-medium-green'
-                      : 'text-text-primary hover:text-text-primary hover:bg-nav-active-bg/30'
-                  }`}
-                  onClick={() => {
-                    handleNavigationClick(item.name, 'mobile_nav');
-                    closeMobileMenu();
-                  }}
-                >
-                  {item.name}
-                </Link>
+                <li key={item.name}>
+                  <Link
+                    href={item.href}
+                    aria-current={isActive(item.href) ? 'page' : undefined}
+                    className={`block rounded-md px-3 py-3 text-base ${
+                      isActive(item.href)
+                        ? 'bg-surface text-fg'
+                        : 'text-fg-muted hover:bg-surface hover:text-fg'
+                    }`}
+                    onClick={() => {
+                      handleNavigationClick(item.name, 'mobile_nav');
+                      closeMobileMenu();
+                    }}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
         )}
-      </div>
-    </nav>
+      </nav>
+    </header>
   );
 };
 
