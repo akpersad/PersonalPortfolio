@@ -55,6 +55,7 @@ test.describe('Accessibility Tests', () => {
     '/work',
     '/work/fork-in-the-road',
     '/work/overlapp',
+    '/work/pawscriptions',
     '/contact',
     '/resume',
     '/colophon',
@@ -148,7 +149,7 @@ test.describe('Accessibility Tests', () => {
 
 test.describe('Case Study Pages', () => {
   // One entry per shipped study; Phase 5 studies join this list as they land.
-  const studySlugs = ['fork-in-the-road', 'overlapp'];
+  const studySlugs = ['fork-in-the-road', 'overlapp', 'pawscriptions'];
 
   test('Case study pages should be accessible', async ({ page }) => {
     for (const slug of studySlugs) {

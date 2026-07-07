@@ -137,7 +137,19 @@ export const featuredWork: WorkEntry[] = [
       live: 'https://pawscriptions.vercel.app',
       repo: 'https://github.com/akpersad/pawscriptions',
     },
-    accessNote: 'Household app behind a passphrase; the study will carry screenshots.',
+    accessNote: 'Household app behind a passphrase; the study carries screenshots.',
+    study: {
+      headline:
+        'Building pawscriptions: a med tracker that can never double-remind',
+      context:
+        'pawscriptions tracks a dog\'s medications for a two-person household: define meds and schedules, log or skip each dose, forecast the supply, and get push reminders in the right timezone. The v1 core went from empty repo to running in two days, and the data model it shipped with survived two later feature waves without a single new table. The hard problem is small but sharp: an external scheduler hits the reminder endpoint every minute, runs can overlap or retry, and a double reminder risks a double-dosed dog, so deduplication has to be guaranteed by construction.',
+      role: 'Solo: product, design, build, ship',
+      timeline: '2 days to v1, two feature waves, June 2026',
+      status: 'Live, behind the household passphrase',
+      published: '2026-07-07',
+      description:
+        'How pawscriptions makes concurrent reminder runs safe by construction: claim-first inserts against a unique constraint, supply as a derived number, and on-device OCR. Five named decisions with the tradeoffs taken.',
+    },
   },
   {
     slug: 'protein-checker',

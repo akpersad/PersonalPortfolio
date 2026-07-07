@@ -1,0 +1,146 @@
+{/* pawscriptions study. Facts verified against the pawscriptions repo (src, schema.sql,
+    git history) on 2026-07-07; framing and reflection are mine. No em dashes. */}
+
+import Decision from '@/components/study/Decision';
+import NumbersTable from '@/components/study/NumbersTable';
+import Figure from '@/components/study/Figure';
+
+## The stakes fit in one sentence
+
+A missed reminder is an annoyance. A doubled reminder is a double-dosed
+dog. That asymmetry drove every hard choice in this build: **when
+correctness and convenience argued, correctness won, and the database got
+the deciding vote.**
+
+The rest of the product is deliberately small. No accounts, one shared
+passphrase, six tables, eight runtime dependencies. The v1 core shipped in
+two days, and two feature waves later the schema has the same six tables
+it started with: every new capability landed as columns on a model that
+held.
+
+<Figure
+  n={1}
+  src="/work/pawscriptions/home-1280.png"
+  alt="The pawscriptions Today screen: a 0 of 7 progress ring under 'Good afternoon', a 'Running low' banner listing two medications with days-of-supply remaining, and a due-now list of doses each with Skip and Give actions."
+  caption="the Today screen. The progress ring, the supply forecast, and the give/skip loop are the whole daily surface."
+  width={1280}
+  height={800}
+/>
+
+## The decisions
+
+<Decision
+  n={1}
+  of={5}
+  title="Claim the slot before you send"
+  tradeoff="the guarantee is at-most-once, not exactly-once. A send that crashes after its claim is written stays marked as sent and never retries. I accepted that because the failure modes are not symmetric: a lost ping gets caught by the separate overdue escalation, while a doubled ping risks a doubled dose."
+>
+    Reminders are driven by an external scheduler hitting the endpoint
+    every minute, so overlapping and retried runs are a fact of life, not
+    an edge case. Before sending anything, the run inserts a claim row
+    keyed on medication, time slot, and notification kind, into a table
+    with a unique constraint on exactly that key.
+
+    Two concurrent runs cannot both insert the same key; the loser gets a
+    constraint error and skips. Zero duplicate sends is not a property of
+    careful code, it is a property of the index. The in-memory check that
+    runs first is just an optimization; correctness never depends on it.
+</Decision>
+
+<Decision
+  n={2}
+  of={5}
+  title="Compute the supply, never store a counter"
+  tradeoff="every supply read recomputes over the dose history since the last refill, and the days-remaining forecast assumes the schedule is actually followed. More work per read, bought with zero risk of drift."
+>
+    On-hand quantity is a derived number: units at last refill minus every
+    dose given since. Logging a dose, editing it, undoing it, or skipping
+    it can never desynchronize a counter, because there is no counter.
+
+    The forecast walks the schedule forward honoring cadence and per-day
+    dosing, and handles meds stocked by volume but dosed in units, like
+    U-40 insulin where a 10 ml bottle is 400 units. When the forecast dips
+    below the threshold, the Running Low banner and its own deduplicated
+    notification kind take over.
+</Decision>
+
+<Decision
+  n={3}
+  of={5}
+  title="Scan labels on the device, not on a server"
+  tradeoff="on-device OCR means a heavy lazy-loaded library and best-effort accuracy, so the parser deliberately only prefills a form the human must review. Worse extraction, in exchange for photos that never leave the phone and a vision-API bill of zero."
+>
+    The label scanner lazy-loads Tesseract.js in the browser, reads the
+    photo in memory, and discards it. Nothing is uploaded, ever. A
+    conservative parser lifts the med name, strength, and frequency into
+    the form, translating pharmacy shorthand like twice-daily into
+    concrete dose times.
+</Decision>
+
+<Decision
+  n={4}
+  of={5}
+  title="Rent a corner of a shared database, then lock the door"
+  tradeoff="with row-level security set to deny-all, every read and write funnels through the server holding the service-role key, so there is no second line of defense below a server-side bug. For a single-household app I took the simpler trust model over defense-in-depth."
+>
+    The app shares a free-tier Postgres with another project, so isolation
+    is structural: a dedicated schema, row-level security enabled on every
+    table with zero policies granting anything, privileges granted only to
+    the service role, and a client pinned to the schema. The public API
+    key can see nothing at all.
+</Decision>
+
+<Decision
+  n={5}
+  of={5}
+  title="Size the auth to the household"
+  tradeoff="no accounts means no per-user identity: who gave a dose is a free-text field, sessions last a year, and a leaked passphrase is full access. For two known users and one dog, an account system would have been ceremony."
+>
+    One shared passphrase unlocks a signed httpOnly session cookie, and a
+    request-level guard verifies it on every route except the login page
+    and the cron endpoint, which carries its own secret. It is the minimum
+    viable gate, chosen on purpose and documented as such.
+</Decision>
+
+## The numbers
+
+<NumbersTable
+  caption="Before / after: the two-day core versus the product three weeks later"
+  columns={['day 2', 'day 24']}
+  rows={[
+    { label: 'Postgres tables', before: '6', after: '6' },
+    { label: 'Runtime dependencies', before: '8', after: '8' },
+    { label: 'Notification kinds, deduped independently', before: '1', after: '3' },
+    {
+      label: 'Schedule vocabulary',
+      before: 'weekly days',
+      after: 'intervals and phases',
+    },
+    {
+      label: 'Supply tracking',
+      before: 'none',
+      after: 'derived forecast',
+    },
+    { label: 'Automated tests', before: '0', after: '0' },
+  ]}
+/>
+
+The first two rows are the ones I am proud of: the feature waves that
+added phased schedules like "daily for three weeks, then every other day"
+and the whole supply system landed as columns and functions on the day-two
+model. The last row is the one I am not, and it is in the next section.
+
+## What I would do differently
+
+- **Test the sharp parts.** The dedup claim, the schedule expansion, and
+  the supply forecast are exactly the kind of pure-ish logic unit tests
+  are cheapest for, and the test count is zero. The claim-first pattern is
+  safe by construction, but "the index saves me" deserves a test that
+  proves it.
+- **Retry the lost sends.** At-most-once was the right call, but the
+  overdue escalation is a coarse backstop. Recording send failures on the
+  claim row would allow a targeted retry without reopening the
+  double-send door.
+- **Keep secrets out of query strings.** The cron endpoint accepts its
+  secret as a URL parameter as well as a header, which means it can end up
+  in request logs. Header-only is one deleted line of tolerance away.
