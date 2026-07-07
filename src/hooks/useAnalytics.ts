@@ -24,11 +24,13 @@ import {
 
 export const useAnalytics = () => {
   const pathname = usePathname();
-  const startTimeRef = useRef<number>(Date.now());
+  // Set to the real timestamp on mount (render must stay pure per react-hooks/purity)
+  const startTimeRef = useRef<number>(0);
   const scrollDepthRef = useRef<number>(0);
 
   // Initialize GA on mount
   useEffect(() => {
+    startTimeRef.current = Date.now();
     initGA();
   }, []);
 

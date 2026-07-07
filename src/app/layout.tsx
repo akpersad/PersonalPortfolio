@@ -3,12 +3,7 @@ import { Bricolage_Grotesque, Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
-import {
-  getPersonSchema,
-  getWebsiteSchema,
-  getOrganizationSchema,
-  getFAQSchema,
-} from '@/lib/seo';
+import { getPersonSchema, getWebsiteSchema } from '@/lib/seo';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -32,11 +27,9 @@ const themeScript = `(function(){try{var t=localStorage.getItem('theme');var d=t
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://andrewpersad.com'),
-  title: 'Andrew Persad - Lead Software Engineer | React & Next.js Expert',
+  title: 'Andrew Persad | Lead Software Engineer',
   description:
-    'Lead Software Engineer specializing in React/Next.js, design systems, and accessible enterprise UIs. 8+ years building scalable frontend applications for Fortune 500 companies.',
-  keywords:
-    'React, Next.js, TypeScript, Software Engineer, Design Systems, Accessibility, Performance, Storybook, Lead Developer, Enterprise Software, WCAG, Component Libraries, Deloitte Digital',
+    'Lead Software Engineer building accessible, high-traffic web applications. Enterprise platforms for HP, Eli Lilly, and Amazon by day; five self-built products shipped and live by night.',
   authors: [{ name: 'Andrew Persad' }],
   creator: 'Andrew Persad',
   publisher: 'Andrew Persad',
@@ -52,29 +45,27 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: 'Andrew Persad - Lead Software Engineer',
+    title: 'Andrew Persad | Lead Software Engineer',
     description:
-      'Lead Software Engineer specializing in React/Next.js, design systems, and accessible enterprise UIs. 8+ years building scalable frontend applications.',
+      'Lead Software Engineer building accessible, high-traffic web applications. Enterprise platforms by day, five self-built products by night.',
     type: 'website',
     locale: 'en_US',
-    siteName: 'Andrew Persad Portfolio',
+    siteName: 'Andrew Persad',
     url: 'https://andrewpersad.com',
     images: [
       {
         url: 'https://andrewpersad.com/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'Andrew Persad - Lead Software Engineer',
+        alt: 'Andrew Persad, Lead Software Engineer',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    site: '@andrewpersad',
-    creator: '@andrewpersad',
-    title: 'Andrew Persad - Lead Software Engineer',
+    title: 'Andrew Persad | Lead Software Engineer',
     description:
-      'Lead Software Engineer specializing in React/Next.js, design systems, and accessible enterprise UIs.',
+      'Lead Software Engineer building accessible, high-traffic web applications. Enterprise platforms by day, five self-built products by night.',
     images: ['https://andrewpersad.com/twitter-image.jpg'],
   },
   alternates: {
@@ -101,7 +92,7 @@ export default function RootLayout({
         {/* Skip to main content link */}
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-accent text-accent-contrast px-4 py-2 rounded-md z-50"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-accent-solid text-accent-contrast px-4 py-2 rounded-md z-50"
         >
           Skip to main content
         </a>
@@ -123,18 +114,6 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(getWebsiteSchema()),
-          }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(getOrganizationSchema()),
-          }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(getFAQSchema()),
           }}
         />
       </body>
