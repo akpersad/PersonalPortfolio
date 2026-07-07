@@ -81,6 +81,8 @@ so nothing depends on chat history.
 - **Branch off `main` per phase, one PR per phase, owner opens/merges the PRs.**
 - Remote: `github.com-personal:akpersad/PersonalPortfolio.git`. Plain `git push` works via
   SSH; **`gh` CLI is NOT authenticated** on this machine.
+- **Do NOT `git push` until the owner explicitly says to** (owner rule, 2026-07-07). Commit
+  locally, report the branch is ready, and wait.
 - **No em dashes in any site copy** (owner's global rule; internal docs exempt).
 - Copy voice model: the Fork In The Road entry in `src/lib/projects.ts`. Specific,
   first-person, outcome-led, zero buzzwords. Liberties = amplify and frame real work, never
