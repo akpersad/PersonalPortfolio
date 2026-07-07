@@ -45,8 +45,10 @@ so nothing depends on chat history.
       nav/footer shell rebuilt on tokens; `/colophon` skeleton; avatar exported as
       `src/components/Avatar.tsx` (Flat v5.4, `--av-*` component tokens), avatar.webp
       deleted; CoreWebVitals/PerformanceMonitor removed. Awaiting owner PR.
-- [ ] **Phase 3 — Core pages.** Home, about (experience timeline first), work index, contact,
-      resume. All copy rewritten (voice rules below).
+- [x] **Phase 3 — Core pages.** DONE on `feature/phase-3-core-pages` (2026-07-07, awaiting
+      owner PR). Next.js 16 upgrade + home, about (timeline first), work index, contact,
+      resume all rebuilt on the Annotated system, copy rewritten in voice. Details in the
+      session log.
 - [ ] **Phase 4 — Case-study engine (MDX) + Fork In The Road flagship study.**
 - [ ] **Phase 5 — Remaining studies.** overlapp, PersadPay, pawscriptions, ProteinChecker,
       small-hacks shelf.
@@ -226,3 +228,52 @@ so nothing depends on chat history.
   NEXT: Phase 3 (core pages: home, about with experience timeline, work index, contact,
   resume; all copy rewritten per voice rules). Consider the Next.js 16 upgrade at Phase 3
   kickoff (target stack in working agreements; not done in Phase 2 to keep the PR scoped).
+- **2026-07-07 (Phase 3: core pages)** — Built on `feature/phase-3-core-pages` off merged
+  main (Phase 2 = PR #13). Two commits: the Next 16 upgrade, then the pages.
+  - **Next.js 16.2.10 upgrade** (own commit): react/react-dom 19.2.7, eslint-config-next 16.
+    Turbopack is default (dropped `--turbopack` flags). eslint.config.mjs moved off the
+    FlatCompat bridge to `eslint-config-next/core-web-vitals` + `/typescript` native flat
+    exports (the old bridge crashes on v16). New react-hooks 7 purity rule required moving
+    `Date.now()` out of a useRef initializer in useAnalytics. tsconfig `jsx: react-jsx`
+    applied by next build. Images config already explicit, so the v16 default changes
+    (qualities/imageSizes/minimumCacheTTL) were no-ops.
+  - **New data model `src/lib/work.ts`**: curated 5-entry lineup (FITR flagship, overlapp,
+    PersadPay, pawscriptions, ProteinChecker web+iOS) with summary/detail/metric/stack/
+    links/accessNote per entry. Facts from repo-audit-2026-06-10.md and portfolio-story.md
+    (113k -> 20k). LIVE URLS VERIFIED via Vercel MCP: overlapp-psi.vercel.app,
+    pawscriptions.vercel.app (both confirmed live; persadpay.com + forkintheroad.app + 
+    protein-checker-web.vercel.app already known). Old projects.ts kept ONLY for the legacy
+    /work/[slug] pages; delete both with Phase 4.
+  - **Pages rebuilt** (all on tokens, FITR voice, no em dashes): home (comp hero verbatim,
+    ledger rows for 3 featured, "How I work" three rules, availability strip; page-level
+    Person JSON-LD removed, layout already provides it); about (experience timeline first
+    from resume.ts: HP 2025-now / Lilly 2025 / Amazon 2023, then "Off hours" with the five
+    products + avatar story); work index (5 ledger entries, links to live+repo only, NO
+    internal study links until Phase 4, honest access notes for the gated apps); contact
+    (same form logic + Resend route, restyled, specific error copy, aria-invalid/
+    describedby, live regions, danger tokens); resume (data-driven from resume.ts, no
+    education, PDF/JSON contracts kept). WorkClient.tsx deleted. resume/layout.tsx added
+    for metadata.
+  - **Schema cleanup**: FAQPage schema deleted (no visible FAQ + referenced de-featured
+    Pokemon project), standalone Deloitte Organization schema deleted, Person knowsAbout
+    trimmed 55 -> 8 real items, hasCredential aligned to resume.ts wording, unverifiable
+    @andrewpersad Twitter handle removed from metadata. Root metadata title/description
+    rewritten (keywords meta dropped).
+  - **Tokens added**: `--danger`/`--danger-ink` (form errors; 5.1-7.9:1 verified) and
+    `--accent-solid` (filled buttons; signal-600 under white text is only 4.16:1 at 14px,
+    solid controls use signal-650 = 5.3:1 light / accent 0.72 with dark ink = 7.4:1 dark).
+    Comp updated to match (same pattern as the Phase 2 --accent-ink fix). GOTCHA: the sed
+    that swapped buttons to bg-accent-solid also caught Navigation's underline; reverted
+    (graphics stay on --accent, 3:1 non-text).
+  - **Tests**: dark-mode axe now full-page for /, /about, /work, /contact, /resume,
+    /colophon (was header/footer only). "Deloitte Digital" locator needed .first() (now
+    appears in resume summary + experience). Legacy /work/[slug] tests untouched.
+  - **Verified**: lint, type-check, build green; full cross-browser suite 170/170;
+    screenshots 360/768/1280 light+dark in temp/comp-shots/phase-3/ (gitignored), squint
+    checked. Bundle monitor: 1.01 MB vs 1000 KB threshold, but baseline main was already
+    1.02 MB, so Phase 3 slightly shrinks it; the violation is pre-existing (threshold vs
+    Next 16 chunking; revisit Phase 7).
+  NEXT: owner PRs Phase 3, then Phase 4 (MDX case-study engine + FITR flagship study from
+  portfolio-story.md; kill projects.ts + legacy [slug] pages + remaining legacy palette
+  block in globals.css; small-hacks shelf content lands Phase 5, hue-scenes repo exists
+  locally but is not public, decide shelf items then).

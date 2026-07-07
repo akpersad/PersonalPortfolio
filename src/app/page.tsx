@@ -1,202 +1,185 @@
 import Link from 'next/link';
 import Avatar from '@/components/Avatar';
-import { projects, projectSlugs } from '@/lib/projects';
+import { homeFeatured } from '@/lib/work';
+
+const principles = [
+  {
+    title: 'Deletion is a feature',
+    body: 'My favorite number in my favorite project is negative: a 113,000 line app rebuilt as 20,000 lines that do more. Scope discipline is a design tool, not an afterthought.',
+  },
+  {
+    title: 'The unhappy path is the product',
+    body: 'Empty, loading, and error states are where software actually lives. They get designed on purpose and tested in CI, in both color modes, instead of being discovered by users.',
+  },
+  {
+    title: 'Measured beats claimed',
+    body: 'Accessibility and performance run as build gates, not intentions: axe scans in light and dark, Lighthouse floors, and a bundle monitor. If a change slips, the build fails before anyone sees it.',
+  },
+];
 
 export default function Home() {
   return (
-    <div>
-      {/* Hero Section */}
-      <section className="bg-light-neutral py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Content */}
-            <div className="text-center lg:text-left">
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-text-primary leading-tight mb-6">
-                Lead Software Engineer
-              </h1>
-
-              <p className="text-xl text-text-secondary mb-8 leading-relaxed">
-                I develop responsive, accessible front-end interfaces with
-                pixel-perfect precision. Building modern web applications with
-                React, Next.js, and TypeScript, delivering measurable
-                performance improvements and scalable solutions.
-              </p>
-
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                <Link
-                  href="/work"
-                  className="bg-primary-green text-text-on-dark px-8 py-4 rounded-lg font-semibold hover:bg-dark-green transition-colors inline-flex items-center justify-center"
-                >
-                  See Selected Work
-                </Link>
-                <Link
-                  href="/resume"
-                  className="border border-medium-green text-text-secondary px-8 py-4 rounded-lg font-semibold hover:bg-medium-green hover:text-text-primary transition-colors inline-flex items-center justify-center"
-                >
-                  Download Resume (PDF)
-                </Link>
-              </div>
-            </div>
-
-            {/* Avatar */}
-            <div className="flex justify-center lg:justify-end">
-              <Avatar
-                className="w-80 h-80 sm:w-96 sm:h-96"
-                title="Illustrated portrait of Andrew Persad, lead software engineer"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Mini About Preview */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-light-neutral/50">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-semibold text-text-primary mb-6">
-            About My Work
-          </h2>
-          <p className="text-lg text-text-secondary leading-relaxed mb-8">
-            I architect modern web applications with a focus on performance,
-            accessibility, and user experience. My personal projects showcase
-            expertise in React, Next.js, TypeScript, and cross-platform
-            development, from a group dining decision app to nutrition
-            calculators and collection management tools.
+    <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-10">
+      {/* Hero */}
+      <section className="grid items-center gap-12 py-20 sm:py-28 lg:grid-cols-[minmax(0,7fr)_minmax(0,4fr)]">
+        <div>
+          <p className="annotation flex items-center gap-3 before:h-px before:w-10 before:bg-accent">
+            Andrew Persad, lead software engineer
           </p>
-          <Link
-            href="/about"
-            className="text-text-link-primary font-semibold hover:text-text-secondary transition-colors"
-          >
-            Learn more about my background →
-          </Link>
-        </div>
-      </section>
-
-      {/* Featured Work Preview */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-semibold text-text-primary mb-4">
-              Featured Projects
-            </h2>
-            <p className="text-lg text-text-secondary">
-              Personal projects showcasing technical expertise and creative
-              problem-solving across different domains
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {projects.slice(0, 3).map(project => {
-              const slug = projectSlugs[project.project];
-              return (
-                <div
-                  key={project.project}
-                  className="bg-light-neutral border border-medium-green rounded-lg p-6 hover:shadow-lg transition-shadow"
-                >
-                  <h3 className="text-xl font-semibold text-text-primary mb-3">
-                    {project.project}
-                  </h3>
-                  <p className="text-text-secondary mb-4 text-sm">
-                    {project.shortDescription}
-                  </p>
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {project.stack.slice(0, 3).map(tech => (
-                      <span
-                        key={tech}
-                        className="text-xs bg-darkest text-text-on-dark px-2 py-1 rounded"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                  <Link
-                    href={`/work/${slug}`}
-                    className="text-text-link-primary font-medium hover:text-text-secondary transition-colors"
-                  >
-                    View Details →
-                  </Link>
-                </div>
-              );
-            })}
-          </div>
-
-          <div className="text-center mt-12">
+          <h1 className="mt-6 max-w-[14ch] text-display font-semibold text-fg">
+            Built to spec.{' '}
+            <span className="relative whitespace-nowrap after:absolute after:inset-x-0 after:bottom-[0.04em] after:h-[0.08em] after:bg-accent">
+              Measured
+            </span>{' '}
+            before it ships.
+          </h1>
+          <p className="mt-8 max-w-[58ch] text-lg text-fg-muted">
+            By day I lead frontend work on platforms serving{' '}
+            <strong className="font-semibold text-fg">
+              9 million users at HP
+            </strong>
+            , with prior builds for Eli Lilly and Amazon. At night I design,
+            build, and run my own products end to end:{' '}
+            <strong className="font-semibold text-fg">
+              five shipped and live
+            </strong>
+            , from a payroll engine tested to exact dollars to a group decision
+            app rebuilt at one sixth its original size.
+          </p>
+          <p className="mt-8 flex items-center gap-3 font-mono text-sm text-fg-muted">
+            <span
+              className="h-2 w-2 rounded-full bg-accent"
+              aria-hidden="true"
+            />
+            now: lead software engineer, open to lead roles
+          </p>
+          <div className="mt-8 flex flex-wrap gap-4">
             <Link
               href="/work"
-              className="bg-darkest text-text-on-dark px-8 py-4 rounded-lg font-semibold hover:bg-dark-green transition-colors inline-flex items-center gap-2"
+              className="inline-flex min-h-11 items-center justify-center rounded-md bg-accent-solid px-5 text-sm font-medium text-accent-contrast motion-safe:transition-transform motion-safe:duration-150 motion-safe:ease-out-quint active:scale-[0.97]"
             >
-              View All Projects
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                <path
-                  fillRule="evenodd"
-                  d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-                  clipRule="evenodd"
-                />
-              </svg>
+              See the work
+            </Link>
+            <Link
+              href="/about"
+              className="inline-flex min-h-11 items-center justify-center rounded-md border border-line-strong px-5 text-sm font-medium text-fg hover:border-accent hover:text-accent-ink motion-safe:transition-colors motion-safe:duration-150"
+            >
+              About me
             </Link>
           </div>
         </div>
+        <div className="flex flex-col items-center gap-4">
+          <Avatar
+            className="w-56 sm:w-64 lg:w-72 xl:w-80"
+            title="Illustrated portrait of Andrew Persad, lead software engineer"
+          />
+          <p className="annotation" aria-hidden="true">
+            fig. 01 / portrait, flat treatment
+          </p>
+        </div>
       </section>
 
-      {/* Contact CTA */}
-      <section className="bg-darkest py-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-semibold text-text-on-dark mb-4">
-            Let&apos;s Work Together
+      {/* Selected work */}
+      <section aria-labelledby="selected-work">
+        <div className="flex items-baseline justify-between border-t border-line-strong pt-4">
+          <h2 id="selected-work" className="text-xl font-semibold text-fg">
+            Selected work
           </h2>
-          <p className="text-lg text-text-muted-on-dark mb-8">
-            I&apos;m open to new Lead Software Engineer opportunities where I
-            can leverage my experience building modern web applications and
-            creative problem-solving. Let&apos;s discuss how I can contribute to
-            your team&apos;s success.
-          </p>
+          <span className="annotation">03 of 05 studies</span>
+        </div>
+        <ul className="mt-4">
+          {homeFeatured.map(entry => (
+            <li key={entry.slug}>
+              <a
+                href={entry.links.live}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group grid gap-3 border-t border-line py-8 md:grid-cols-[minmax(0,7fr)_minmax(0,4fr)_auto] md:items-baseline md:gap-x-8"
+              >
+                <div>
+                  <h3
+                    className={`font-semibold text-fg motion-safe:transition-colors motion-safe:duration-150 group-hover:text-accent-ink ${
+                      entry.flagship ? 'text-title' : 'text-2xl'
+                    }`}
+                  >
+                    {entry.title}
+                    <span className="sr-only"> (live site, opens in a new tab)</span>
+                  </h3>
+                  <p className="mt-2 max-w-[48ch] text-sm text-fg-muted">
+                    {entry.summary}
+                  </p>
+                </div>
+                <p className="max-w-[44ch] text-sm text-fg-muted">
+                  {entry.detail}
+                </p>
+                <span className="font-mono text-sm tabular-nums text-fg">
+                  {entry.metric}
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
+        <div className="border-t border-line py-6">
           <Link
-            href="/contact"
-            className="bg-primary-green text-text-on-dark px-8 py-4 rounded-lg font-semibold hover:bg-medium-green transition-colors inline-flex items-center gap-2"
+            href="/work"
+            className="font-mono text-sm text-fg-muted hover:text-accent-ink motion-safe:transition-colors motion-safe:duration-150"
           >
-            Get In Touch
-            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-              <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-            </svg>
+            The full index: five products, all live &rarr;
           </Link>
         </div>
       </section>
 
-      {/* JSON-LD Structured Data */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'Person',
-            name: 'Andrew Persad',
-            jobTitle: 'Lead Software Engineer',
-            description:
-              'Lead Software Engineer specializing in React/Next.js, TypeScript, and modern web application development.',
-            url: 'https://andrewpersad.com',
-            sameAs: [
-              'https://github.com/akpersad',
-              'https://linkedin.com/in/andrew-persad-aa496432',
-            ],
-            knowsAbout: [
-              'React',
-              'Next.js',
-              'TypeScript',
-              'Design Systems',
-              'Web Accessibility',
-              'Performance Optimization',
-              'Enterprise Software',
-              'Component Libraries',
-              'SSO Integration',
-              'WCAG Compliance',
-            ],
-            worksFor: {
-              '@type': 'Organization',
-              name: 'Deloitte Digital',
-            },
-          }),
-        }}
-      />
+      {/* How I work */}
+      <section aria-labelledby="how-i-work" className="py-16 sm:py-24">
+        <div className="flex items-baseline justify-between border-t border-line-strong pt-4">
+          <h2 id="how-i-work" className="text-xl font-semibold text-fg">
+            How I work
+          </h2>
+          <span className="annotation">fig. 02 / three rules</span>
+        </div>
+        <div className="mt-10 space-y-10">
+          {principles.map(principle => (
+            <div
+              key={principle.title}
+              className="max-w-[62ch] border-l-2 border-accent pl-6"
+            >
+              <h3 className="text-xl font-semibold text-fg">
+                {principle.title}
+              </h3>
+              <p className="mt-3 text-fg-muted">{principle.body}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Availability */}
+      <section
+        aria-labelledby="availability"
+        className="border-t border-line-strong pb-24 pt-12"
+      >
+        <h2 id="availability" className="max-w-[24ch] text-title font-semibold text-fg">
+          Open to lead roles
+        </h2>
+        <p className="mt-6 max-w-[58ch] text-fg-muted">
+          I am looking for a lead software engineer seat where product judgment
+          matters as much as delivery. The fastest way to reach me is the
+          contact form. I reply within a day or two.
+        </p>
+        <div className="mt-8 flex flex-wrap gap-4">
+          <Link
+            href="/contact"
+            className="inline-flex min-h-11 items-center justify-center rounded-md bg-accent-solid px-5 text-sm font-medium text-accent-contrast motion-safe:transition-transform motion-safe:duration-150 motion-safe:ease-out-quint active:scale-[0.97]"
+          >
+            Get in touch
+          </Link>
+          <Link
+            href="/resume"
+            className="inline-flex min-h-11 items-center justify-center rounded-md border border-line-strong px-5 text-sm font-medium text-fg hover:border-accent hover:text-accent-ink motion-safe:transition-colors motion-safe:duration-150"
+          >
+            Resume
+          </Link>
+        </div>
+      </section>
     </div>
   );
 }

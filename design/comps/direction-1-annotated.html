@@ -52,6 +52,9 @@
   /* a11y fix (Phase 2 foundation): accent TEXT needs 4.5:1 on light paper;
      signal-600 is 3.77:1 at 14px. Darker step for text, signal-600 stays for graphics. */
   --accent-ink: oklch(0.54 0.17 40);
+  /* a11y fix (Phase 3): filled buttons need 4.5:1 under near-white text at
+     14px; signal-600 is 4.16:1. Solid controls use the darker step. */
+  --accent-solid: oklch(0.54 0.17 40);
   --ring: var(--signal-500);
   color-scheme: light;
 }
@@ -64,6 +67,7 @@
   --fg-muted: oklch(0.72 0.012 var(--hue));
   --accent: oklch(0.72 0.16 45);
   --accent-ink: oklch(0.78 0.14 45);
+  --accent-solid: oklch(0.72 0.16 45);
   --ring: oklch(0.72 0.16 45);
   color-scheme: dark;
 }
@@ -120,7 +124,7 @@ header { border-bottom: 1px solid var(--line); position: sticky; top: 0;
   padding: 10px 20px; border-radius: var(--radius-md); border: 1px solid transparent; }
 @media (prefers-reduced-motion: no-preference) { .btn { transition: transform 120ms var(--ease-out); } }
 .btn:active { transform: scale(0.97); }
-.btn-primary { background: var(--accent); color: oklch(0.99 0.005 40); }
+.btn-primary { background: var(--accent-solid); color: oklch(0.99 0.005 40); }
 .dark .btn-primary { color: oklch(0.16 0.02 40); }
 .btn-ghost { border-color: var(--line-strong); color: var(--fg); }
 .btn-ghost:hover { border-color: var(--accent); color: var(--accent-ink); }

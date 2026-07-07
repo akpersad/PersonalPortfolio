@@ -37,8 +37,15 @@
   --fg-muted: var(--ink-1);
   --accent: var(--signal-600);
   --accent-ink: var(--signal-650);
+  /* Filled-control surface: signal-600 is only 4.16:1 under accent-contrast
+     text at 14px, so solid buttons step down to signal-650 (5.3:1). */
+  --accent-solid: var(--signal-650);
   --accent-contrast: oklch(0.99 0.005 40);
   --ring: var(--signal-500);
+  /* Form validation. danger-ink is text-safe (>=4.5:1 on bg/surface);
+     danger is for borders/icons (>=3:1 non-text). */
+  --danger: oklch(0.55 0.19 25);
+  --danger-ink: oklch(0.5 0.19 25);
 
   /* COMPONENT: avatar (geometry locked at v5.4; only these vars theme it) */
   --av-bg: var(--surface-2);
@@ -60,8 +67,11 @@
   --fg-muted: oklch(0.72 0.012 var(--hue));
   --accent: oklch(0.72 0.16 45);
   --accent-ink: oklch(0.78 0.14 45);
+  --accent-solid: oklch(0.72 0.16 45);
   --accent-contrast: oklch(0.16 0.02 40);
   --ring: oklch(0.72 0.16 45);
+  --danger: oklch(0.68 0.17 25);
+  --danger-ink: oklch(0.76 0.14 25);
 
   --av-bg: var(--surface-2);
   --av-shirt: #55618a;
@@ -80,8 +90,11 @@
   --color-fg-muted: var(--fg-muted);
   --color-accent: var(--accent);
   --color-accent-ink: var(--accent-ink);
+  --color-accent-solid: var(--accent-solid);
   --color-accent-contrast: var(--accent-contrast);
   --color-ring: var(--ring);
+  --color-danger: var(--danger);
+  --color-danger-ink: var(--danger-ink);
 
   /* Type */
   --font-sans: var(--font-geist-sans), system-ui, sans-serif;
@@ -101,9 +114,9 @@
   /* Motion (150-300ms, transform/opacity only, ease-out) */
   --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
 
-  /* LEGACY forest palette. Only the not-yet-rebuilt pages (home, about, work,
-     resume, contact) reference these. Delete each as its page is rebuilt in
-     Phases 3-5. Do not use in new code. */
+  /* LEGACY forest palette. Only the not-yet-rebuilt /work/[slug] project
+     pages reference these. Delete when Phase 4 replaces them with the MDX
+     case-study engine. Do not use in new code. */
   --color-light-neutral: #dad7cd;
   --color-medium-green: #a3b18a;
   --color-primary-green: #527a51;
@@ -176,12 +189,4 @@ h3 {
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
   }
-}
-
-/* Line clamp utility for text truncation (used by legacy pages) */
-.line-clamp-3 {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
 }

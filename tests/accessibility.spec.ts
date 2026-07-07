@@ -48,30 +48,28 @@ test.describe('Accessibility Tests', () => {
     expect(accessibilityScanResults.violations).toEqual([]);
   });
 
-  // Dark-mode scan is scoped to the themed shell (header/footer) until the
-  // page bodies are rebuilt on the new tokens in Phases 3-5. The legacy page
-  // content is light-palette and only tested in light mode. Widen this scan
-  // to the full page as each page is rebuilt.
-  test('Shell should be accessible in dark mode', async ({ page }) => {
-    await page.addInitScript(() => localStorage.setItem('theme', 'dark'));
-    await page.goto('/');
-    await page.waitForLoadState('networkidle');
-    await expect(page.locator('html')).toHaveClass(/dark/);
-    const accessibilityScanResults = await new AxeBuilder({ page })
-      .include('header')
-      .include('footer')
-      .analyze();
-    expect(accessibilityScanResults.violations).toEqual([]);
-  });
-
-  test('Colophon page should be accessible in dark mode', async ({ page }) => {
-    await page.addInitScript(() => localStorage.setItem('theme', 'dark'));
-    await page.goto('/colophon');
-    await page.waitForLoadState('networkidle');
-    await expect(page.locator('html')).toHaveClass(/dark/);
-    const accessibilityScanResults = await new AxeBuilder({ page }).analyze();
-    expect(accessibilityScanResults.violations).toEqual([]);
-  });
+  // Full-page dark-mode scans for every page rebuilt on the new tokens.
+  // The legacy /work/[slug] pages are light-palette and only tested in light
+  // mode; add them here when Phase 4 rebuilds them.
+  for (const path of [
+    '/',
+    '/about',
+    '/work',
+    '/contact',
+    '/resume',
+    '/colophon',
+  ]) {
+    test(`${path} should be accessible in dark mode`, async ({ page }) => {
+      await page.addInitScript(() => localStorage.setItem('theme', 'dark'));
+      await page.goto(path);
+      await page.waitForLoadState('networkidle');
+      await expect(page.locator('html')).toHaveClass(/dark/);
+      const accessibilityScanResults = await new AxeBuilder({
+        page,
+      }).analyze();
+      expect(accessibilityScanResults.violations).toEqual([]);
+    });
+  }
 
   test('Theme toggle should switch themes and persist', async ({ page }) => {
     await page.goto('/');
@@ -406,8 +404,9 @@ test.describe('Resume Page Functionality', () => {
     ).toBeVisible();
     await expect(page.locator('h2:has-text("Certifications")')).toBeVisible();
 
-    // Check for Deloitte Digital experience
-    await expect(page.locator('text=Deloitte Digital')).toBeVisible();
+    // Check for Deloitte Digital experience (appears in summary and the
+    // experience block, so take the first match)
+    await expect(page.locator('text=Deloitte Digital').first()).toBeVisible();
     await expect(
       page.locator('h3:has-text("Lead Software Engineer")')
     ).toBeVisible();

@@ -26,79 +26,20 @@ export const getPersonSchema = () => ({
     'React',
     'Next.js',
     'TypeScript',
-    'JavaScript',
-    'HTML5',
-    'CSS3',
     'Design Systems',
     'Web Accessibility',
     'Performance Optimization',
     'Component Libraries',
-    'SSO Integration',
-    'WCAG Compliance',
-    'React Testing Library',
-    'Storybook',
-    'Tailwind CSS',
-    'SCSS',
-    'CSS-in-JS',
-    'Contentful',
-    'Adobe Experience Manager',
-    'MUI X Charts',
-    'Data Visualization',
-    'Cross-browser Compatibility',
-    'Responsive Design',
-    'API Integration',
-    'Memoization',
-    'Render Profiling',
-    'Build Tools',
-    'Git',
-    'Jest',
-    'axe DevTools',
-    'Lighthouse',
     'Enterprise Software',
-    'Fortune 500',
-    'Veneer Design System',
-    'Meridian Design System',
-    'MongoDB',
-    'Authentication',
-    'Security',
-    'Progressive Web Apps',
-    'Code Splitting',
-    'Lazy Loading',
-    'Image Optimization',
-    'SEO',
-    'Core Web Vitals',
-    'User Experience',
-    'User Interface',
-    'Technical Leadership',
-    'Code Review',
-    'Documentation',
-    'Problem Solving',
-    'Debugging',
-    'Performance Analysis',
-    'Cross Browser Compatibility',
-    'CI/CD',
-    'Version Control',
-    'Agile Development',
-    'Clean Code',
-    'SOLID Principles',
-    'Architecture Patterns',
-    'Design Patterns',
-    'Best Practices',
   ],
-  workLocation: {
-    '@type': 'Place',
-    name: 'Remote / United States',
-  },
   hasCredential: [
-    'Salesforce Platform Developer I (PD1)',
-    'Salesforce Administrator',
-    'Unqork Configurator Certification',
+    'Salesforce Certified Admin',
+    'Salesforce Certified Platform Developer 1',
+    'Certified Associate Configurator - Unqork',
   ],
   worksFor: {
     '@type': 'Organization',
     name: 'Deloitte Digital',
-    description:
-      'Global digital consultancy specializing in digital transformation and technology solutions',
   },
 });
 
@@ -184,25 +125,6 @@ export const getWebsiteSchema = () => ({
   },
 });
 
-// Organization Schema for Deloitte Digital
-export const getOrganizationSchema = () => ({
-  '@context': 'https://schema.org',
-  '@type': 'Organization',
-  name: 'Deloitte Digital',
-  description:
-    'Global digital consultancy specializing in digital transformation and technology solutions for Fortune 500 companies.',
-  url: 'https://www2.deloitte.com/us/en/pages/consulting/solutions/digital-transformation.html',
-  logo: 'https://www2.deloitte.com/content/dam/Deloitte/us/Images/promo_images/us-deloitte-digital-logo.png',
-  sameAs: [
-    'https://www.linkedin.com/company/deloitte-digital/',
-    'https://twitter.com/deloittedigital',
-  ],
-  address: {
-    '@type': 'PostalAddress',
-    addressCountry: 'US',
-  },
-});
-
 // Article Schema for project case studies
 export const getArticleSchema = (projectName: string, slug: string) => {
   const project = projects.find(p => p.project === projectName);
@@ -230,46 +152,6 @@ export const getArticleSchema = (projectName: string, slug: string) => {
     inLanguage: 'en-US',
   };
 };
-
-// FAQ Schema for common questions
-export const getFAQSchema = () => ({
-  '@context': 'https://schema.org',
-  '@type': 'FAQPage',
-  mainEntity: [
-    {
-      '@type': 'Question',
-      name: 'What technologies does Andrew specialize in?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Andrew specializes in React, Next.js, TypeScript, design systems, performance optimization, accessibility (WCAG), and modern frontend development practices. He has extensive experience with enterprise technologies including Contentful, Adobe Experience Manager, and various design systems.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: "What is Andrew's current role?",
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Andrew is currently a Lead Software Engineer at Deloitte Digital, where he works on enterprise-scale applications for Fortune 500 clients including HP, Eli Lilly, and Amazon.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'Is Andrew available for new opportunities?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Yes, Andrew is currently seeking Lead Software Engineer opportunities. He is open to remote, hybrid, or on-site positions and can be contacted through the contact form on this website.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'What kind of projects has Andrew worked on?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Andrew has worked on a variety of projects including Fork In The Road, a group dining decision app, a cross-platform protein quality calculator with a native iOS version, and a Pokemon TCG collection manager. He specializes in building scalable, accessible web applications with modern technologies.',
-      },
-    },
-  ],
-});
 
 // Generate canonical URL
 export const getCanonicalUrl = (path: string) => {
