@@ -56,10 +56,12 @@ so nothing depends on chat history.
       projects.ts + legacy [slug] pages + legacy forest palette deleted. Details in the
       session log.
 - [ ] **Phase 5 — Remaining studies.** overlapp, PersadPay, pawscriptions, ProteinChecker,
-      small-hacks shelf.
+      small-hacks shelf. COMBINED with Phase 6 on `feature/phase-5-6-content-and-craft`
+      (owner decision 2026-07-07): one branch, one PR, clean per-unit commits.
 - [ ] **Phase 6 — Craft layer + /notes.** Signature interaction, view transitions, scroll
-      choreography, ONE live widget, one easter egg, 3 launch essays.
-- [ ] **Phase 7 — Colophon + hardening + launch.**
+      choreography, ONE live widget, one easter egg, 3 launch essays. Same branch as Phase 5.
+- [ ] **Phase 7 — Colophon + hardening + launch.** Stays its own PR (launch gate; needs
+      final content for measured colophon numbers / OG / Lighthouse, plus owner for DNS).
 
 ## Decisions log (owner, 2026-07-06 — do not re-ask)
 
@@ -86,6 +88,8 @@ so nothing depends on chat history.
 ## Working agreements
 
 - **Branch off `main` per phase, one PR per phase, owner opens/merges the PRs.**
+  AMENDED 2026-07-07: Phases 5+6 share one branch/PR (`feature/phase-5-6-content-and-craft`)
+  with per-unit commits (one per study, shelf, craft feature, essay). Phase 7 is its own PR.
 - Remote: `github.com-personal:akpersad/PersonalPortfolio.git`. Plain `git push` works via
   SSH; **`gh` CLI is NOT authenticated** on this machine.
 - **Do NOT `git push` until the owner explicitly says to** (owner rule, 2026-07-07). Commit
