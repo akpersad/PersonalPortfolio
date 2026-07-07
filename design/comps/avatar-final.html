@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Avatar likeness v3: Sticker (picked) + Flat — Annotated palette</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Avatar likeness v3, rendered only in the chosen Annotated palette.
+   Treatment is locked (owner picked D "Sticker"); Flat kept alongside for
+   comparison while the likeness iterates. v3 vs v2: wider rounder face,
+   higher hairline with receded temples, shorter hair on top, smaller
+   deeper-set eyes with faint under-eye lines, straighter thicker brows,
+   broader nose base, heavier mustache, jaw-wide beard with sideburns. */
+:root {
+  --av-skin: #E9A868;
+  --av-skin-2: #C87E3F;
+  --av-hair: #17130E;
+  --av-hair-2: #17130E;
+  --av-hair-hi: #2A241C;
+  --av-teeth: #F7F2EC;
+}
+* { box-sizing: border-box; margin: 0; }
+body { font-family: "Geist", system-ui, sans-serif; background: #ECEDF1; color: #23252E; line-height: 1.55; }
+.mono { font-family: "Geist Mono", monospace; font-size: 0.72rem; letter-spacing: 0.06em;
+  text-transform: uppercase; opacity: 0.75; }
+.wrap { max-width: 70rem; margin-inline: auto; padding: 32px clamp(16px, 4vw, 40px) 64px; }
+h1 { font-size: clamp(1.4rem, 1.1rem + 1.4vw, 2rem); letter-spacing: -0.015em; }
+.intro { max-width: 60ch; margin-top: 10px; opacity: 0.85; }
+.panel { border-radius: 16px; padding: 32px; margin-top: 24px; background: var(--bg); color: var(--fg);
+  border: 1px solid rgb(0 0 0 / 0.08); }
+.row { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 32px; margin-top: 16px; }
+.cell { text-align: center; }
+.cell svg { width: 100%; height: auto; max-width: 420px; display: block; margin-inline: auto; }
+.cell figcaption { margin-top: 12px; font-size: 0.85rem; opacity: 0.8; }
+.d1-light { --bg: oklch(0.985 0.004 245); --fg: oklch(0.24 0.02 245);
+  --av-bg: oklch(0.92 0.008 245); --av-acc: oklch(0.60 0.19 40);
+  --av-paper: oklch(0.985 0.004 245); --av-shirt: #3C4763; }
+.d1-dark { --bg: oklch(0.20 0.018 245); --fg: oklch(0.93 0.008 245);
+  --av-bg: oklch(0.245 0.02 245); --av-acc: oklch(0.72 0.16 45);
+  --av-paper: oklch(0.20 0.018 245); --av-shirt: #55618A; }
+.small-row { display: flex; gap: 24px; justify-content: center; align-items: flex-end; margin-top: 20px; }
+.small-row svg { display: block; }
+.small-row svg[width="64"] { width: 64px; height: 64px; }
+.small-row svg[width="40"] { width: 40px; height: 40px; }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- v5 master bust: faithful vector recreation of the ORIGINAL avatar art
+         (recovered from git history at fa16697^, see temp/original-avatar/), per owner
+         instruction after v3/v4 photo-based redraws missed. Construction matches the
+         original: flat emoji style with a round head, scalloped curl crown, simple
+         black oval eyes (no whites), bold black brows, tiny crescent nose, closed warm
+         smile on a skin patch inside the beard (no teeth), no shading. Hair is black
+         per owner, and hair and beard are SEPARATE masses (fade gap at the temples)
+         per owner. -->
+    <g id="g-bust-v5">
+      <!-- shirt -->
+      <path fill="var(--av-shirt, #3C4763)" d="M 92,512 C 96,462 130,436 190,424 C 216,418 240,416 256,416 C 272,416 296,418 322,424 C 382,436 416,462 420,512 Z"/>
+      <path fill="rgb(0 0 0 / 0.22)" d="M 210,420 C 220,436 292,436 302,420 L 302,429 C 292,445 220,445 210,437 Z"/>
+      <!-- neck -->
+      <path fill="var(--av-skin)" d="M 222,370 L 222,432 C 238,440 274,440 290,432 L 290,370 Z"/>
+      <path fill="var(--av-skin-2)" d="M 222,370 L 222,404 C 234,416 278,416 290,404 L 290,370 Z"/>
+      <!-- no ears, per owner -->
+      <!-- face skin base (black frame overlaps it; opening reveals it) -->
+      <path fill="var(--av-skin)" d="M 256,116 C 184,116 154,168 154,240 C 154,312 196,356 256,356 C 316,356 358,312 358,240 C 358,168 328,116 256,116 Z"/>
+      <!-- hair: separate cap with chunky curl crown, ending in faded sideburn stubs
+           above the ears (NOT connected to the beard; skin shows at the temples) -->
+      <path fill="var(--av-hair)" d="M 158,234 C 152,196 156,156 172,128 C 164,100 186,84 204,92 C 208,72 234,68 242,84 C 250,66 276,68 280,86 C 292,70 314,76 314,94 C 330,84 346,96 340,128 C 356,156 360,196 354,234 L 338,236 C 336,204 334,170 328,148 C 306,142 206,142 184,148 C 178,170 176,204 174,236 Z"/>
+      <!-- beard: separate round mass around jaw and chin, cheek tips tapering up
+           toward (but not touching) the hair -->
+      <path fill="var(--av-hair)" d="M 256,404 C 200,404 168,376 158,330 C 153,312 151,292 156,276 C 160,266 170,270 182,280 C 194,290 206,297 216,301 C 230,306 244,301 250,297 C 254,294 258,294 262,297 C 268,301 282,306 296,301 C 306,297 318,290 330,280 C 342,270 352,266 356,276 C 361,292 359,312 354,330 C 344,376 312,404 256,404 Z"/>
+      <!-- nose: small crescent, sitting right on the mustache -->
+      <path fill="var(--av-skin-2)" d="M 236,278 C 242,290 270,290 276,278 C 268,286 244,286 236,278 Z"/>
+      <!-- eyes: simple black ovals -->
+      <ellipse fill="var(--av-hair)" cx="204" cy="250" rx="11" ry="13"/>
+      <ellipse fill="var(--av-hair)" cx="308" cy="250" rx="11" ry="13"/>
+      <!-- brows: bold black, low, tapered outward -->
+      <path fill="var(--av-hair)" d="M 176,231 C 180,216 196,207 214,207 C 228,207 237,213 238,221 C 238,227 232,230 225,228 C 210,224 194,227 184,234 C 179,236 175,235 176,231 Z"/>
+      <path fill="var(--av-hair)" d="M 336,231 C 332,216 316,207 298,207 C 284,207 275,213 274,221 C 274,227 280,230 287,228 C 302,224 318,227 328,234 C 333,236 337,235 336,231 Z"/>
+      <!-- mouth: compact skin patch right under the mustache, closed warm smile, no teeth -->
+      <path fill="var(--av-skin)" d="M 220,318 C 214,336 218,348 234,353 C 242,356 250,354 256,352 C 262,354 270,356 278,353 C 294,348 298,336 292,318 C 278,312 234,312 220,318 Z"/>
+      <path fill="var(--av-hair)" d="M 230,326 C 242,333 270,333 282,326 C 274,342 238,342 230,326 Z"/>
+    </g>
+
+    <!-- FLAT v5 -->
+    <symbol id="avf-flat" viewBox="0 0 512 512">
+      <clipPath id="clipf"><rect x="16" y="16" width="480" height="480" rx="96"/></clipPath>
+      <rect x="16" y="16" width="480" height="480" rx="96" fill="var(--av-bg, #E8E4DC)"/>
+      <g clip-path="url(#clipf)"><use href="#g-bust-v5"/></g>
+    </symbol>
+
+    <!-- STICKER v5: die-cut contour follows the round v5 silhouette -->
+    <symbol id="avf-sticker" viewBox="0 0 512 512">
+      <clipPath id="clips"><circle cx="256" cy="256" r="234"/></clipPath>
+      <circle cx="256" cy="256" r="234" fill="color-mix(in oklch, var(--av-acc), var(--av-paper) 74%)"/>
+      <g clip-path="url(#clips)">
+        <path fill="var(--av-paper)" stroke="var(--av-paper)" stroke-width="16" stroke-linejoin="round"
+          d="M 92,512 C 96,462 130,436 190,424 L 212,418 L 212,400 C 176,390 152,360 146,316 C 134,270 136,190 152,148 C 162,112 182,86 210,74 C 238,62 274,62 302,74 C 330,86 350,112 360,148 C 376,190 378,270 366,316 C 360,360 336,390 300,400 L 300,418 L 322,424 C 382,436 416,462 420,512 Z"/>
+        <use href="#g-bust-v5"/>
+      </g>
+      <circle cx="256" cy="256" r="234" fill="none" stroke="var(--av-acc)" stroke-width="10"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <h1>Avatar likeness, v5</h1>
+  <p class="intro">Treatment is locked: D Sticker. Flat stays on the sheet for side-by-side comparison. v5 goes back to the drawing board with the ORIGINAL avatar art as the only guide (recovered from git history), per owner. Same construction as the original: round head, black hair and beard drawn as separate masses with a fade gap at the temples (per owner), scalloped curl crown, simple black oval eyes, bold brows, tiny crescent nose, closed warm smile on a skin patch inside the beard, flat colors with no shading. The small pair below each row previews nav and contact-card sizes.</p>
+
+  <section class="panel d1-light">
+    <h2 style="font-size:1rem">Annotated <span class="mono">/ light</span></h2>
+    <div class="row">
+      <figure class="cell">
+        <svg viewBox="0 0 512 512" role="img" aria-label="Flat avatar, refined"><use href="#avf-flat"/></svg>
+        <figcaption>A. Flat, v5</figcaption>
+        <div class="small-row">
+          <svg viewBox="0 0 512 512" width="64" height="64"><use href="#avf-flat"/></svg>
+          <svg viewBox="0 0 512 512" width="40" height="40"><use href="#avf-flat"/></svg>
+        </div>
+      </figure>
+      <figure class="cell">
+        <svg viewBox="0 0 512 512" role="img" aria-label="Sticker avatar, refined"><use href="#avf-sticker"/></svg>
+        <figcaption>D. Sticker, v5 (picked treatment)</figcaption>
+        <div class="small-row">
+          <svg viewBox="0 0 512 512" width="64" height="64"><use href="#avf-sticker"/></svg>
+          <svg viewBox="0 0 512 512" width="40" height="40"><use href="#avf-sticker"/></svg>
+        </div>
+      </figure>
+    </div>
+  </section>
+
+  <section class="panel d1-dark">
+    <h2 style="font-size:1rem">Annotated <span class="mono">/ dark</span></h2>
+    <div class="row">
+      <figure class="cell">
+        <svg viewBox="0 0 512 512"><use href="#avf-flat"/></svg>
+        <figcaption>A. Flat, v5</figcaption>
+        <div class="small-row">
+          <svg viewBox="0 0 512 512" width="64" height="64"><use href="#avf-flat"/></svg>
+          <svg viewBox="0 0 512 512" width="40" height="40"><use href="#avf-flat"/></svg>
+        </div>
+      </figure>
+      <figure class="cell">
+        <svg viewBox="0 0 512 512"><use href="#avf-sticker"/></svg>
+        <figcaption>D. Sticker, v5 (picked treatment)</figcaption>
+        <div class="small-row">
+          <svg viewBox="0 0 512 512" width="64" height="64"><use href="#avf-sticker"/></svg>
+          <svg viewBox="0 0 512 512" width="40" height="40"><use href="#avf-sticker"/></svg>
+        </div>
+      </figure>
+    </div>
+  </section>
+</div>
+</body>
+</html>

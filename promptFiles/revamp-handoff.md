@@ -18,8 +18,7 @@ so nothing depends on chat history.
 ## Phase status
 
 - [x] **Phase 0 — Plan.** Branch `feature/revamp-plan`, merged (PR #10).
-- [x] **Phase 1 — Credibility hotfix.** Branch `feature/phase-1-credibility-hotfix`, pushed.
-      PR by owner. All items done: sr-only ATS blocks removed (work index + project pages);
+- [x] **Phase 1 — Credibility hotfix.** Merged (PR #11, 2026-07-06). All items done: sr-only ATS blocks removed (work index + project pages);
       Cosmic Recipe ghost refs gone; fabricated schema fixed (alumniOf, fake email,
       SearchAction, static/fake dates, softwareVersion, license, wordCount removed;
       ProfessionalService schema deleted entirely); domain consolidated to andrewpersad.com
@@ -29,8 +28,20 @@ so nothing depends on chat history.
       text); avatar replaced with 13 KB 768px WebP (`public/icons/avatar.webp`), both
       multi-MB SVGs deleted; contact rate limit fixed (seeds 1, prunes expired entries);
       em dashes removed from site copy; footer year now dynamic; tests updated (130 pass).
-- [ ] **Phase 2 — Design direction + foundation.** 2-3 rendered direction comps + 3-4 avatar
-      treatments, OWNER PICKS. Then tokens/fonts/theming/motion primitives/shell.
+- [~] **Phase 2 — Design direction + foundation.** DIRECTION PICKED (owner, 2026-07-06):
+      **Direction 1 "Annotated"** (`design/comps/direction-1-annotated.html`): hue-245 slate
+      tinted neutrals, signal-orange (hue 40) markup accent, annotation/dimension-line motif,
+      Bricolage Grotesque / Geist / Geist Mono. All tokens live in that comp's `:root` /
+      `.dark` blocks; use them as the source when implementing.
+      AVATAR: **DONE** (owner approved 2026-07-06): treatment **A "Flat"**, likeness locked
+      at **v5.4** (`#g-bust-v5` in `design/comps/avatar-final.html`; see decisions log #8-9).
+      NEXT: foundation on the Annotated tokens (CSS variables as source of truth,
+      Tailwind 4 mapping, fonts self-hosted or Google, flicker-free light/dark theming,
+      motion primitives 150-300ms ease-out-quint transform/opacity only with reduced-motion
+      collapse, nav/footer shell, colophon skeleton), including the mechanical avatar
+      export: optimized standalone SVG themeable via semantic tokens, then delete interim
+      `public/icons/avatar.webp`. Done when tokens power a themed shell at 360/768/1280
+      and both modes pass axe.
 - [ ] **Phase 3 — Core pages.** Home, about (experience timeline first), work index, contact,
       resume. All copy rewritten (voice rules below).
 - [ ] **Phase 4 — Case-study engine (MDX) + Fork In The Road flagship study.**
@@ -50,8 +61,17 @@ so nothing depends on chat history.
 5. HP / Eli Lilly / Amazon naming and metrics: confirmed safe to keep.
 6. Avatar: **full redraw approved** from photos in `temp/me/`; keep the illustrated
    "animated" feel; old likeness need not be preserved. Reference traits: short dark curly
-   hair, full beard, warm smile, brown skin. (In IMG_4191.jpeg he is the man on the right.)
-   HEIC files may need `sips -s format jpeg` conversion before tools can read them.
+   hair, full beard, warm smile, brown skin. (In IMG_4191.jpeg he is the man on the right;
+   IMG_3290 is the best smile reference.) HEIC files already converted to JPEG in
+   `temp/me/preview/` (`sips -s format jpeg` for any new ones).
+7. Design direction: **Direction 1 "Annotated"** (2026-07-06).
+8. Avatar treatment: ~~D "Sticker"~~ superseded — owner switched to **A "Flat"** after
+   seeing the v5 likeness in both treatments (2026-07-06, late). FINAL.
+9. Avatar likeness: **LOCKED at v5.4** (`#g-bust-v5` in `design/comps/avatar-final.html`,
+   commit 9a7fd3d): original-art construction, black hair, hair/beard separate masses with
+   temple fade gap, compact mouth cluster, NO ears, no teeth, flat colors. Owner approved
+   2026-07-06. Do not redraw; only mechanical export work remains (standalone optimized
+   SVG themed via semantic tokens, then delete interim `public/icons/avatar.webp`).
 
 ## Working agreements
 
@@ -69,6 +89,9 @@ so nothing depends on chat history.
   PerformanceMonitor (FID-era), GA4 fake-ecommerce events, sr-only keyword blocks.
 - Target stack for the rebuild: Next.js 16 + React 19 + TS + Tailwind 4 (tokens as CSS
   variables are the source of truth), MDX content, CSS-first motion.
+- **Never run `open` on repo files from a session** — macOS attaches `com.apple.macl` /
+  provenance xattrs that EPERM-lock the file against the session's process. Give the owner
+  the file path to open themselves. (A reboot clears the lock if it happens.)
 
 ## Session log
 
@@ -85,3 +108,76 @@ so nothing depends on chat history.
   PerformanceMonitor removal deferred to the rebuild phases; Vercel env
   `NEXT_PUBLIC_BASE_URL` should be confirmed as `https://andrewpersad.com`.
   Next: owner PRs Phase 1, then Phase 2 (design direction comps + avatar treatments).
+- **2026-07-06 (later still)** — Phase 1 merged (PR #11). Branch
+  `feature/phase-2-design-direction` created off main for Phase 2. Phase 2 kickoff checklist
+  for the next session:
+  1. Read `../you-hungry/DESIGN-UI-UX-SKILLS.md` (design constitution) BEFORE any design work.
+  2. Deliverable A: 2-3 full design directions as rendered comps (tokens, type pair, hero
+     composition, one interior page each), each backed by reasoning from the manual.
+  3. Deliverable B: 3-4 avatar treatments, full redraw from photos in `temp/me/` (gitignored;
+     HEIC may need `sips -s format jpeg` first; in IMG_4191.jpeg he is the man on the right).
+     Keep the illustrated "animated" feel. The interim 13 KB `public/icons/avatar.webp` is a
+     recolor of the old art, meant to be replaced.
+  4. OWNER PICKS direction + avatar before implementation starts.
+  5. Then implement: token system (CSS variables as source of truth, Tailwind 4), fonts,
+     theming (light/dark), motion primitives, nav/footer shell, colophon skeleton.
+  Done when: direction chosen, tokens power a themed shell at 360/768/1280, both modes pass axe.
+- **2026-07-06 (Phase 2, session 1)** — Deliverables A + B built and screenshot-verified
+  (360/768/1280, light+dark, via Playwright; scratch shots in gitignored `temp/comp-shots/`).
+  `design/comps/index.html` is the pick sheet. The three directions, each a self-contained
+  HTML comp with three-layer OKLCH tokens, hero, FITR case-study interior, and a spec-sheet
+  footer with reasoning:
+  1. **Annotated** — hue-245 slate paper, signal-orange (hue 40) markup accent, dimension-line/
+     annotation motif, ledger rows. Bricolage Grotesque / Geist / Geist Mono.
+  2. **Ink & Margin** — hue-25 warm-gray paper (whisper chroma, not beige), oxblood accent,
+     Tufte margin notes, numbered TOC. Newsreader / Instrument Sans / JetBrains Mono.
+  3. **Night Shift** — dark-first (hue-265 slate, elevation by lightness), ember accent
+     (hue 60), theme toggle as the day/night narrative. Clash Display (Fontshare) / Geist.
+  Avatars: one master SVG bust geometry redrawn from `temp/me/` photos (receded temples,
+  forehead curl, thick brows, full beard, broad smile, crew-neck), rendered 4 ways in
+  `design/comps/avatars.html` (flat / mono-line / duotone print / sticker), themeable via
+  CSS vars, shown under all 3 palettes both themes. Gotchas: duotone must keep theme-invariant
+  ink+paper (dark mode turned his hair white before the fix); the mono-line treatment needs
+  low-opacity mass fills or he reads bald. NEXT: owner picks direction + avatar treatment,
+  then implementation starts (tokens, fonts, theming, motion, shell, colophon skeleton) and
+  the chosen avatar gets a likeness pass against the photos.
+- **2026-07-06 (Phase 2, session 2, evening)** — Owner picked Direction 1 "Annotated" and
+  avatar treatment D "Sticker"; refined Flat vs Sticker finalists built in
+  `design/comps/avatar-final.html` (v2 bust geometry in `#g-bust-v2`), committed as 18d309a.
+  Owner: v2 portrait "doesn't look like me at all" — likeness NOT locked. Planned v3 changes
+  from re-studying `temp/me/` photos (IMG_4191 he is on the right; IMG_3290 best smile ref):
+  face wider and rounder; hairline higher with clearly receded temples, hair shorter on top;
+  eyes smaller and deeper-set with faint under-eye lines; brows straighter, thicker, closer
+  to the eyes; nose broader at the base; mustache more prominent (thick, covers more of the
+  upper lip); beard wider at the jaw with full chin and sideburns visibly connecting hair to
+  beard. Keep: forehead curl, crown curl texture, warm broad smile with teeth, navy
+  crew-neck. Session ended on a macOS xattr file-lock blocker (caused by running `open` on
+  repo files — see working agreements); owner rebooted, lock confirmed cleared next session.
+- **2026-07-06 (Phase 2, session 3, post-reboot)** — Reboot cleared the file lock (residual
+  `com.apple.provenance` xattr is SIP-protected but harmless; writes work). Addendum merged
+  into this file and deleted. Avatar v3 applied to `design/comps/avatar-final.html`
+  (`#g-bust-v3`, both symbols + sticker die-cut updated): all planned likeness changes above,
+  screenshot-verified against `temp/me/preview/` photos over three iterations (gotchas:
+  hairline scallop notches read as dangling curls, then as sprouts at the recession corners —
+  a clean M-recession path with curl texture arcs above works best). Owner verdict on v3:
+  WORSE — "my head isn't oval." v4 rebuilt (`#g-bust-v4`) from **IMG_3290 Copy.JPG as the
+  ONLY reference** (owner instruction): flat-ish crown with loose asymmetric curl-clump
+  circles breaking the top silhouette, very short faded sides so head sides run nearly
+  vertical, wide cheeks, boxy jaw-wide beard with full squared chin (lower face almost as
+  wide as temples), broader shoulders with raglan seams, thicker neck, smaller ears, eyes
+  narrowed by the smile; sticker die-cut reshaped to match. Owner verdict on v4: still
+  oval, hair must be BLACK, and drop the photo-derived approach entirely — redraw with the
+  ORIGINAL avatar art as the only guide. v5 done: originals recovered from git
+  (`git show fa16697^:public/icons/avatar_*_embedded_v2.svg` — they are PNG rasters wrapped
+  in SVG — kept in gitignored `temp/original-avatar/`). v5 (`#g-bust-v5`) recreates the
+  original's construction as clean vectors: flat emoji style, hair+beard as one continuous
+  near-circular black frame (even-odd cutout for the face), chunky scalloped curl crown,
+  simple black oval eyes (no whites), bold low tapered brows, tiny crescent nose, closed
+  warm smile on a skin patch inside the beard (NO teeth), no shading. Palette updated:
+  hair/beard/brows/eyes black #17130E, skin warm tan #E9A868 / #C87E3F to match the
+  original art. Owner iterations on v5: compact mouth cluster (v5.1, fixed a "muzzle"
+  read), hair/beard separated with temple fade gap (v5.2), ears fixed (v5.3) then removed
+  entirely (v5.4). Owner APPROVED v5.4 and switched treatment pick from Sticker to FLAT.
+  Avatar likeness is DONE (decisions log #8-9). NEXT: foundation implementation (see
+  Phase 2 status above), which includes the mechanical avatar export (standalone optimized
+  SVG on the semantic tokens, delete interim `public/icons/avatar.webp`).
