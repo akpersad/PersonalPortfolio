@@ -31,10 +31,19 @@ so nothing depends on chat history.
 - [~] **Phase 2 — Design direction + foundation.** DIRECTION PICKED (owner, 2026-07-06):
       **Direction 1 "Annotated"** (`design/comps/direction-1-annotated.html`): hue-245 slate
       tinted neutrals, signal-orange (hue 40) markup accent, annotation/dimension-line motif,
-      Bricolage Grotesque / Geist / Geist Mono. Avatar narrowed to **Flat vs Sticker**,
-      refined finalists in `design/comps/avatar-final.html`; owner picks from that pair.
-      NEXT: implement foundation (tokens as CSS vars + Tailwind 4, fonts, light/dark theming,
-      motion primitives, nav/footer shell, colophon skeleton; axe both modes at 360/768/1280).
+      Bricolage Grotesque / Geist / Geist Mono. All tokens live in that comp's `:root` /
+      `.dark` blocks; use them as the source when implementing.
+      AVATAR TREATMENT PICKED (owner, 2026-07-06): **D "Sticker"** (die-cut contour on a
+      signal-orange ring), refined finalist in `design/comps/avatar-final.html`. The treatment
+      is locked; the LIKENESS is not (owner: current portrait "doesn't look like me at all").
+      Iterate v3+ with owner feedback before shipping anything.
+      NEXT: (1) foundation on the Annotated tokens (CSS variables as source of truth,
+      Tailwind 4 mapping, fonts self-hosted or Google, flicker-free light/dark theming,
+      motion primitives 150-300ms ease-out-quint transform/opacity only with reduced-motion
+      collapse, nav/footer shell, colophon skeleton); (2) avatar v3+ likeness loop in
+      parallel; final export as optimized standalone SVG themeable via semantic tokens, then
+      delete interim `public/icons/avatar.webp`. Done when tokens power a themed shell at
+      360/768/1280 and both modes pass axe.
 - [ ] **Phase 3 — Core pages.** Home, about (experience timeline first), work index, contact,
       resume. All copy rewritten (voice rules below).
 - [ ] **Phase 4 — Case-study engine (MDX) + Fork In The Road flagship study.**
@@ -54,8 +63,11 @@ so nothing depends on chat history.
 5. HP / Eli Lilly / Amazon naming and metrics: confirmed safe to keep.
 6. Avatar: **full redraw approved** from photos in `temp/me/`; keep the illustrated
    "animated" feel; old likeness need not be preserved. Reference traits: short dark curly
-   hair, full beard, warm smile, brown skin. (In IMG_4191.jpeg he is the man on the right.)
-   HEIC files may need `sips -s format jpeg` conversion before tools can read them.
+   hair, full beard, warm smile, brown skin. (In IMG_4191.jpeg he is the man on the right;
+   IMG_3290 is the best smile reference.) HEIC files already converted to JPEG in
+   `temp/me/preview/` (`sips -s format jpeg` for any new ones).
+7. Design direction: **Direction 1 "Annotated"** (2026-07-06).
+8. Avatar treatment: **D "Sticker"** (2026-07-06). Treatment locked, likeness NOT locked.
 
 ## Working agreements
 
@@ -73,6 +85,9 @@ so nothing depends on chat history.
   PerformanceMonitor (FID-era), GA4 fake-ecommerce events, sr-only keyword blocks.
 - Target stack for the rebuild: Next.js 16 + React 19 + TS + Tailwind 4 (tokens as CSS
   variables are the source of truth), MDX content, CSS-first motion.
+- **Never run `open` on repo files from a session** — macOS attaches `com.apple.macl` /
+  provenance xattrs that EPERM-lock the file against the session's process. Give the owner
+  the file path to open themselves. (A reboot clears the lock if it happens.)
 
 ## Session log
 
@@ -122,3 +137,24 @@ so nothing depends on chat history.
   low-opacity mass fills or he reads bald. NEXT: owner picks direction + avatar treatment,
   then implementation starts (tokens, fonts, theming, motion, shell, colophon skeleton) and
   the chosen avatar gets a likeness pass against the photos.
+- **2026-07-06 (Phase 2, session 2, evening)** — Owner picked Direction 1 "Annotated" and
+  avatar treatment D "Sticker"; refined Flat vs Sticker finalists built in
+  `design/comps/avatar-final.html` (v2 bust geometry in `#g-bust-v2`), committed as 18d309a.
+  Owner: v2 portrait "doesn't look like me at all" — likeness NOT locked. Planned v3 changes
+  from re-studying `temp/me/` photos (IMG_4191 he is on the right; IMG_3290 best smile ref):
+  face wider and rounder; hairline higher with clearly receded temples, hair shorter on top;
+  eyes smaller and deeper-set with faint under-eye lines; brows straighter, thicker, closer
+  to the eyes; nose broader at the base; mustache more prominent (thick, covers more of the
+  upper lip); beard wider at the jaw with full chin and sideburns visibly connecting hair to
+  beard. Keep: forehead curl, crown curl texture, warm broad smile with teeth, navy
+  crew-neck. Session ended on a macOS xattr file-lock blocker (caused by running `open` on
+  repo files — see working agreements); owner rebooted, lock confirmed cleared next session.
+- **2026-07-06 (Phase 2, session 3, post-reboot)** — Reboot cleared the file lock (residual
+  `com.apple.provenance` xattr is SIP-protected but harmless; writes work). Addendum merged
+  into this file and deleted. Avatar v3 applied to `design/comps/avatar-final.html`
+  (`#g-bust-v3`, both symbols + sticker die-cut updated): all planned likeness changes above,
+  screenshot-verified against `temp/me/preview/` photos over three iterations (gotchas:
+  hairline scallop notches read as dangling curls, then as sprouts at the recession corners —
+  a clean M-recession path with curl texture arcs above works best). AWAITING owner likeness
+  verdict on v3. NEXT: foundation implementation (see Phase 2 status above); iterate v4 if
+  owner has notes.
