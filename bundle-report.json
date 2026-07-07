@@ -1,23 +1,16 @@
 {
-  "timestamp": "2025-09-24T12:57:25.141Z",
-  "totalSize": 1195999,
+  "timestamp": "2026-07-07T15:53:49.722Z",
+  "totalSize": 1011458,
   "chunks": {
-    "other": 1011553,
-    "assets": 141221,
-    "css": 43225
+    "other": 680656,
+    "css": 37843,
+    "assets": 292959
   },
   "thresholds": {
     "main": 256000,
     "vendor": 512000,
     "total": 1024000
   },
-  "violations": [
-    {
-      "type": "total",
-      "size": 1195999,
-      "threshold": 1024000,
-      "message": "Total bundle size exceeded threshold: 1.14 MB > 1000 KB"
-    }
-  ],
-  "withinThresholds": false
+  "violations": [],
+  "withinThresholds": true
 }

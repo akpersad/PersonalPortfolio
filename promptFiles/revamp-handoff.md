@@ -49,7 +49,12 @@ so nothing depends on chat history.
       owner PR). Next.js 16 upgrade + home, about (timeline first), work index, contact,
       resume all rebuilt on the Annotated system, copy rewritten in voice. Details in the
       session log.
-- [ ] **Phase 4 — Case-study engine (MDX) + Fork In The Road flagship study.**
+- [x] **Phase 4 — Case-study engine (MDX) + Fork In The Road flagship study.** DONE on
+      `feature/phase-4-case-study-engine` (2026-07-07, awaiting owner PR). @next/mdx with
+      mdxRs (Turbopack fast path), typed study metadata in work.ts (no YAML frontmatter),
+      Decision/NumbersTable/Figure components, FITR study live at /work/fork-in-the-road.
+      projects.ts + legacy [slug] pages + legacy forest palette deleted. Details in the
+      session log.
 - [ ] **Phase 5 — Remaining studies.** overlapp, PersadPay, pawscriptions, ProteinChecker,
       small-hacks shelf.
 - [ ] **Phase 6 — Craft layer + /notes.** Signature interaction, view transitions, scroll
@@ -277,3 +282,47 @@ so nothing depends on chat history.
   portfolio-story.md; kill projects.ts + legacy [slug] pages + remaining legacy palette
   block in globals.css; small-hacks shelf content lands Phase 5, hue-scenes repo exists
   locally but is not public, decide shelf items then).
+- **2026-07-07 (Phase 4: case-study engine + flagship)** — Built on
+  `feature/phase-4-case-study-engine` off merged main (Phase 3 = PR #14).
+  - **MDX pipeline**: @next/mdx + `experimental.mdxRs` (Rust compiler, Turbopack fast
+    path, no remark plugins). "Typed frontmatter" is a typed `study` object on WorkEntry
+    in work.ts (headline/context/role/timeline/status/published/description) instead of
+    YAML; `studyEntries` drives generateStaticParams, sitemap, and index links. MDX bodies
+    live in `src/content/work/<slug>.mdx`, registered in a slug -> dynamic-import map in
+    `/work/[slug]/page.tsx` (`dynamicParams = false`, unknown slugs 404). Global element
+    map in `src/mdx-components.tsx` (62ch prose, mapped headings/links/lists/code).
+  - **Study components** (`src/components/study/`): Decision (accent left rule,
+    "decision NN / NN" annotation, mandatory tradeoff line), NumbersTable (mono headers,
+    tabular nums, delta in accent-ink), Figure (next/image on a surface tile, "fig. NN"
+    caption).
+  - **FITR study** written from portfolio-story.md: thesis, 5 decisions (ballot HMAC /
+    no-cron / decision-math parity / default-closed billing gate / id-reusing migration),
+    reveal + --gold-ink section, numbers table, 3 "differently" items. One real screenshot
+    of live forkintheroad.app captured via Playwright (`public/work/fork-in-the-road/
+    home-1280.png`, 57 KB source, served via next/image). Fixed a Phase 3 accuracy drift:
+    work.ts said v2 "kept every shipped feature"; the story says deletion was deliberate,
+    detail line rewritten.
+  - **Deleted**: projects.ts, ProjectPageClient.tsx, OptimizedImage.tsx, legacy forest
+    palette block in globals.css, seo.ts legacy helpers (getProjectSchema,
+    getArticleSchema, getOpenGraphData, getTwitterCardData incl. the last @andrewpersad
+    refs). New getStudySchema (Article + about SoftwareSourceCode). Old project slugs
+    (poke-collector etc.) now 404; redirect decision deferred to Phase 7 hardening.
+  - **Links**: home hero CTA now "Read the flagship rebuild" -> study; home flagship
+    ledger row and work-index title/"read the study" link internally when entry.study
+    exists (others still go to live site).
+  - **GOTCHA (MDX)**: literal `<p>` tags inside JSX children in MDX nest a markdown-
+    generated `<p>` inside them -> invalid HTML -> hydration fails -> the client re-render
+    wipes the pre-paint `dark` class (dark axe test caught it). Write plain blank-line
+    paragraphs inside components in MDX, never literal `<p>`.
+  - **GOTCHA (axe)**: the layout skip link tripped axe's `region` rule ONLY on the
+    streamed async study page (axe's bare-skip-link exemption is heuristic). Fixed
+    structurally: skip link wrapped in `<nav aria-label="Skip link">` in layout.tsx.
+  - **Verified**: lint, type-check, build green; full cross-browser suite 175/175 (new:
+    study axe light+dark, enforced-format test, alt-text, back-link, artifact-link);
+    screenshots 360/768/1280 both modes in temp/comp-shots/phase-4/ (gitignored). Bundle
+    monitor PASSES again: 987.75 KB vs 1000 KB (Phase 3 was 1.01 MB; deleting the legacy
+    pages recovered it).
+  NEXT: owner PRs Phase 4, then Phase 5 (remaining studies: overlapp, PersadPay,
+  pawscriptions, ProteinChecker cross-platform entry + small-hacks shelf; needs real
+  screenshots per study; pawscriptions/PersadPay are access-gated so capture their
+  screenshots manually; decide shelf items, hue-scenes repo is local-only).

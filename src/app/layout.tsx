@@ -89,13 +89,16 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${bricolage.variable} antialiased min-h-screen flex flex-col`}
       >
-        {/* Skip to main content link */}
-        <a
-          href="#main-content"
-          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-accent-solid text-accent-contrast px-4 py-2 rounded-md z-50"
-        >
-          Skip to main content
-        </a>
+        {/* Skip link in its own landmark: axe's region rule only exempts
+           bare skip links via a heuristic that streamed (async) pages defeat. */}
+        <nav aria-label="Skip link">
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-accent-solid text-accent-contrast px-4 py-2 rounded-md z-50"
+          >
+            Skip to main content
+          </a>
+        </nav>
 
         <Navigation />
         <main id="main-content" className="flex-grow">

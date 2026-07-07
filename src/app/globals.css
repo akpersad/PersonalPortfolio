@@ -113,22 +113,6 @@
 
   /* Motion (150-300ms, transform/opacity only, ease-out) */
   --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
-
-  /* LEGACY forest palette. Only the not-yet-rebuilt /work/[slug] project
-     pages reference these. Delete when Phase 4 replaces them with the MDX
-     case-study engine. Do not use in new code. */
-  --color-light-neutral: #dad7cd;
-  --color-medium-green: #a3b18a;
-  --color-primary-green: #527a51;
-  --color-dark-green: #3a5a40;
-  --color-darkest: #344e41;
-  --color-text-primary: #1a2b1f;
-  --color-text-secondary: #2a3b2e;
-  --color-text-on-dark: #ffffff;
-  --color-text-muted-on-dark: #f5f3f0;
-  --color-text-link-primary: #1a2b1f;
-  --color-nav-active-bg: #ffffff;
-  --color-nav-active-text: #1a2b1f;
 }
 
 /* ============================================================

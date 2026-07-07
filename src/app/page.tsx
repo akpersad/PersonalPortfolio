@@ -55,10 +55,10 @@ export default function Home() {
           </p>
           <div className="mt-8 flex flex-wrap gap-4">
             <Link
-              href="/work"
+              href="/work/fork-in-the-road"
               className="inline-flex min-h-11 items-center justify-center rounded-md bg-accent-solid px-5 text-sm font-medium text-accent-contrast motion-safe:transition-transform motion-safe:duration-150 motion-safe:ease-out-quint active:scale-[0.97]"
             >
-              See the work
+              Read the flagship rebuild
             </Link>
             <Link
               href="/about"
@@ -88,14 +88,11 @@ export default function Home() {
           <span className="annotation">03 of 05 studies</span>
         </div>
         <ul className="mt-4">
-          {homeFeatured.map(entry => (
-            <li key={entry.slug}>
-              <a
-                href={entry.links.live}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group grid gap-3 border-t border-line py-8 md:grid-cols-[minmax(0,7fr)_minmax(0,4fr)_auto] md:items-baseline md:gap-x-8"
-              >
+          {homeFeatured.map(entry => {
+            const rowClass =
+              'group grid gap-3 border-t border-line py-8 md:grid-cols-[minmax(0,7fr)_minmax(0,4fr)_auto] md:items-baseline md:gap-x-8';
+            const rowBody = (
+              <>
                 <div>
                   <h3
                     className={`font-semibold text-fg motion-safe:transition-colors motion-safe:duration-150 group-hover:text-accent-ink ${
@@ -103,7 +100,11 @@ export default function Home() {
                     }`}
                   >
                     {entry.title}
-                    <span className="sr-only"> (live site, opens in a new tab)</span>
+                    <span className="sr-only">
+                      {entry.study
+                        ? ' (written case study)'
+                        : ' (live site, opens in a new tab)'}
+                    </span>
                   </h3>
                   <p className="mt-2 max-w-[48ch] text-sm text-fg-muted">
                     {entry.summary}
@@ -115,9 +116,27 @@ export default function Home() {
                 <span className="font-mono text-sm tabular-nums text-fg">
                   {entry.metric}
                 </span>
-              </a>
-            </li>
-          ))}
+              </>
+            );
+            return (
+              <li key={entry.slug}>
+                {entry.study ? (
+                  <Link href={`/work/${entry.slug}`} className={rowClass}>
+                    {rowBody}
+                  </Link>
+                ) : (
+                  <a
+                    href={entry.links.live}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={rowClass}
+                  >
+                    {rowBody}
+                  </a>
+                )}
+              </li>
+            );
+          })}
         </ul>
         <div className="border-t border-line py-6">
           <Link

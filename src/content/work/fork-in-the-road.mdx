@@ -1,0 +1,182 @@
+{/* Fork In The Road flagship study. Source of truth: you-hungry/docs/portfolio-story.md.
+    Facts only from that document; framing and reflection are mine. No em dashes. */}
+
+import Decision from '@/components/study/Decision';
+import NumbersTable from '@/components/study/NumbersTable';
+import Figure from '@/components/study/Figure';
+
+## The thesis fit in one sentence
+
+Watching how people actually used version one produced it: **the product is
+the moment the debate ends.** Everything in version two serves that sentence.
+
+- **The Fork is the atom.** A decision: a source, a mode, a lifespan. Not
+  collections, not groups, not profiles.
+- **The group chat is the platform.** Version one required both sides of a
+  decision to have accounts and be "friends." Version two's fork link lets
+  anyone vote with just a display name. Accounts are for keeping things, not
+  for participating.
+- **Structure emerges from behavior.** Version one asked users to build
+  groups before deciding anything. Version two watches decision history and
+  suggests a crew after the same people finish three forks, back-attaching
+  that history so shared weights work from day one.
+- **Deletion is a feature.** SMS and its bill, the URL shortener, the in-app
+  notification center, the homegrown observability platform, CSV export,
+  onboarding tours: all dead. What remained got sharper.
+
+<Figure
+  n={1}
+  src="/work/fork-in-the-road/home-1280.png"
+  alt="The Fork In The Road home screen: a 'Tonight' label above the headline 'Where are we eating?', four mood filters, a gold 'Spin near me' button, and a 'Start a fork' action for deciding with friends."
+  caption="the live product. One question, one gold action, and a fork link where the account wall used to be."
+  width={1280}
+  height={800}
+/>
+
+## The decisions
+
+<Decision
+  n={1}
+  of={5}
+  title="Sign the ballot, not the guest"
+  tradeoff="a guest who clears cookies loses their vote. Acceptable, because the alternative was an account wall, and the account wall is what kills group adoption."
+>
+    Guest voting is an unauthenticated write surface, which is normally a
+    security hole with a product name. A participant is a userId XOR a
+    guestId: guests get a signed httpOnly cookie carrying zero personal data,
+    and claiming an account later converts the guest through a one-way
+    pointer, so one human can never become two ballots.
+
+    The surface shipped with a security checklist in the PR: HMAC-signed fork
+    tokens verified before any database read, layered rate limits (per-IP,
+    per-fork, per-user), atomic in-place revotes so replays are idempotent,
+    ballot caps enforced in the push guard, and expiry checked on every
+    write.
+</Decision>
+
+<Decision
+  n={2}
+  of={5}
+  title="Kill the cron"
+  tradeoff="a fork nobody reads seals late. Nobody is waiting on a fork nobody reads."
+>
+    Deadlines need enforcing, but cron jobs fail silently and cost money at
+    idle. So there are none. Expiry is enforced lazily on every read, and the
+    SSE stream that keeps the room live doubles as the timer.
+
+    Closing seals the fork with a status-guarded write first, then computes
+    consensus from the sealed document. A closer that crashes mid-seal is
+    finished by the next reader, and racing closers cannot produce two
+    results.
+</Decision>
+
+<Decision
+  n={3}
+  of={5}
+  title="Port the decision math untouched, and prove it"
+  tradeoff="version one's curve, quirks included, is now version two's contract. I gave up the chance to redesign the math while everything around it changed, because the weights are the product's memory and memory you cannot trust is worse than none."
+>
+    The weighting engine was version one's proven IP: 30-day decay weights
+    with a 10% floor, weighted spin, 3/2/1 ranked consensus. It was ported
+    pure, with history, clock, and RNG injected, and pinned with unit tests
+    asserting bit-identical parity with version one's curve, bucket
+    boundaries, and tie-break behavior.
+
+    Migrated decisions keep their original timestamps, so the weight a place
+    carried on cutover day is exactly the weight it carried the day before.
+    Five other modules survived the purge on the same merit test: the
+    structured logger, the DB connection singleton, the fixed-window rate
+    limiter, the notification-suppression seam, and the API cost tracker.
+</Decision>
+
+<Decision
+  n={4}
+  of={5}
+  title="Make the billing gate default-closed"
+  tradeoff="development never exercises the live integration by accident, which also means fixture drift is a real risk I accept and check for deliberately. A test suite that can quietly bill a credit card is not a tradeoff, it is a defect."
+>
+    Google Places is the one API that costs money per call, and version one
+    called it from two duplicate clients. Version two can only reach it in
+    production or with an explicit opt-in environment variable. Dev, CI, and
+    tests run on seeded fixture data and can never bill.
+
+    The end-to-end suite proves real multi-user journeys, guest voting in
+    incognito contexts, SSE convergence, claiming, crews, without making one
+    real API call.
+</Decision>
+
+<Decision
+  n={5}
+  of={5}
+  title="Migrate by reusing v1 ids, behind a human gate"
+  tradeoff="version two's keyspace is coupled to version one's forever. In exchange, re-running the migration is safe by construction, and any v2 document can be traced straight back to the v1 record it came from."
+>
+    The migration reuses version one's document ids in version two, which
+    makes it idempotent and fully traceable. It has a strictly read-only dry
+    run, and the execute path demands the target database name typed back.
+    The owner's sign-off on the dry run gated the cutover PR itself.
+
+    Version one kept running untouched at the root while version two grew at
+    /beta, then swapped in wholesale. Old fork links survive through
+    permanent redirects, and returning browsers shed version one's service
+    worker via a self-destructing replacement served at the same URL.
+</Decision>
+
+## The one long animation
+
+The visual identity rations its gold to decision moments, and the split-flap
+reveal is the single sanctioned long animation. It never teases the winner
+mid-spin, collapses to a crossfade under reduced motion, and screen readers
+hear the outcome, not the theater.
+
+Every palette pair was verified numerically (OKLCH to sRGB) before becoming a
+token. The dark-mode axe scan still caught a white-on-gold 1.3:1 contrast bug
+the numbers had not covered, which became a mode-invariant `--gold-ink` token
+and a written rule in the identity doc.
+
+## The numbers
+
+<NumbersTable
+  caption="Before / after, measured at the v2 cutover"
+  columns={['v1', 'v2']}
+  rows={[
+    {
+      label: 'Lines of code (src, e2e, scripts)',
+      before: '~113,000',
+      after: '~20,000',
+      delta: '-82%',
+    },
+    { label: 'API route handlers', before: '77', after: '20', delta: '-74%' },
+    { label: 'Runtime dependencies', before: '27', after: '10', delta: '-63%' },
+    {
+      label: 'Notification channels',
+      before: '4 (SMS, email, push, in-app)',
+      after: '2 (push, email)',
+    },
+    { label: 'Sign-up fields', before: '4', after: '2' },
+    {
+      label: 'Votes without an account',
+      before: 'impossible',
+      after: 'the core mechanic',
+    },
+  ]}
+/>
+
+Same rigor at a fraction of the size: every phase merged with type, lint,
+format, Jest, and build gates green, real multi-user end-to-end journeys
+against a production build, axe WCAG AA scans in both color modes, and
+Lighthouse floors in CI.
+
+## What I would do differently
+
+- **Write the thesis sentence first.** Most of the 93,000 deleted lines were
+  the cost of building features before knowing what the product was. The
+  one-sentence test now comes before the first commit, not after the 113th
+  thousand line.
+- **Delete on the first invoice.** The SMS bill had been arguing for its own
+  deletion for months before the rewrite listened. Cost surfaces now get the
+  merit test on a schedule, not at rewrite time.
+- **Scan per mode from the first token.** The numeric OKLCH checks verified
+  the pairs I expected to co-occur; the white-on-gold bug lived in a pair I
+  had not predicted. Per-mode accessibility scans are now part of the token
+  pipeline itself, which is a lesson this portfolio's own CI inherited.
