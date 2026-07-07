@@ -155,6 +155,13 @@ so nothing depends on chat history.
   (`#g-bust-v3`, both symbols + sticker die-cut updated): all planned likeness changes above,
   screenshot-verified against `temp/me/preview/` photos over three iterations (gotchas:
   hairline scallop notches read as dangling curls, then as sprouts at the recession corners —
-  a clean M-recession path with curl texture arcs above works best). AWAITING owner likeness
-  verdict on v3. NEXT: foundation implementation (see Phase 2 status above); iterate v4 if
-  owner has notes.
+  a clean M-recession path with curl texture arcs above works best). Owner verdict on v3:
+  WORSE — "my head isn't oval." v4 rebuilt (`#g-bust-v4`) from **IMG_3290 Copy.JPG as the
+  ONLY reference** (owner instruction): flat-ish crown with loose asymmetric curl-clump
+  circles breaking the top silhouette, very short faded sides so head sides run nearly
+  vertical, wide cheeks, boxy jaw-wide beard with full squared chin (lower face almost as
+  wide as temples), broader shoulders with raglan seams, thicker neck, smaller ears, eyes
+  narrowed by the smile; sticker die-cut reshaped to match. Fallback if v4 also misses:
+  owner said to redraw using the ORIGINAL old avatar art as the only reference instead
+  (pre-Phase-1 multi-MB SVGs, deleted in PR #11 — recover from git history). AWAITING owner
+  verdict on v4. NEXT: foundation implementation (see Phase 2 status above).
