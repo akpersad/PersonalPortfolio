@@ -33,17 +33,15 @@ so nothing depends on chat history.
       tinted neutrals, signal-orange (hue 40) markup accent, annotation/dimension-line motif,
       Bricolage Grotesque / Geist / Geist Mono. All tokens live in that comp's `:root` /
       `.dark` blocks; use them as the source when implementing.
-      AVATAR TREATMENT PICKED (owner, 2026-07-06): **D "Sticker"** (die-cut contour on a
-      signal-orange ring), refined finalist in `design/comps/avatar-final.html`. The treatment
-      is locked; the LIKENESS is not (owner: current portrait "doesn't look like me at all").
-      Iterate v3+ with owner feedback before shipping anything.
-      NEXT: (1) foundation on the Annotated tokens (CSS variables as source of truth,
+      AVATAR: **DONE** (owner approved 2026-07-06): treatment **A "Flat"**, likeness locked
+      at **v5.4** (`#g-bust-v5` in `design/comps/avatar-final.html`; see decisions log #8-9).
+      NEXT: foundation on the Annotated tokens (CSS variables as source of truth,
       Tailwind 4 mapping, fonts self-hosted or Google, flicker-free light/dark theming,
       motion primitives 150-300ms ease-out-quint transform/opacity only with reduced-motion
-      collapse, nav/footer shell, colophon skeleton); (2) avatar v3+ likeness loop in
-      parallel; final export as optimized standalone SVG themeable via semantic tokens, then
-      delete interim `public/icons/avatar.webp`. Done when tokens power a themed shell at
-      360/768/1280 and both modes pass axe.
+      collapse, nav/footer shell, colophon skeleton), including the mechanical avatar
+      export: optimized standalone SVG themeable via semantic tokens, then delete interim
+      `public/icons/avatar.webp`. Done when tokens power a themed shell at 360/768/1280
+      and both modes pass axe.
 - [ ] **Phase 3 — Core pages.** Home, about (experience timeline first), work index, contact,
       resume. All copy rewritten (voice rules below).
 - [ ] **Phase 4 — Case-study engine (MDX) + Fork In The Road flagship study.**
@@ -67,7 +65,13 @@ so nothing depends on chat history.
    IMG_3290 is the best smile reference.) HEIC files already converted to JPEG in
    `temp/me/preview/` (`sips -s format jpeg` for any new ones).
 7. Design direction: **Direction 1 "Annotated"** (2026-07-06).
-8. Avatar treatment: **D "Sticker"** (2026-07-06). Treatment locked, likeness NOT locked.
+8. Avatar treatment: ~~D "Sticker"~~ superseded — owner switched to **A "Flat"** after
+   seeing the v5 likeness in both treatments (2026-07-06, late). FINAL.
+9. Avatar likeness: **LOCKED at v5.4** (`#g-bust-v5` in `design/comps/avatar-final.html`,
+   commit 9a7fd3d): original-art construction, black hair, hair/beard separate masses with
+   temple fade gap, compact mouth cluster, NO ears, no teeth, flat colors. Owner approved
+   2026-07-06. Do not redraw; only mechanical export work remains (standalone optimized
+   SVG themed via semantic tokens, then delete interim `public/icons/avatar.webp`).
 
 ## Working agreements
 
@@ -171,5 +175,9 @@ so nothing depends on chat history.
   simple black oval eyes (no whites), bold low tapered brows, tiny crescent nose, closed
   warm smile on a skin patch inside the beard (NO teeth), no shading. Palette updated:
   hair/beard/brows/eyes black #17130E, skin warm tan #E9A868 / #C87E3F to match the
-  original art. AWAITING owner verdict on v5. NEXT: foundation implementation (see Phase 2
-  status above).
+  original art. Owner iterations on v5: compact mouth cluster (v5.1, fixed a "muzzle"
+  read), hair/beard separated with temple fade gap (v5.2), ears fixed (v5.3) then removed
+  entirely (v5.4). Owner APPROVED v5.4 and switched treatment pick from Sticker to FLAT.
+  Avatar likeness is DONE (decisions log #8-9). NEXT: foundation implementation (see
+  Phase 2 status above), which includes the mechanical avatar export (standalone optimized
+  SVG on the semantic tokens, delete interim `public/icons/avatar.webp`).
