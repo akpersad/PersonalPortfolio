@@ -12,6 +12,9 @@ import { getBreadcrumbSchema, getNoteSchema } from '@/lib/seo';
 const noteBodies: Record<string, () => Promise<{ default: ComponentType }>> = {
   'deleting-93000-lines': () =>
     import('@/content/notes/deleting-93000-lines.mdx'),
+  'real-time-without-cron': () =>
+    import('@/content/notes/real-time-without-cron.mdx'),
+  'oklch-tokens-in-ci': () => import('@/content/notes/oklch-tokens-in-ci.mdx'),
 };
 
 export const dynamicParams = false;

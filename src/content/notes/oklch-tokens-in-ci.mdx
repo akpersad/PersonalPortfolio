@@ -1,0 +1,65 @@
+{/* Essay 3 of 3. Source facts: Fork In The Road's token pipeline and gold-ink bug,
+    plus this portfolio's own accent-ink and accent-solid fixes (Phases 2-3).
+    No em dashes. */}
+
+Every color pair in my design system was verified numerically before it
+became a token: OKLCH values converted to sRGB, contrast computed, WCAG
+thresholds asserted. Then the accessibility scan caught a white-on-gold
+button at 1.3 to 1, which is not a near miss, it is text-shaped
+decoration. Both checks were right. Understanding why both stay in the
+pipeline is the useful part of this story.
+
+## Tokens are claims
+
+A design token is a claim: this color, used where the system says to use
+it, meets the standard. The numeric check verifies the claim for the
+pairs you predicted, foreground A on background B, at declared sizes. It
+is fast, exact, and it runs before a bad token can even enter the system.
+For a token pipeline built on OKLCH, where perceptual lightness makes
+palette steps trustworthy, the math check is table stakes, and I would
+never ship without it.
+
+But the white-on-gold bug did not live in a predicted pair. It lived in a
+component that composed two individually innocent tokens in a context
+nobody had written down: light text that was correct on every accent
+surface except the gold one, in dark mode only. My verification matrix
+had no row for it, because the matrix contained my imagination, and the
+bug lived outside it.
+
+## Scans check the truth, math checks the intent
+
+The fix for the bug itself was a new token, a gold-ink that stays dark in
+both modes, and a written rule in the identity doc about which ink rides
+on gold. The fix for the class of bug was accepting that the two checks
+answer different questions. The numeric check answers: are the pairs I
+designed correct? The rendered scan answers: are the pairs I actually
+shipped correct, including the ones I did not know I was shipping? Axe
+against real pages, once per color mode, in CI. The per-mode part is not
+optional; the gold bug existed in dark mode only, and a light-only scan
+would have blessed it.
+
+This portfolio inherited the lesson before it inherited the content. The
+comp's accent read beautifully and measured 3.77 to 1 as body-size text
+on light paper, so the palette grew a darker ink step for text while
+graphics kept the brighter accent at its 3 to 1 non-text threshold. Then
+the same split happened again for filled buttons, where white text on the
+accent measured 4.16 to 1, a shade darker as a solid surface fixed it,
+and the dark mode wanted the opposite treatment, bright surface with dark
+ink. Three tokens now exist where a lazier system would have one, and
+every one of them is a contrast bug that did not ship.
+
+## The pipeline, concretely
+
+What it amounts to is small enough to list. Palette steps defined in
+OKLCH so lightness means what it says. A conversion script that computes
+sRGB contrast for every declared pair and fails loudly under threshold,
+run whenever a token changes. Semantic tokens split by duty, ink for
+text, accent for graphics, solid for filled surfaces, so "it passes"
+is a property of the role, not of luck. And axe scans of rendered pages
+in both color modes as a CI gate, catching the compositions no matrix
+predicted.
+
+None of this is heavy. The conversion math is one file, the scans were
+already in CI waiting to be pointed at both modes. The only real cost was
+admitting that a verified palette and an accessible site are different
+claims, and that the second one is the product.

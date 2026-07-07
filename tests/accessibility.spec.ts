@@ -60,6 +60,8 @@ test.describe('Accessibility Tests', () => {
     '/work/protein-checker',
     '/notes',
     '/notes/deleting-93000-lines',
+    '/notes/real-time-without-cron',
+    '/notes/oklch-tokens-in-ci',
     '/contact',
     '/resume',
     '/colophon',
@@ -231,7 +233,11 @@ test.describe('Case Study Pages', () => {
 
 test.describe('Notes Pages', () => {
   // One entry per published note; essays join this list as they land.
-  const noteSlugs = ['deleting-93000-lines'];
+  const noteSlugs = [
+    'deleting-93000-lines',
+    'real-time-without-cron',
+    'oklch-tokens-in-ci',
+  ];
 
   test('Notes index should be accessible', async ({ page }) => {
     await page.goto('/notes');
