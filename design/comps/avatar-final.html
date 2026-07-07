@@ -54,10 +54,11 @@ h1 { font-size: clamp(1.4rem, 1.1rem + 1.4vw, 2rem); letter-spacing: -0.015em; }
     <!-- v5 master bust: faithful vector recreation of the ORIGINAL avatar art
          (recovered from git history at fa16697^, see temp/original-avatar/), per owner
          instruction after v3/v4 photo-based redraws missed. Construction matches the
-         original: flat emoji style, hair + beard as ONE continuous near-circular black
-         frame with a scalloped curl crown, simple black oval eyes (no whites), bold
-         black brows, tiny crescent nose, closed warm smile on a skin patch inside the
-         beard (no teeth), no shading. Hair is black per owner. -->
+         original: flat emoji style with a round head, scalloped curl crown, simple
+         black oval eyes (no whites), bold black brows, tiny crescent nose, closed warm
+         smile on a skin patch inside the beard (no teeth), no shading. Hair is black
+         per owner, and hair and beard are SEPARATE masses (fade gap at the temples)
+         per owner. -->
     <g id="g-bust-v5">
       <!-- shirt -->
       <path fill="var(--av-shirt, #3C4763)" d="M 92,512 C 96,462 130,436 190,424 C 216,418 240,416 256,416 C 272,416 296,418 322,424 C 382,436 416,462 420,512 Z"/>
@@ -66,15 +67,18 @@ h1 { font-size: clamp(1.4rem, 1.1rem + 1.4vw, 2rem); letter-spacing: -0.015em; }
       <path fill="var(--av-skin)" d="M 222,370 L 222,432 C 238,440 274,440 290,432 L 290,370 Z"/>
       <path fill="var(--av-skin-2)" d="M 222,370 L 222,404 C 234,416 278,416 290,404 L 290,370 Z"/>
       <!-- ears: round, tucked closer to the head -->
-      <circle fill="var(--av-skin)" cx="150" cy="252" r="17"/>
-      <circle fill="var(--av-skin)" cx="362" cy="252" r="17"/>
-      <path fill="var(--av-skin-2)" d="M 138,246 C 144,242 149,247 148,254 C 147,260 141,261 138,258 Z"/>
-      <path fill="var(--av-skin-2)" d="M 374,246 C 368,242 363,247 364,254 C 365,260 371,261 374,258 Z"/>
+      <circle fill="var(--av-skin)" cx="152" cy="252" r="15"/>
+      <circle fill="var(--av-skin)" cx="360" cy="252" r="15"/>
+      <path fill="var(--av-skin-2)" d="M 142,247 C 147,243 152,248 151,254 C 150,259 145,260 142,257 Z"/>
+      <path fill="var(--av-skin-2)" d="M 370,247 C 365,243 360,248 361,254 C 362,259 367,260 370,257 Z"/>
       <!-- face skin base (black frame overlaps it; opening reveals it) -->
       <path fill="var(--av-skin)" d="M 256,116 C 184,116 154,168 154,240 C 154,312 196,356 256,356 C 316,356 358,312 358,240 C 358,168 328,116 256,116 Z"/>
-      <!-- hair + beard: one continuous round black frame, chunky scalloped curl crown,
-           face opening cut out via even-odd fill -->
-      <path fill="var(--av-hair)" fill-rule="evenodd" d="M 256,404 C 200,404 168,376 156,330 C 146,296 142,258 146,220 C 150,180 158,150 172,128 C 164,100 186,84 204,92 C 208,72 234,68 242,84 C 250,66 276,68 280,86 C 292,70 314,76 314,94 C 330,84 346,96 340,128 C 354,150 362,180 366,220 C 370,258 366,296 356,330 C 344,376 312,404 256,404 Z M 184,148 C 206,142 306,142 328,148 C 334,180 336,214 334,246 C 332,272 322,290 302,299 C 288,305 270,301 262,296 C 258,293 254,293 250,296 C 242,301 224,305 210,299 C 190,290 180,272 178,246 C 176,214 178,180 184,148 Z"/>
+      <!-- hair: separate cap with chunky curl crown, ending in faded sideburn stubs
+           above the ears (NOT connected to the beard; skin shows at the temples) -->
+      <path fill="var(--av-hair)" d="M 158,234 C 152,196 156,156 172,128 C 164,100 186,84 204,92 C 208,72 234,68 242,84 C 250,66 276,68 280,86 C 292,70 314,76 314,94 C 330,84 346,96 340,128 C 356,156 360,196 354,234 L 338,236 C 336,204 334,170 328,148 C 306,142 206,142 184,148 C 178,170 176,204 174,236 Z"/>
+      <!-- beard: separate round mass around jaw and chin, cheek tips tapering up
+           toward (but not touching) the hair -->
+      <path fill="var(--av-hair)" d="M 256,404 C 200,404 168,376 158,330 C 153,312 151,292 156,276 C 160,266 170,270 182,280 C 194,290 206,297 216,301 C 230,306 244,301 250,297 C 254,294 258,294 262,297 C 268,301 282,306 296,301 C 306,297 318,290 330,280 C 342,270 352,266 356,276 C 361,292 359,312 354,330 C 344,376 312,404 256,404 Z"/>
       <!-- nose: small crescent, sitting right on the mustache -->
       <path fill="var(--av-skin-2)" d="M 236,278 C 242,290 270,290 276,278 C 268,286 244,286 236,278 Z"/>
       <!-- eyes: simple black ovals -->
@@ -111,7 +115,7 @@ h1 { font-size: clamp(1.4rem, 1.1rem + 1.4vw, 2rem); letter-spacing: -0.015em; }
 
 <div class="wrap">
   <h1>Avatar likeness, v5</h1>
-  <p class="intro">Treatment is locked: D Sticker. Flat stays on the sheet for side-by-side comparison. v5 goes back to the drawing board with the ORIGINAL avatar art as the only guide (recovered from git history), per owner. Same construction as the original: round head where hair and beard form one continuous black frame, scalloped curl crown, simple black oval eyes, bold brows, tiny crescent nose, closed warm smile on a skin patch inside the beard, flat colors with no shading, black hair. The small pair below each row previews nav and contact-card sizes.</p>
+  <p class="intro">Treatment is locked: D Sticker. Flat stays on the sheet for side-by-side comparison. v5 goes back to the drawing board with the ORIGINAL avatar art as the only guide (recovered from git history), per owner. Same construction as the original: round head, black hair and beard drawn as separate masses with a fade gap at the temples (per owner), scalloped curl crown, simple black oval eyes, bold brows, tiny crescent nose, closed warm smile on a skin patch inside the beard, flat colors with no shading. The small pair below each row previews nav and contact-card sizes.</p>
 
   <section class="panel d1-light">
     <h2 style="font-size:1rem">Annotated <span class="mono">/ light</span></h2>
