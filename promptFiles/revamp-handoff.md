@@ -161,7 +161,15 @@ so nothing depends on chat history.
   circles breaking the top silhouette, very short faded sides so head sides run nearly
   vertical, wide cheeks, boxy jaw-wide beard with full squared chin (lower face almost as
   wide as temples), broader shoulders with raglan seams, thicker neck, smaller ears, eyes
-  narrowed by the smile; sticker die-cut reshaped to match. Fallback if v4 also misses:
-  owner said to redraw using the ORIGINAL old avatar art as the only reference instead
-  (pre-Phase-1 multi-MB SVGs, deleted in PR #11 — recover from git history). AWAITING owner
-  verdict on v4. NEXT: foundation implementation (see Phase 2 status above).
+  narrowed by the smile; sticker die-cut reshaped to match. Owner verdict on v4: still
+  oval, hair must be BLACK, and drop the photo-derived approach entirely — redraw with the
+  ORIGINAL avatar art as the only guide. v5 done: originals recovered from git
+  (`git show fa16697^:public/icons/avatar_*_embedded_v2.svg` — they are PNG rasters wrapped
+  in SVG — kept in gitignored `temp/original-avatar/`). v5 (`#g-bust-v5`) recreates the
+  original's construction as clean vectors: flat emoji style, hair+beard as one continuous
+  near-circular black frame (even-odd cutout for the face), chunky scalloped curl crown,
+  simple black oval eyes (no whites), bold low tapered brows, tiny crescent nose, closed
+  warm smile on a skin patch inside the beard (NO teeth), no shading. Palette updated:
+  hair/beard/brows/eyes black #17130E, skin warm tan #E9A868 / #C87E3F to match the
+  original art. AWAITING owner verdict on v5. NEXT: foundation implementation (see Phase 2
+  status above).

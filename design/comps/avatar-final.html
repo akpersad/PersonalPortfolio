@@ -15,11 +15,11 @@
    deeper-set eyes with faint under-eye lines, straighter thicker brows,
    broader nose base, heavier mustache, jaw-wide beard with sideburns. */
 :root {
-  --av-skin: #AC7A54;
-  --av-skin-2: #916345;
-  --av-hair: #271C15;
-  --av-hair-2: #322419;
-  --av-hair-hi: #4A3826;
+  --av-skin: #E9A868;
+  --av-skin-2: #C87E3F;
+  --av-hair: #17130E;
+  --av-hair-2: #17130E;
+  --av-hair-hi: #2A241C;
   --av-teeth: #F7F2EC;
 }
 * { box-sizing: border-box; margin: 0; }
@@ -51,98 +51,58 @@ h1 { font-size: clamp(1.4rem, 1.1rem + 1.4vw, 2rem); letter-spacing: -0.015em; }
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
-    <!-- v4 master bust: rebuilt from IMG_3290 Copy.JPG as the ONLY reference, after
-         owner feedback that v3 read as an oval. Real head geometry: flat-ish crown with
-         loose curl clumps on top, very short faded sides so the head sides are nearly
-         vertical, wide cheeks, boxy jaw-wide beard with a full squared chin. The lower
-         face stays almost as wide as the temples. -->
-    <g id="g-bust-v4">
-      <!-- shirt: broader shoulders, raglan seams like the photo tee -->
-      <path fill="var(--av-shirt, #3C4763)" d="M 84,512 C 88,448 128,408 194,392 C 216,386 236,384 256,384 C 276,384 296,386 318,392 C 384,408 424,448 428,512 Z"/>
-      <path fill="rgb(0 0 0 / 0.22)" d="M 208,388 C 218,404 294,404 304,388 L 304,397 C 294,413 218,413 208,397 Z"/>
-      <path fill="none" stroke="rgb(0 0 0 / 0.18)" stroke-width="4" d="M 200,398 C 176,428 160,458 154,494"/>
-      <path fill="none" stroke="rgb(0 0 0 / 0.18)" stroke-width="4" d="M 312,398 C 336,428 352,458 358,494"/>
-      <!-- neck: thick -->
-      <path fill="var(--av-skin)" d="M 220,312 L 220,396 C 238,404 274,404 292,396 L 292,312 Z"/>
-      <path fill="var(--av-skin-2)" d="M 220,312 L 220,352 C 230,370 282,370 292,352 L 292,312 Z"/>
-      <!-- face: wide with near-vertical sides, not oval -->
-      <path fill="var(--av-skin)" d="M 256,112 C 210,112 178,132 173,178 C 171,200 170,222 171,244 C 172,292 186,326 208,346 C 226,362 240,368 256,368 C 272,368 286,362 304,346 C 326,326 340,292 341,244 C 342,222 341,200 339,178 C 334,132 302,112 256,112 Z"/>
-      <!-- ears: small, tight to the head -->
-      <ellipse fill="var(--av-skin)" cx="166" cy="242" rx="12" ry="17"/>
-      <ellipse fill="var(--av-skin)" cx="346" cy="242" rx="12" ry="17"/>
-      <path fill="var(--av-skin-2)" d="M 162,236 C 167,232 172,236 171,242 C 170,248 165,250 162,248 Z"/>
-      <path fill="var(--av-skin-2)" d="M 350,236 C 345,232 340,236 341,242 C 342,248 347,250 350,248 Z"/>
-      <!-- side shading -->
-      <path fill="var(--av-skin-2)" opacity="0.20" d="M 171,244 C 172,292 186,326 208,346 C 198,320 192,290 192,246 C 192,214 195,186 204,162 C 184,178 172,206 171,244 Z"/>
-      <!-- cheek warmth -->
-      <ellipse fill="var(--av-skin-2)" opacity="0.30" cx="204" cy="266" rx="15" ry="9"/>
-      <ellipse fill="var(--av-skin-2)" opacity="0.30" cx="308" cy="266" rx="15" ry="9"/>
-      <!-- nose: broad base, rounded tip -->
-      <path fill="var(--av-skin-2)" d="M 248,222 C 246,242 238,254 234,262 C 230,270 240,275 256,275 C 272,275 282,270 278,262 C 274,254 266,242 264,222 C 262,212 250,212 248,222 Z" opacity="0.55"/>
-      <path fill="var(--av-skin-2)" d="M 236,266 C 240,272 247,274 256,274 C 265,274 272,272 276,266 C 271,273 265,275 256,275 C 247,275 241,273 236,266 Z"/>
-      <ellipse fill="var(--av-skin-2)" opacity="0.45" cx="240" cy="267" rx="4" ry="2.5"/>
-      <ellipse fill="var(--av-skin-2)" opacity="0.45" cx="272" cy="267" rx="4" ry="2.5"/>
-      <!-- brows: thick, straight, close-set -->
-      <path fill="var(--av-hair)" d="M 194,210 C 198,195 228,189 247,195 C 249,200 248,207 244,208 C 228,203 206,206 200,214 C 196,214 193,213 194,210 Z"/>
-      <path fill="var(--av-hair)" d="M 318,210 C 314,195 284,189 265,195 C 263,200 264,207 268,208 C 284,203 306,206 312,214 C 316,214 319,213 318,210 Z"/>
-      <!-- eyes: modest, slightly narrowed by the smile -->
-      <path fill="var(--av-teeth)" d="M 211,223 C 217,216 230,216 236,223 C 230,229 217,229 211,223 Z"/>
-      <circle fill="#4A2E1E" cx="223" cy="222.5" r="5.5"/>
-      <circle fill="#1D120C" cx="223" cy="222.5" r="2.7"/>
-      <circle fill="#FFFFFF" cx="225" cy="220.4" r="1.2"/>
-      <path fill="var(--av-teeth)" d="M 276,223 C 282,216 295,216 301,223 C 295,229 282,229 276,223 Z"/>
-      <circle fill="#4A2E1E" cx="289" cy="222.5" r="5.5"/>
-      <circle fill="#1D120C" cx="289" cy="222.5" r="2.7"/>
-      <circle fill="#FFFFFF" cx="291" cy="220.4" r="1.2"/>
-      <path fill="none" stroke="var(--av-hair-2)" stroke-width="3" stroke-linecap="round" d="M 212,219 C 218,214 229,214 235,219"/>
-      <path fill="none" stroke="var(--av-hair-2)" stroke-width="3" stroke-linecap="round" d="M 277,219 C 283,214 294,214 300,219"/>
-      <!-- faint under-eye lines -->
-      <path fill="none" stroke="var(--av-skin-2)" stroke-width="2.5" stroke-linecap="round" opacity="0.5" d="M 214,233 C 219,236 229,236 234,233"/>
-      <path fill="none" stroke="var(--av-skin-2)" stroke-width="2.5" stroke-linecap="round" opacity="0.5" d="M 278,233 C 283,236 293,236 298,233"/>
-      <!-- beard: boxy, jaw-wide, full squared chin -->
-      <path fill="var(--av-hair-2)" d="M 170,226 C 167,278 172,322 194,352 C 212,376 234,386 256,386 C 278,386 300,376 318,352 C 340,322 345,278 342,226 C 340,252 330,263 304,271 C 294,264 282,262 274,266 C 268,261 244,261 238,266 C 230,262 218,264 208,271 C 182,263 172,252 170,226 Z"/>
-      <!-- beard texture strokes -->
-      <path fill="none" stroke="var(--av-hair)" stroke-width="3" stroke-linecap="round" opacity="0.5"
-        d="M 204,308 C 210,320 218,330 228,338 M 308,308 C 302,320 294,330 284,338 M 256,352 C 250,358 244,362 238,364 M 256,352 C 262,358 268,362 274,364"/>
-      <!-- mustache -->
-      <path fill="var(--av-hair)" d="M 222,284 C 226,270 242,266 256,268 C 270,266 286,270 290,284 C 286,295 272,298 256,298 C 240,298 226,295 222,284 Z"/>
-      <!-- smile: wide grin with teeth -->
-      <path fill="var(--av-teeth)" d="M 224,300 C 243,308 269,308 288,300 C 283,323 264,330 256,330 C 248,330 229,323 224,300 Z"/>
-      <path fill="none" stroke="var(--av-skin-2)" stroke-width="3" stroke-linecap="round" d="M 240,333 C 250,337 262,337 272,333" opacity="0.7"/>
-      <path fill="none" stroke="var(--av-skin-2)" stroke-width="3.5" stroke-linecap="round" d="M 216,292 C 211,286 208,279 207,272" opacity="0.65"/>
-      <path fill="none" stroke="var(--av-skin-2)" stroke-width="3.5" stroke-linecap="round" d="M 296,292 C 301,286 304,279 305,272" opacity="0.65"/>
-      <!-- hair: low tight cap, short faded sides hugging the skull -->
-      <path fill="var(--av-hair)" d="M 164,250 C 160,208 160,164 170,134 C 180,104 212,86 256,86 C 300,86 332,104 342,134 C 352,164 352,208 348,250 C 344,252 340,248 340,242 C 339,208 338,178 330,158 C 321,140 310,134 300,134 C 288,134 277,140 268,146 C 262,150 250,150 244,146 C 235,140 224,134 212,134 C 202,134 191,140 182,158 C 174,178 173,208 172,242 C 172,248 168,252 164,250 Z"/>
-      <!-- curl clumps breaking the top silhouette, looser and asymmetric like the photo -->
-      <circle fill="var(--av-hair)" cx="184" cy="106" r="12"/>
-      <circle fill="var(--av-hair)" cx="202" cy="94" r="14"/>
-      <circle fill="var(--av-hair)" cx="230" cy="86" r="16"/>
-      <circle fill="var(--av-hair)" cx="262" cy="84" r="13"/>
-      <circle fill="var(--av-hair)" cx="290" cy="90" r="14"/>
-      <circle fill="var(--av-hair)" cx="316" cy="102" r="11"/>
-      <!-- curl texture arcs -->
-      <path fill="none" stroke="var(--av-hair-hi)" stroke-width="4" stroke-linecap="round" opacity="0.8"
-        d="M 194,90 C 199,83 208,82 213,87 M 228,79 C 234,72 244,72 249,78 M 267,78 C 273,73 282,74 286,80 M 299,89 C 305,84 312,85 315,91 M 200,118 C 206,110 216,108 222,114 M 240,104 C 246,96 256,96 262,102 M 282,106 C 290,100 300,102 304,110 M 180,152 C 186,146 194,146 198,152 M 330,152 C 336,146 344,148 348,154"/>
-      <!-- forehead curl, slightly right of center like the photo -->
-      <path fill="var(--av-hair)" d="M 252,158 C 242,150 244,134 256,130 C 266,127 276,133 276,142 C 276,149 269,154 263,152 C 267,148 266,142 261,140 C 255,138 250,144 253,150 C 254,153 255,156 252,158 Z"/>
-      <path fill="none" stroke="var(--av-hair-hi)" stroke-width="3" stroke-linecap="round" opacity="0.8" d="M 258,135 C 263,133 268,135 270,139"/>
+    <!-- v5 master bust: faithful vector recreation of the ORIGINAL avatar art
+         (recovered from git history at fa16697^, see temp/original-avatar/), per owner
+         instruction after v3/v4 photo-based redraws missed. Construction matches the
+         original: flat emoji style, hair + beard as ONE continuous near-circular black
+         frame with a scalloped curl crown, simple black oval eyes (no whites), bold
+         black brows, tiny crescent nose, closed warm smile on a skin patch inside the
+         beard (no teeth), no shading. Hair is black per owner. -->
+    <g id="g-bust-v5">
+      <!-- shirt -->
+      <path fill="var(--av-shirt, #3C4763)" d="M 92,512 C 96,462 130,436 190,424 C 216,418 240,416 256,416 C 272,416 296,418 322,424 C 382,436 416,462 420,512 Z"/>
+      <path fill="rgb(0 0 0 / 0.22)" d="M 210,420 C 220,436 292,436 302,420 L 302,429 C 292,445 220,445 210,437 Z"/>
+      <!-- neck -->
+      <path fill="var(--av-skin)" d="M 222,370 L 222,432 C 238,440 274,440 290,432 L 290,370 Z"/>
+      <path fill="var(--av-skin-2)" d="M 222,370 L 222,404 C 234,416 278,416 290,404 L 290,370 Z"/>
+      <!-- ears: round, sticking out at the sides -->
+      <circle fill="var(--av-skin)" cx="148" cy="252" r="20"/>
+      <circle fill="var(--av-skin)" cx="364" cy="252" r="20"/>
+      <path fill="var(--av-skin-2)" d="M 134,246 C 140,242 145,247 144,254 C 143,260 137,261 134,258 Z"/>
+      <path fill="var(--av-skin-2)" d="M 378,246 C 372,242 367,247 368,254 C 369,260 375,261 378,258 Z"/>
+      <!-- face skin base (black frame overlaps it; opening reveals it) -->
+      <path fill="var(--av-skin)" d="M 256,116 C 184,116 154,168 154,240 C 154,312 196,356 256,356 C 316,356 358,312 358,240 C 358,168 328,116 256,116 Z"/>
+      <!-- hair + beard: one continuous round black frame, chunky scalloped curl crown,
+           face opening cut out via even-odd fill -->
+      <path fill="var(--av-hair)" fill-rule="evenodd" d="M 256,404 C 200,404 168,376 156,330 C 146,296 142,258 146,220 C 150,180 158,150 172,128 C 164,100 186,84 204,92 C 208,72 234,68 242,84 C 250,66 276,68 280,86 C 292,70 314,76 314,94 C 330,84 346,96 340,128 C 354,150 362,180 366,220 C 370,258 366,296 356,330 C 344,376 312,404 256,404 Z M 184,148 C 206,142 306,142 328,148 C 334,180 336,214 334,246 C 332,276 320,298 298,310 C 284,316 266,310 260,304 C 258,305 254,305 252,304 C 246,310 228,316 214,310 C 192,298 180,276 178,246 C 176,214 178,180 184,148 Z"/>
+      <!-- nose: small crescent -->
+      <path fill="var(--av-skin-2)" d="M 236,274 C 242,286 270,286 276,274 C 268,282 244,282 236,274 Z"/>
+      <!-- eyes: simple black ovals -->
+      <ellipse fill="var(--av-hair)" cx="204" cy="250" rx="11" ry="13"/>
+      <ellipse fill="var(--av-hair)" cx="308" cy="250" rx="11" ry="13"/>
+      <!-- brows: bold black, low, tapered outward -->
+      <path fill="var(--av-hair)" d="M 176,231 C 180,216 196,207 214,207 C 228,207 237,213 238,221 C 238,227 232,230 225,228 C 210,224 194,227 184,234 C 179,236 175,235 176,231 Z"/>
+      <path fill="var(--av-hair)" d="M 336,231 C 332,216 316,207 298,207 C 284,207 275,213 274,221 C 274,227 280,230 287,228 C 302,224 318,227 328,234 C 333,236 337,235 336,231 Z"/>
+      <!-- mouth: skin patch inside the beard, closed warm smile, no teeth -->
+      <path fill="var(--av-skin)" d="M 212,326 C 206,348 210,364 230,370 C 246,375 266,375 282,370 C 302,364 306,348 300,326 C 284,320 228,320 212,326 Z"/>
+      <path fill="var(--av-hair)" d="M 226,338 C 239,345 273,345 286,338 C 277,357 235,357 226,338 Z"/>
     </g>
 
-    <!-- FLAT v4 -->
+    <!-- FLAT v5 -->
     <symbol id="avf-flat" viewBox="0 0 512 512">
       <clipPath id="clipf"><rect x="16" y="16" width="480" height="480" rx="96"/></clipPath>
       <rect x="16" y="16" width="480" height="480" rx="96" fill="var(--av-bg, #E8E4DC)"/>
-      <g clip-path="url(#clipf)"><use href="#g-bust-v4"/></g>
+      <g clip-path="url(#clipf)"><use href="#g-bust-v5"/></g>
     </symbol>
 
-    <!-- STICKER v4: die-cut contour follows the squarer v4 silhouette -->
+    <!-- STICKER v5: die-cut contour follows the round v5 silhouette -->
     <symbol id="avf-sticker" viewBox="0 0 512 512">
       <clipPath id="clips"><circle cx="256" cy="256" r="234"/></clipPath>
       <circle cx="256" cy="256" r="234" fill="color-mix(in oklch, var(--av-acc), var(--av-paper) 74%)"/>
       <g clip-path="url(#clips)">
         <path fill="var(--av-paper)" stroke="var(--av-paper)" stroke-width="16" stroke-linejoin="round"
-          d="M 84,512 C 88,448 128,408 194,392 L 214,386 L 214,368 C 196,354 178,320 172,268 C 158,232 156,156 172,120 C 186,86 216,66 256,66 C 296,66 326,86 340,120 C 356,156 354,232 340,268 C 334,320 316,354 298,368 L 298,386 L 318,392 C 384,408 424,448 428,512 Z"/>
-        <use href="#g-bust-v4"/>
+          d="M 92,512 C 96,462 130,436 190,424 L 212,418 L 212,400 C 176,390 152,360 146,316 C 134,270 136,190 152,148 C 162,112 182,86 210,74 C 238,62 274,62 302,74 C 330,86 350,112 360,148 C 376,190 378,270 366,316 C 360,360 336,390 300,400 L 300,418 L 322,424 C 382,436 416,462 420,512 Z"/>
+        <use href="#g-bust-v5"/>
       </g>
       <circle cx="256" cy="256" r="234" fill="none" stroke="var(--av-acc)" stroke-width="10"/>
     </symbol>
@@ -150,15 +110,15 @@ h1 { font-size: clamp(1.4rem, 1.1rem + 1.4vw, 2rem); letter-spacing: -0.015em; }
 </svg>
 
 <div class="wrap">
-  <h1>Avatar likeness, v4</h1>
-  <p class="intro">Treatment is locked: D Sticker. Flat stays on the sheet for side-by-side comparison while the likeness iterates. v4 is rebuilt from IMG_3290 as the only reference, after v3 read as too oval. Head geometry now: flat-ish crown with loose curl clumps on top, very short faded sides so the head sides run nearly vertical, wide cheeks, and a boxy jaw-wide beard with a full squared chin, so the lower face stays almost as wide as the temples. Also: broader shoulders with raglan seams, thicker neck, smaller ears, eyes slightly narrowed by the smile. The small pair below each row previews nav and contact-card sizes.</p>
+  <h1>Avatar likeness, v5</h1>
+  <p class="intro">Treatment is locked: D Sticker. Flat stays on the sheet for side-by-side comparison. v5 goes back to the drawing board with the ORIGINAL avatar art as the only guide (recovered from git history), per owner. Same construction as the original: round head where hair and beard form one continuous black frame, scalloped curl crown, simple black oval eyes, bold brows, tiny crescent nose, closed warm smile on a skin patch inside the beard, flat colors with no shading, black hair. The small pair below each row previews nav and contact-card sizes.</p>
 
   <section class="panel d1-light">
     <h2 style="font-size:1rem">Annotated <span class="mono">/ light</span></h2>
     <div class="row">
       <figure class="cell">
         <svg viewBox="0 0 512 512" role="img" aria-label="Flat avatar, refined"><use href="#avf-flat"/></svg>
-        <figcaption>A. Flat, v4</figcaption>
+        <figcaption>A. Flat, v5</figcaption>
         <div class="small-row">
           <svg viewBox="0 0 512 512" width="64" height="64"><use href="#avf-flat"/></svg>
           <svg viewBox="0 0 512 512" width="40" height="40"><use href="#avf-flat"/></svg>
@@ -166,7 +126,7 @@ h1 { font-size: clamp(1.4rem, 1.1rem + 1.4vw, 2rem); letter-spacing: -0.015em; }
       </figure>
       <figure class="cell">
         <svg viewBox="0 0 512 512" role="img" aria-label="Sticker avatar, refined"><use href="#avf-sticker"/></svg>
-        <figcaption>D. Sticker, v4 (picked treatment)</figcaption>
+        <figcaption>D. Sticker, v5 (picked treatment)</figcaption>
         <div class="small-row">
           <svg viewBox="0 0 512 512" width="64" height="64"><use href="#avf-sticker"/></svg>
           <svg viewBox="0 0 512 512" width="40" height="40"><use href="#avf-sticker"/></svg>
@@ -180,7 +140,7 @@ h1 { font-size: clamp(1.4rem, 1.1rem + 1.4vw, 2rem); letter-spacing: -0.015em; }
     <div class="row">
       <figure class="cell">
         <svg viewBox="0 0 512 512"><use href="#avf-flat"/></svg>
-        <figcaption>A. Flat, v4</figcaption>
+        <figcaption>A. Flat, v5</figcaption>
         <div class="small-row">
           <svg viewBox="0 0 512 512" width="64" height="64"><use href="#avf-flat"/></svg>
           <svg viewBox="0 0 512 512" width="40" height="40"><use href="#avf-flat"/></svg>
@@ -188,7 +148,7 @@ h1 { font-size: clamp(1.4rem, 1.1rem + 1.4vw, 2rem); letter-spacing: -0.015em; }
       </figure>
       <figure class="cell">
         <svg viewBox="0 0 512 512"><use href="#avf-sticker"/></svg>
-        <figcaption>D. Sticker, v4 (picked treatment)</figcaption>
+        <figcaption>D. Sticker, v5 (picked treatment)</figcaption>
         <div class="small-row">
           <svg viewBox="0 0 512 512" width="64" height="64"><use href="#avf-sticker"/></svg>
           <svg viewBox="0 0 512 512" width="40" height="40"><use href="#avf-sticker"/></svg>
