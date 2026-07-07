@@ -164,6 +164,107 @@ h3 {
   color: var(--fg-muted);
 }
 
+/* ============================================================
+   Craft layer (Phase 6): entrance, scroll choreography, signature
+   interaction. All transform/opacity, all gated behind
+   prefers-reduced-motion: no-preference; content is fully visible
+   when animations are unsupported or declined.
+   ============================================================ */
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Route entrance: fade + small rise, macro tier, ease-out. */
+  @keyframes page-enter {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .page-enter {
+    animation: page-enter 320ms var(--ease-out-quint) both;
+  }
+
+  /* Scroll choreography: ledger rows and study sections settle into
+     place as they enter the viewport. Scroll-driven (no JS, off the
+     main thread); browsers without animation-timeline simply show
+     the content, because the keyframe owns the hidden state. */
+  /* Transform only, no opacity: text at a scroll boundary must never sit
+     at fractional alpha (it reads as a contrast failure, to scanners and
+     to people). The rise is the choreography; visibility is a constant. */
+  @supports (animation-timeline: view()) {
+    @keyframes rise-in {
+      from {
+        transform: translateY(14px);
+      }
+      to {
+        transform: translateY(0);
+      }
+    }
+
+    .reveal {
+      animation: rise-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 42%;
+    }
+
+    /* Signature interaction, part 1: the dimension line draws itself.
+       Annotation labels carry an accent measure line (before:w-10);
+       it draws from zero as the label scrolls into view. */
+    @keyframes draw-line {
+      from {
+        transform: scaleX(0);
+      }
+      to {
+        transform: scaleX(1);
+      }
+    }
+
+    .annotation::before {
+      transform-origin: left;
+      animation: draw-line linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 32%;
+    }
+  }
+}
+
+/* Signature interaction, part 2: measuring the row under the pointer.
+   Ledger rows get a hairline accent rule that extends down their left
+   edge on hover, like a dimension line being dragged along the index.
+   Hover-only devices; micro tier; transform only. */
+@media (hover: hover) and (pointer: fine) {
+  .ledger-row {
+    position: relative;
+  }
+
+  .ledger-row::before {
+    content: '';
+    position: absolute;
+    left: -1px;
+    top: 0;
+    height: 100%;
+    width: 2px;
+    background: var(--accent);
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .ledger-row::before {
+      transition: transform 180ms var(--ease-out-quint);
+    }
+  }
+
+  .ledger-row:hover::before,
+  .ledger-row:focus-within::before {
+    transform: scaleY(1);
+  }
+}
+
 /* Motion is opt-in; reduced motion collapses everything */
 @media (prefers-reduced-motion: reduce) {
   *,

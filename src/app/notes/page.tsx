@@ -53,7 +53,10 @@ export default function Notes() {
         </div>
         <ol className="mt-4">
           {notes.map((note, index) => (
-            <li key={note.slug} className="border-t border-line py-10">
+            <li
+              key={note.slug}
+              className="ledger-row reveal border-t border-line py-10"
+            >
               <p className="annotation">
                 {String(index + 1).padStart(2, '0')} /{' '}
                 {formatDate(note.published)} / {note.readingMinutes} min

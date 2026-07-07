@@ -67,7 +67,7 @@ export default function Work() {
           {featuredWork.map((entry, index) => (
             <li
               key={entry.slug}
-              className="grid gap-4 border-t border-line py-10 md:grid-cols-[minmax(0,7fr)_minmax(0,4fr)] md:gap-x-8"
+              className="ledger-row reveal grid gap-4 border-t border-line py-10 md:grid-cols-[minmax(0,7fr)_minmax(0,4fr)] md:gap-x-8"
             >
               <div>
                 <p className="annotation">
@@ -153,7 +153,7 @@ export default function Work() {
           {shelf.map(item => (
             <li
               key={item.title}
-              className="grid gap-2 border-t border-line py-6 md:grid-cols-[minmax(0,7fr)_minmax(0,4fr)] md:gap-x-8"
+              className="ledger-row reveal grid gap-2 border-t border-line py-6 md:grid-cols-[minmax(0,7fr)_minmax(0,4fr)] md:gap-x-8"
             >
               <div>
                 <h3 className="font-mono text-sm font-semibold text-fg">
