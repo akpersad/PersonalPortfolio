@@ -1,8 +1,16 @@
 import type { NextConfig } from 'next';
 import bundleAnalyzer from '@next/bundle-analyzer';
+import createMDX from '@next/mdx';
 
 const withBundleAnalyzer = bundleAnalyzer({
   enabled: process.env.ANALYZE === 'true',
+});
+
+// Case studies are .mdx files imported into the /work/[slug] route.
+// mdxRs (the Rust compiler) keeps MDX on Turbopack's fast path; study
+// metadata lives typed in src/lib/work.ts, so no remark plugins needed.
+const withMDX = createMDX({
+  extension: /\.mdx?$/,
 });
 
 const nextConfig: NextConfig = {
@@ -10,6 +18,7 @@ const nextConfig: NextConfig = {
   output: process.env.LIGHTHOUSE_CI ? 'export' : undefined,
   experimental: {
     optimizePackageImports: ['@/components', '@/lib', '@/hooks'],
+    mdxRs: true,
   },
   turbopack: {
     root: process.cwd(),
@@ -38,4 +47,4 @@ const nextConfig: NextConfig = {
   // },
 };
 
-export default withBundleAnalyzer(nextConfig);
+export default withBundleAnalyzer(withMDX(nextConfig));

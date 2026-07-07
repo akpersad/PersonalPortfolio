@@ -3,12 +3,30 @@
  * Source of facts: promptFiles/repo-audit-2026-06-10.md (verified by code audit)
  * and you-hungry/docs/portfolio-story.md (Fork In The Road numbers).
  * Voice rules: specific, first-person, outcome-led, zero buzzwords, no em dashes.
- * Full case-study pages arrive with the MDX engine (Phases 4-5); until then,
- * entries link to the live product and the repo only.
+ * Entries with a `study` have a full written case study at /work/[slug]
+ * (MDX body in src/content/work/<slug>.mdx, registered in the route).
  */
 
+export interface CaseStudy {
+  /** Outcome-stating headline for the study page (not the product name). */
+  headline: string;
+  /**
+   * The 30-second version: what the product is, what forced the work,
+   * the constraint. Three sentences, rendered as the study lede.
+   */
+  context: string;
+  role: string;
+  timeline: string;
+  status: string;
+  /** ISO dates for the Article schema. */
+  published: string;
+  updated?: string;
+  /** Meta description for the study page. */
+  description: string;
+}
+
 export interface WorkEntry {
-  /** Future /work/[slug] case-study route (Phase 4-5). */
+  /** /work/[slug] case-study route (live once `study` is set). */
   slug: string;
   title: string;
   flagship?: boolean;
@@ -29,6 +47,8 @@ export interface WorkEntry {
   };
   /** Honest note when the live product is access-gated. */
   accessNote?: string;
+  /** Full written case study; absent until the study ships (Phases 4-5). */
+  study?: CaseStudy;
 }
 
 export const featuredWork: WorkEntry[] = [
@@ -39,13 +59,24 @@ export const featuredWork: WorkEntry[] = [
     summary:
       'A group decision app that ends the "where should we eat" spiral. One link, everyone votes, no accounts required: guest identity is an HMAC-signed cookie holding zero personal data, and live results stream over Server-Sent Events.',
     detail:
-      'The v2 rewrite kept every shipped feature, deleted six of every seven lines, and runs with zero cron jobs: deadlines are enforced lazily on every read.',
+      'The v2 rewrite deleted six of every seven lines, including whole subsystems that worked but were not the product, and runs with zero cron jobs: deadlines are enforced lazily on every read.',
     metric: '113k → 20k LOC',
     metricLabel: 'lines of code, version one to version two',
     stack: ['Next.js', 'React', 'TypeScript', 'MongoDB', 'Clerk', 'SSE'],
     links: {
       live: 'https://www.forkintheroad.app',
       repo: 'https://github.com/akpersad/YouHungry',
+    },
+    study: {
+      headline: 'Rebuilding Fork In The Road: 113,000 lines became 20,000 that do more',
+      context:
+        'Fork In The Road ends the "where should we eat" spiral: one link, everyone votes, live results, no accounts required. Version one did all of that and had grown the way side projects grow, to roughly 113,000 lines, 77 API routes, and 27 runtime dependencies, with a notification stack across four channels and a homegrown observability platform nobody asked for. The brief for version two was a full product re-imagination: find the one sentence the product actually is, delete everything that does not serve it, and let strangers vote securely on an unauthenticated write surface.',
+      role: 'Solo: product, design, build, ship',
+      timeline: '9 phases, one PR each, July 2026',
+      status: 'Live at forkintheroad.app',
+      published: '2026-07-07',
+      description:
+        'How a 113k-line restaurant decision app became a 20k-line product that does more: HMAC-signed guest voting, zero cron jobs, and a migration that reused v1 ids. Five named decisions with the tradeoffs taken.',
     },
   },
   {
@@ -113,6 +144,11 @@ export const featuredWork: WorkEntry[] = [
     },
   },
 ];
+
+/** Entries whose written case study is live (drives routes, sitemap, index links). */
+export const studyEntries = featuredWork.filter(
+  (entry): entry is WorkEntry & { study: CaseStudy } => Boolean(entry.study)
+);
 
 /** The rows the home page features (matches the approved comp: flagship + two). */
 export const homeFeatured = featuredWork.filter(e =>

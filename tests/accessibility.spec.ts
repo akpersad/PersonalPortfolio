@@ -48,13 +48,12 @@ test.describe('Accessibility Tests', () => {
     expect(accessibilityScanResults.violations).toEqual([]);
   });
 
-  // Full-page dark-mode scans for every page rebuilt on the new tokens.
-  // The legacy /work/[slug] pages are light-palette and only tested in light
-  // mode; add them here when Phase 4 rebuilds them.
+  // Full-page dark-mode scans for every page, all on the new tokens.
   for (const path of [
     '/',
     '/about',
     '/work',
+    '/work/fork-in-the-road',
     '/contact',
     '/resume',
     '/colophon',
@@ -146,47 +145,52 @@ test.describe('Accessibility Tests', () => {
   // Current buttons achieve 4.92:1 contrast ratio, exceeding WCAG AA requirements.
 });
 
-test.describe('Dynamic Project Pages', () => {
-  test('Individual project pages should be accessible', async ({ page }) => {
-    const projectSlugs = [
-      'poke-collector',
-      'protein-checker',
-      'fork-in-the-road',
-    ];
+test.describe('Case Study Pages', () => {
+  // One entry per shipped study; Phase 5 studies join this list as they land.
+  const studySlugs = ['fork-in-the-road'];
 
-    for (const slug of projectSlugs) {
+  test('Case study pages should be accessible', async ({ page }) => {
+    for (const slug of studySlugs) {
       await page.goto(`/work/${slug}`);
       await page.waitForLoadState('networkidle');
 
-      // Run accessibility check
       const accessibilityScanResults = await new AxeBuilder({ page }).analyze();
       expect(accessibilityScanResults.violations).toEqual([]);
     }
   });
 
-  test('Project pages should have proper heading hierarchy', async ({
-    page,
-  }) => {
-    await page.goto('/work/poke-collector');
+  test('Case study should follow the enforced format', async ({ page }) => {
+    await page.goto('/work/fork-in-the-road');
     await page.waitForLoadState('networkidle');
 
-    // Check that h1 exists and is the main heading
-    const h1 = page.locator('h1');
-    await expect(h1).toBeVisible();
+    // Outcome-stating h1 plus section h2s
+    await expect(page.locator('h1')).toBeVisible();
+    expect(await page.locator('h2').count()).toBeGreaterThan(2);
 
-    // Check that h2 headings exist for sections
-    const h2s = page.locator('h2');
-    const h2Count = await h2s.count();
-    expect(h2Count).toBeGreaterThan(0);
+    // Role / timeline / status meta row
+    const metaRow = page.locator('dl');
+    await expect(metaRow.locator('dt', { hasText: 'role' })).toBeVisible();
+    await expect(metaRow.locator('dt', { hasText: 'timeline' })).toBeVisible();
+    await expect(metaRow.locator('dt', { hasText: 'status' })).toBeVisible();
+
+    // Named decisions, each carrying its tradeoff
+    const decisions = page.locator('section[id^="decision-"]');
+    const decisionCount = await decisions.count();
+    expect(decisionCount).toBeGreaterThanOrEqual(3);
+    expect(decisionCount).toBeLessThanOrEqual(5);
+    expect(await page.locator('text=Tradeoff taken:').count()).toBe(
+      decisionCount
+    );
+
+    // Before/after numbers table
+    await expect(page.locator('table caption')).toContainText('Before / after');
   });
 
-  test('Project images should have proper alt text', async ({ page }) => {
-    await page.goto('/work/poke-collector');
+  test('Case study images should have proper alt text', async ({ page }) => {
+    await page.goto('/work/fork-in-the-road');
     await page.waitForLoadState('networkidle');
 
-    // Check that all project images have alt text
     const images = await page.locator('img').all();
-
     for (const image of images) {
       const alt = await image.getAttribute('alt');
       expect(alt).toBeTruthy();
@@ -194,29 +198,14 @@ test.describe('Dynamic Project Pages', () => {
     }
   });
 
-  test('Project breadcrumb navigation should be accessible', async ({
-    page,
-  }) => {
-    await page.goto('/work/protein-checker');
+  test('Case study should link back to the work index', async ({ page }) => {
+    await page.goto('/work/fork-in-the-road');
     await page.waitForLoadState('networkidle');
 
-    // Check breadcrumb navigation specifically
-    const breadcrumb = page.locator('nav[aria-label="Breadcrumb navigation"]');
-    await expect(breadcrumb).toBeVisible();
-
-    // Check breadcrumb links
-    const breadcrumbLinks = page.locator(
-      'nav[aria-label="Breadcrumb navigation"] a'
-    );
-    const linkCount = await breadcrumbLinks.count();
-    expect(linkCount).toBeGreaterThan(0);
-
-    // Test keyboard navigation through breadcrumbs
-    await page.keyboard.press('Tab');
-    const focusedElement = await page.evaluate(
-      () => document.activeElement?.tagName
-    );
-    expect(focusedElement).toBeTruthy();
+    await page
+      .getByRole('link', { name: /index \/ all work/i })
+      .click();
+    await expect(page).toHaveURL(/\/work$/);
   });
 });
 
@@ -273,27 +262,14 @@ test.describe('External Links Security', () => {
     expect(accessibilityScanResults.violations).toEqual([]);
   });
 
-  test('Project live demo links should be accessible', async ({ page }) => {
-    await page.goto('/work/poke-collector');
+  test('Case study artifact links should open safely', async ({ page }) => {
+    await page.goto('/work/fork-in-the-road');
     await page.waitForLoadState('networkidle');
 
-    // Check for live demo link
-    const liveDemoLink = page.locator('a:has-text("View Live Demo")');
-    const linkExists = (await liveDemoLink.count()) > 0;
-
-    if (linkExists) {
-      await expect(liveDemoLink).toBeVisible();
-
-      // Check that it has proper attributes
-      const href = await liveDemoLink.getAttribute('href');
-      const target = await liveDemoLink.getAttribute('target');
-      const rel = await liveDemoLink.getAttribute('rel');
-
-      expect(href).toBeTruthy();
-      expect(target).toBe('_blank');
-      expect(rel).toContain('noopener');
-      expect(rel).toContain('noreferrer');
-    }
+    const liveLink = page.getByRole('link', { name: /live site/i });
+    await expect(liveLink).toBeVisible();
+    expect(await liveLink.getAttribute('target')).toBe('_blank');
+    expect(await liveLink.getAttribute('rel')).toContain('noopener');
   });
 
   test('External links should be keyboard accessible', async ({ page }) => {

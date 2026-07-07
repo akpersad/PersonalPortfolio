@@ -3,7 +3,7 @@
  * Comprehensive SEO implementation with structured data schemas
  */
 
-import { projects, projectSlugs } from './projects';
+import { studyEntries, type CaseStudy, type WorkEntry } from './work';
 
 // Base URL for the site
 export const BASE_URL =
@@ -43,36 +43,35 @@ export const getPersonSchema = () => ({
   },
 });
 
-// SoftwareSourceCode Schema for projects
-export const getProjectSchema = (projectName: string) => {
-  const project = projects.find(p => p.project === projectName);
-  if (!project) return null;
-
-  const slug =
-    projectSlugs[projectName] ?? projectName.toLowerCase().replace(/\s+/g, '-');
-
-  return {
-    '@context': 'https://schema.org',
+// Article schema for a written case study, built from the typed work entry
+export const getStudySchema = (entry: WorkEntry & { study: CaseStudy }) => ({
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: entry.study.headline,
+  description: entry.study.description,
+  datePublished: entry.study.published,
+  dateModified: entry.study.updated ?? entry.study.published,
+  author: {
+    '@type': 'Person',
+    name: 'Andrew Persad',
+    url: BASE_URL,
+  },
+  publisher: {
+    '@type': 'Person',
+    name: 'Andrew Persad',
+    url: BASE_URL,
+  },
+  url: `${BASE_URL}/work/${entry.slug}`,
+  mainEntityOfPage: `${BASE_URL}/work/${entry.slug}`,
+  inLanguage: 'en-US',
+  about: {
     '@type': 'SoftwareSourceCode',
-    name: project.project,
-    description: project.shortDescription,
-    author: {
-      '@type': 'Person',
-      name: 'Andrew Persad',
-      url: BASE_URL,
-    },
-    programmingLanguage: project.stack,
-    runtimePlatform: 'Web Browser',
-    applicationCategory: 'WebApplication',
-    operatingSystem: 'Any',
-    codeRepository: project.repo[0]?.web || project.repo[0]?.iOS,
-    url: `${BASE_URL}/work/${slug}`,
-    keywords: project.keywords,
-    featureList: project.performance,
-    screenshot: project.images?.[0]?.web,
-    isAccessibleForFree: true,
-  };
-};
+    name: entry.title,
+    codeRepository: entry.links.repo,
+    url: entry.links.live,
+    programmingLanguage: entry.stack,
+  },
+});
 
 // BreadcrumbList Schema for navigation
 export const getBreadcrumbSchema = (path: string) => {
@@ -125,85 +124,11 @@ export const getWebsiteSchema = () => ({
   },
 });
 
-// Article Schema for project case studies
-export const getArticleSchema = (projectName: string, slug: string) => {
-  const project = projects.find(p => p.project === projectName);
-  if (!project) return null;
-
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'Article',
-    headline: `${project.project} - Project Case Study`,
-    description: project.shortDescription,
-    author: {
-      '@type': 'Person',
-      name: 'Andrew Persad',
-      url: BASE_URL,
-    },
-    publisher: {
-      '@type': 'Person',
-      name: 'Andrew Persad',
-      url: BASE_URL,
-    },
-    url: `${BASE_URL}/work/${slug}`,
-    image: project.images?.[0]?.web,
-    keywords: project.keywords.join(', '),
-    articleSection: 'Technology',
-    inLanguage: 'en-US',
-  };
-};
-
 // Generate canonical URL
 export const getCanonicalUrl = (path: string) => {
   const cleanPath = path.startsWith('/') ? path : `/${path}`;
   return `${BASE_URL}${cleanPath}`;
 };
-
-// Generate Open Graph data
-export const getOpenGraphData = (
-  title: string,
-  description: string,
-  path: string,
-  image?: string
-) => ({
-  title,
-  description,
-  url: `${BASE_URL}${path}`,
-  siteName: 'Andrew Persad - Lead Software Engineer',
-  locale: 'en_US',
-  type: 'website',
-  images: image
-    ? [
-        {
-          url: image,
-          width: 1200,
-          height: 630,
-          alt: title,
-        },
-      ]
-    : [
-        {
-          url: `${BASE_URL}/og-image.jpg`,
-          width: 1200,
-          height: 630,
-          alt: title,
-        },
-      ],
-});
-
-// Generate Twitter Card data
-export const getTwitterCardData = (
-  title: string,
-  description: string,
-  image?: string
-) => ({
-  card: 'summary_large_image',
-  site: '@andrewpersad',
-  creator: '@andrewpersad',
-  title,
-  description,
-  images: image ? [image] : [`${BASE_URL}/twitter-image.jpg`],
-});
 
 // Generate sitemap data
 export const getSitemapData = () => {
@@ -216,13 +141,11 @@ export const getSitemapData = () => {
     { url: '/colophon', priority: 0.4, changefreq: 'monthly' },
   ];
 
-  const projectPages = projects
-    .filter(project => projectSlugs[project.project])
-    .map(project => ({
-      url: `/work/${projectSlugs[project.project]}`,
-      priority: 0.8,
-      changefreq: 'monthly',
-    }));
+  const studyPages = studyEntries.map(entry => ({
+    url: `/work/${entry.slug}`,
+    priority: 0.8,
+    changefreq: 'monthly',
+  }));
 
-  return [...staticPages, ...projectPages];
+  return [...staticPages, ...studyPages];
 };

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import { featuredWork } from '@/lib/work';
 import { getBreadcrumbSchema } from '@/lib/seo';
 
@@ -51,9 +52,9 @@ export default function Work() {
         </h1>
         <p className="mt-8 max-w-[58ch] text-lg text-fg-muted">
           A curated index, not a wall of cards. Each of these is a real product
-          I design, build, run, and answer for myself. Full written case
-          studies are on the way; until then, every entry links to the running
-          product and its code.
+          I design, build, run, and answer for myself. The flagship rebuild has
+          a full written study; the rest are on the way. Every entry links to
+          the running product and its code.
         </p>
       </section>
 
@@ -79,12 +80,29 @@ export default function Work() {
                     entry.flagship ? 'text-title' : 'text-2xl'
                   }`}
                 >
-                  {entry.title}
+                  {entry.study ? (
+                    <Link
+                      href={`/work/${entry.slug}`}
+                      className="hover:text-accent-ink motion-safe:transition-colors motion-safe:duration-150"
+                    >
+                      {entry.title}
+                    </Link>
+                  ) : (
+                    entry.title
+                  )}
                 </h3>
                 <p className="mt-3 max-w-[52ch] text-fg-muted">
                   {entry.summary}
                 </p>
                 <div className="mt-4 flex flex-wrap items-center gap-x-6">
+                  {entry.study && (
+                    <Link
+                      href={`/work/${entry.slug}`}
+                      className="inline-flex min-h-11 items-center gap-1 font-mono text-sm text-accent-ink hover:text-fg motion-safe:transition-colors motion-safe:duration-150"
+                    >
+                      read the study <span aria-hidden="true">&rarr;</span>
+                    </Link>
+                  )}
                   {entry.links.live && (
                     <ExternalLink href={entry.links.live}>
                       live site
