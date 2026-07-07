@@ -331,6 +331,7 @@ export const getSitemapData = () => {
     { url: '/work', priority: 0.9, changefreq: 'weekly' },
     { url: '/resume', priority: 0.8, changefreq: 'monthly' },
     { url: '/contact', priority: 0.7, changefreq: 'monthly' },
+    { url: '/colophon', priority: 0.4, changefreq: 'monthly' },
   ];
 
   const projectPages = projects

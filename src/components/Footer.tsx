@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { memo, useCallback } from 'react';
 import { useAnalytics } from '@/hooks/useAnalytics';
 
@@ -12,52 +13,68 @@ const Footer = () => {
     },
     [trackExternalLinkClick]
   );
+
   return (
-    <footer className="bg-darkest text-text-on-dark py-8 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-          <div className="text-center md:text-left">
-            <p className="text-sm">
-              <strong>Andrew Persad</strong>, Lead Software Engineer
-              (React/Next.js)
+    <footer className="border-t border-line bg-surface">
+      <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-10">
+        <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+          <div>
+            <p className="font-mono text-sm font-medium text-fg">
+              <span className="text-accent-ink">AP</span>/andrew-persad
             </p>
-            <p className="text-xs text-text-muted-on-dark mt-1">
-              I build scalable, accessible front-ends and design systems.
+            <p className="mt-2 text-sm text-fg-muted">
+              Lead software engineer. I build scalable, accessible front-ends
+              and design systems.
             </p>
           </div>
 
-          <div className="flex items-center gap-6">
-            <a
-              href="https://github.com/akpersad"
-              className="text-sm hover:text-medium-green transition-colors"
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() =>
-                handleExternalLinkClick('GitHub', 'https://github.com/akpersad')
-              }
-            >
-              GitHub
-            </a>
-            <a
-              href="https://www.linkedin.com/in/andrew-persad-aa496432/"
-              className="text-sm hover:text-medium-green transition-colors"
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() =>
-                handleExternalLinkClick(
-                  'LinkedIn',
-                  'https://www.linkedin.com/in/andrew-persad-aa496432/'
-                )
-              }
-            >
-              LinkedIn
-            </a>
-          </div>
+          <ul className="flex items-center gap-6">
+            <li>
+              <a
+                href="https://github.com/akpersad"
+                className="text-sm text-fg-muted hover:text-accent-ink motion-safe:transition-colors motion-safe:duration-150 motion-safe:ease-out-quint"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() =>
+                  handleExternalLinkClick(
+                    'GitHub',
+                    'https://github.com/akpersad'
+                  )
+                }
+              >
+                GitHub
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://www.linkedin.com/in/andrew-persad-aa496432/"
+                className="text-sm text-fg-muted hover:text-accent-ink motion-safe:transition-colors motion-safe:duration-150 motion-safe:ease-out-quint"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() =>
+                  handleExternalLinkClick(
+                    'LinkedIn',
+                    'https://www.linkedin.com/in/andrew-persad-aa496432/'
+                  )
+                }
+              >
+                LinkedIn
+              </a>
+            </li>
+            <li>
+              <Link
+                href="/colophon"
+                className="text-sm text-fg-muted hover:text-accent-ink motion-safe:transition-colors motion-safe:duration-150 motion-safe:ease-out-quint"
+              >
+                Colophon
+              </Link>
+            </li>
+          </ul>
         </div>
 
-        <div className="border-t border-dark-green mt-6 pt-4 text-center">
-          <p className="text-xs text-text-muted-on-dark">
-            © {new Date().getFullYear()} Andrew Persad • Built with Next.js
+        <div className="mt-8 border-t border-line pt-4">
+          <p className="annotation">
+            © {new Date().getFullYear()} Andrew Persad · Built with Next.js
           </p>
         </div>
       </div>

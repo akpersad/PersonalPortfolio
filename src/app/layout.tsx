@@ -1,16 +1,15 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
+import { Bricolage_Grotesque, Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
-import CoreWebVitals from '@/components/CoreWebVitals';
-import PerformanceMonitor from '@/components/PerformanceMonitor';
 import {
   getPersonSchema,
   getWebsiteSchema,
   getOrganizationSchema,
   getFAQSchema,
 } from '@/lib/seo';
+
 const geistSans = Geist({
   variable: '--font-geist-sans',
   subsets: ['latin'],
@@ -20,6 +19,16 @@ const geistMono = Geist_Mono({
   variable: '--font-geist-mono',
   subsets: ['latin'],
 });
+
+const bricolage = Bricolage_Grotesque({
+  variable: '--font-bricolage',
+  subsets: ['latin'],
+  axes: ['opsz'],
+});
+
+/* Runs before paint so the correct theme class is on <html> before anything
+   renders. Stored preference wins; otherwise follow the OS. */
+const themeScript = `(function(){try{var t=localStorage.getItem('theme');var d=t==='dark'||(t!=='light'&&window.matchMedia('(prefers-color-scheme: dark)').matches);document.documentElement.classList.toggle('dark',d)}catch(e){}})()`;
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://andrewpersad.com'),
@@ -82,18 +91,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" suppressHydrationWarning>
       <head>
-        {/* Skip to main content link for screen readers */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
+        className={`${geistSans.variable} ${geistMono.variable} ${bricolage.variable} antialiased min-h-screen flex flex-col`}
       >
         {/* Skip to main content link */}
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-primary-green text-text-on-dark px-4 py-2 rounded-lg z-50 focus:outline-none focus:ring-2 focus:ring-primary-green focus:ring-offset-2"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-accent text-accent-contrast px-4 py-2 rounded-md z-50"
         >
           Skip to main content
         </a>
@@ -103,8 +111,6 @@ export default function RootLayout({
           {children}
         </main>
         <Footer />
-        <CoreWebVitals />
-        <PerformanceMonitor />
 
         {/* Structured Data */}
         <script

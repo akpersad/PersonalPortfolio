@@ -28,20 +28,23 @@ so nothing depends on chat history.
       text); avatar replaced with 13 KB 768px WebP (`public/icons/avatar.webp`), both
       multi-MB SVGs deleted; contact rate limit fixed (seeds 1, prunes expired entries);
       em dashes removed from site copy; footer year now dynamic; tests updated (130 pass).
-- [~] **Phase 2 — Design direction + foundation.** DIRECTION PICKED (owner, 2026-07-06):
+- [x] **Phase 2 — Design direction + foundation.** Complete on `feature/phase-2-foundation`
+      (awaiting owner PR). DIRECTION PICKED (owner, 2026-07-06):
       **Direction 1 "Annotated"** (`design/comps/direction-1-annotated.html`): hue-245 slate
       tinted neutrals, signal-orange (hue 40) markup accent, annotation/dimension-line motif,
       Bricolage Grotesque / Geist / Geist Mono. All tokens live in that comp's `:root` /
       `.dark` blocks; use them as the source when implementing.
       AVATAR: **DONE** (owner approved 2026-07-06): treatment **A "Flat"**, likeness locked
       at **v5.4** (`#g-bust-v5` in `design/comps/avatar-final.html`; see decisions log #8-9).
-      NEXT: foundation on the Annotated tokens (CSS variables as source of truth,
-      Tailwind 4 mapping, fonts self-hosted or Google, flicker-free light/dark theming,
-      motion primitives 150-300ms ease-out-quint transform/opacity only with reduced-motion
-      collapse, nav/footer shell, colophon skeleton), including the mechanical avatar
-      export: optimized standalone SVG themeable via semantic tokens, then delete interim
-      `public/icons/avatar.webp`. Done when tokens power a themed shell at 360/768/1280
-      and both modes pass axe.
+      FOUNDATION: **DONE** (2026-07-06/07, branch `feature/phase-2-foundation`): Annotated
+      tokens in `globals.css` (three-layer OKLCH, CSS vars as source of truth, Tailwind 4
+      `@theme inline` mapping, legacy forest palette kept for un-rebuilt pages); fonts
+      Bricolage Grotesque + Geist + Geist Mono via next/font (self-hosted); flicker-free
+      class-based dark mode (pre-paint head script + ThemeToggle); motion primitives
+      (ease-out-quint token, motion-safe utilities, global reduced-motion collapse);
+      nav/footer shell rebuilt on tokens; `/colophon` skeleton; avatar exported as
+      `src/components/Avatar.tsx` (Flat v5.4, `--av-*` component tokens), avatar.webp
+      deleted; CoreWebVitals/PerformanceMonitor removed. Awaiting owner PR.
 - [ ] **Phase 3 — Core pages.** Home, about (experience timeline first), work index, contact,
       resume. All copy rewritten (voice rules below).
 - [ ] **Phase 4 — Case-study engine (MDX) + Fork In The Road flagship study.**
@@ -78,6 +81,8 @@ so nothing depends on chat history.
 - **Branch off `main` per phase, one PR per phase, owner opens/merges the PRs.**
 - Remote: `github.com-personal:akpersad/PersonalPortfolio.git`. Plain `git push` works via
   SSH; **`gh` CLI is NOT authenticated** on this machine.
+- **Do NOT `git push` until the owner explicitly says to** (owner rule, 2026-07-07). Commit
+  locally, report the branch is ready, and wait.
 - **No em dashes in any site copy** (owner's global rule; internal docs exempt).
 - Copy voice model: the Fork In The Road entry in `src/lib/projects.ts`. Specific,
   first-person, outcome-led, zero buzzwords. Liberties = amplify and frame real work, never
@@ -181,3 +186,43 @@ so nothing depends on chat history.
   Avatar likeness is DONE (decisions log #8-9). NEXT: foundation implementation (see
   Phase 2 status above), which includes the mechanical avatar export (standalone optimized
   SVG on the semantic tokens, delete interim `public/icons/avatar.webp`).
+- **2026-07-07 (Phase 2, session 4: foundation)** — Foundation built on
+  `feature/phase-2-foundation`:
+  - `globals.css` rewritten: Annotated three-layer OKLCH tokens (primitive/semantic/
+    component), Tailwind 4 `@theme inline` mapping (`bg-bg`, `text-fg`, `border-line`,
+    `text-accent-ink`, `ease-out-quint`, `text-display`/`text-title` fluid sizes),
+    class-based dark via `@custom-variant`, base styles (focus ring, `.annotation` mono
+    label, reduced-motion collapse, media-gated smooth scroll). LEGACY forest-palette
+    utilities kept in a marked block so un-rebuilt pages render; delete per page in
+    Phases 3-5.
+  - Fonts: Bricolage Grotesque (display, `--font-bricolage`, opsz axis) + Geist + Geist
+    Mono via next/font, all self-hosted. h1-h3 default to Bricolage.
+  - Theming: pre-paint inline script in `layout.tsx` head (localStorage `theme`, falls
+    back to OS), `suppressHydrationWarning` on html, `ThemeToggle.tsx` (CSS-swapped
+    moon/sun, hydration-safe, persists choice).
+  - Shell: `Navigation.tsx` rebuilt (sticky, blur, mono `AP/andrew-persad` brand,
+    lowercase links incl. colophon, accent scaleX underline + `aria-current`, accessible
+    mobile menu with aria-expanded/controls, 44px targets). `Footer.tsx` rebuilt on
+    tokens (keeps GitHub/LinkedIn + "Built with Next.js" for tests, adds colophon link).
+  - `/colophon` skeleton page (stack/type/color/motion/budgets sections, fig. labels).
+    Added to sitemap.
+  - Avatar: `src/components/Avatar.tsx` = locked v5.4 Flat geometry verbatim, themed only
+    via `--av-*` component tokens (light/dark shirt + bg variants in globals). Home hero
+    swapped to it; `public/icons/avatar.webp` DELETED. Do not edit paths.
+  - Removed: CoreWebVitals.tsx, PerformanceMonitor.tsx, lib/performance.ts,
+    `trackCoreWebVitals` from analytics.ts.
+  - GOTCHA (a11y): comp's `--accent-ink` (signal-600) is only 3.77:1 on light paper at
+    14px; text needs a darker step. Added `--signal-650: oklch(0.54 0.17 40)` and pointed
+    light `--accent-ink` at it (4.8:1 on surface, 5.2:1 on bg); `--accent` stays
+    signal-600 for graphics (3:1 non-text passes). Comp updated to match. Dark accent-ink
+    passes as-is (7.7:1+). Contrast math helper: `temp/contrast.mjs` (gitignored).
+  - Tests: added colophon axe test, dark-mode shell + colophon axe tests, theme-toggle
+    persistence test. Dark-mode homepage scan is scoped to header/footer until page
+    bodies are rebuilt (legacy translucent light sections fail over the dark body);
+    widen per page in Phases 3-5.
+  - Verified: lint, type-check, build green; screenshots at 360/768/1280 light+dark in
+    `temp/comp-shots/foundation/` (gitignored); chromium suite 30/30 green; full
+    cross-browser suite run before push.
+  NEXT: Phase 3 (core pages: home, about with experience timeline, work index, contact,
+  resume; all copy rewritten per voice rules). Consider the Next.js 16 upgrade at Phase 3
+  kickoff (target stack in working agreements; not done in Phase 2 to keep the PR scoped).
