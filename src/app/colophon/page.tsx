@@ -85,10 +85,11 @@ const sections = [
     body: (
       <>
         <p>
-          Transitions run 150 to 300ms on an ease-out-quint curve and animate
-          only transform and opacity. Page entrances are a single 320ms rise.
-          Scroll reveals are CSS scroll-driven animations, no JavaScript
-          observer, so none of it touches the main thread.
+          Transitions run 150 to 300ms on an ease-out-quint curve, and
+          anything that moves does it with transform, never layout. Page
+          entrances are a single 320ms rise. Scroll reveals are CSS
+          scroll-driven animations, no JavaScript observer, so none of it
+          touches the main thread.
         </p>
         <p className="mt-3">
           Everything collapses to near-instant when your system asks for
@@ -113,8 +114,9 @@ const sections = [
         <p className="mt-3">
           Lighthouse runs against a static export on every change and fails
           the build below 90 in any category. The budgets pin first
-          contentful paint under 2.0s, largest contentful paint under 2.5s,
-          layout shift under 0.1, and total blocking time under 300ms. A
+          contentful paint under 2.0s, largest contentful paint under 3.0s
+          on simulated slow 4G (the display font is worth the wait), layout
+          shift under 0.1, and total blocking time under 300ms. A
           bundle monitor holds the whole first-load payload, JavaScript, CSS,
           and assets together, under 1000 KB; it measures 994 KB today.
         </p>
