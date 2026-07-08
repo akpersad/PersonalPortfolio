@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import Avatar from '@/components/Avatar';
+import WinkingAvatar from '@/components/WinkingAvatar';
+import LastCommit from '@/components/LastCommit';
 import { homeFeatured } from '@/lib/work';
 
 const principles = [
@@ -69,7 +70,7 @@ export default function Home() {
           </div>
         </div>
         <div className="flex flex-col items-center gap-4">
-          <Avatar
+          <WinkingAvatar
             className="w-56 sm:w-64 lg:w-72 xl:w-80"
             title="Illustrated portrait of Andrew Persad, lead software engineer"
           />
@@ -198,6 +199,7 @@ export default function Home() {
             Resume
           </Link>
         </div>
+        <LastCommit />
       </section>
     </div>
   );

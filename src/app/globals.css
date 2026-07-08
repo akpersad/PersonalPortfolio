@@ -265,6 +265,27 @@ h3 {
   }
 }
 
+/* Easter egg: click the portrait, he winks. One eye, one squeeze, done.
+   transform-box keeps the scale centered on the eye itself. */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes wink {
+    0%,
+    100% {
+      transform: scaleY(1);
+    }
+    35%,
+    65% {
+      transform: scaleY(0.08);
+    }
+  }
+
+  .avatar-wink .av-eye-wink {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: wink 480ms var(--ease-out-quint);
+  }
+}
+
 /* Motion is opt-in; reduced motion collapses everything */
 @media (prefers-reduced-motion: reduce) {
   *,
