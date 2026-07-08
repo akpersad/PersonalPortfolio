@@ -11,7 +11,6 @@ import {
   trackEvent,
   trackResumeDownload,
   trackContactFormSubmission,
-  trackProjectView,
   trackExternalLinkClick,
   trackNavigationClick,
   trackEngagementTime,
@@ -128,14 +127,6 @@ export const useAnalytics = () => {
       []
     ),
 
-    // Project view tracking
-    trackProjectView: useCallback(
-      (projectName: string, projectSlug: string) => {
-        trackProjectView(projectName, projectSlug);
-      },
-      []
-    ),
-
     // External link tracking
     trackExternalLinkClick: useCallback(
       (platform: string, url: string, source: string) => {
@@ -156,55 +147,4 @@ export const useAnalytics = () => {
   };
 
   return analytics;
-};
-
-// Hook for tracking specific user interactions
-export const useInteractionTracking = () => {
-  const analytics = useAnalytics();
-
-  const trackButtonClick = useCallback(
-    (buttonName: string, location: string) => {
-      analytics.trackEvent('button_click', {
-        category: 'interaction',
-        label: buttonName,
-        value: 1,
-        button_name: buttonName,
-        location: location,
-      });
-    },
-    [analytics]
-  );
-
-  const trackFormInteraction = useCallback(
-    (formName: string, action: string) => {
-      analytics.trackEvent('form_interaction', {
-        category: 'interaction',
-        label: formName,
-        value: 1,
-        form_name: formName,
-        action: action,
-      });
-    },
-    [analytics]
-  );
-
-  const trackDownload = useCallback(
-    (fileName: string, fileType: string, source: string) => {
-      analytics.trackEvent('file_download', {
-        category: 'conversion',
-        label: fileName,
-        value: 1,
-        file_name: fileName,
-        file_type: fileType,
-        source: source,
-      });
-    },
-    [analytics]
-  );
-
-  return {
-    trackButtonClick,
-    trackFormInteraction,
-    trackDownload,
-  };
 };
