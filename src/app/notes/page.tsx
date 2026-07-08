@@ -13,6 +13,8 @@ export const metadata: Metadata = {
       'Essays harvested from real work. Quality over cadence: each one exists because the work taught me something specific.',
     type: 'website',
     url: 'https://andrewpersad.com/notes',
+    // Child openGraph replaces the root layout's, so restate the card.
+    images: ['https://andrewpersad.com/og-image.png'],
   },
   alternates: {
     canonical: 'https://andrewpersad.com/notes',
