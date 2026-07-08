@@ -28,7 +28,7 @@ export default function Decision({
   return (
     <section
       id={`decision-${pad(n)}`}
-      className="mt-12 max-w-[62ch] border-l-2 border-accent pl-6"
+      className="reveal mt-12 max-w-[62ch] border-l-2 border-accent pl-6"
     >
       <p className="annotation">
         decision {pad(n)} / {pad(of)}

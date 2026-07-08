@@ -83,15 +83,28 @@ export const featuredWork: WorkEntry[] = [
     slug: 'overlapp',
     title: 'overlapp',
     summary:
-      'Group scheduling that finds when everyone is actually free. Members connect Google or Microsoft calendars, or add recurring blocks by hand, and the group gets a live availability heatmap with proposals and quorum voting.',
+      'Group scheduling that finds when everyone is actually free. Members sync their real calendars or add recurring blocks by hand, and the group gets a live availability heatmap with proposals and quorum voting.',
     detail:
       'Recurrence expansion is hand-written plpgsql running inside Postgres, and privacy is enforced at the database layer: the group sees that you are busy, never why.',
-    metric: '2 OAuth providers',
-    metricLabel: 'calendar providers synced through one adapter seam',
+    metric: '2 built · 1 live',
+    metricLabel:
+      'calendar providers behind one adapter seam: Google shipped, Microsoft complete but flag-gated',
     stack: ['Next.js', 'React', 'TypeScript', 'Supabase', 'Postgres RLS'],
     links: {
       live: 'https://overlapp-psi.vercel.app',
       repo: 'https://github.com/akpersad/overlapp',
+    },
+    study: {
+      headline:
+        'Building overlapp: the "when are you free?" question, answered by Postgres',
+      context:
+        'overlapp replaces the one-off scheduling poll with a persistent shared calendar: each member\'s availability lives continuously, assembled from synced calendars and hand-entered recurring blocks, so a group sees overlapping free time without anyone asking. It went from empty repo to live product in eleven days, spec first: the data model and the privacy rule were written down before the first migration. The hard constraint was that a group calendar is a privacy problem wearing a convenience costume, so the "members learn when you are busy, never why" rule is enforced in the database, not in the UI.',
+      role: 'Solo: product, design, build, ship',
+      timeline: '11 days, spec first, June 2026',
+      status: 'Live at overlapp-psi.vercel.app',
+      published: '2026-07-07',
+      description:
+        'How overlapp answers "when is everyone free?" with a hand-written plpgsql recurrence expander, database-enforced privacy, and one calendar-sync seam for two OAuth providers. Five named decisions with the tradeoffs taken.',
     },
   },
   {
@@ -101,14 +114,27 @@ export const featuredWork: WorkEntry[] = [
       'Household payroll with real compliance consequences: statutory tax math, W-2 and W-3 generation, and NYS-45 quarterly filings for an actual household employee.',
     detail:
       'The tax engine cites IRS Publication 926 and NY DOL rules inline, and unit tests assert exact dollar amounts, including the scenarios where year-to-date wages cross a cap mid-payment.',
-    metric: '$0.00 variance',
-    metricLabel: 'allowed difference between computed and statutory tax',
+    metric: '6 filing artifacts',
+    metricLabel:
+      'compliance documents generated: W-2, W-3, Schedule H, NYS-45, 1040-ES, year-end packet',
     stack: ['Next.js', 'TypeScript', 'Supabase', 'Postgres RLS', 'TOTP MFA'],
     links: {
       live: 'https://persadpay.com',
       repo: 'https://github.com/akpersad/PersadPay',
     },
     accessNote: 'Runs my family’s actual payroll, so accounts are private.',
+    study: {
+      headline:
+        'Building PersadPay: payroll where a rounding error is a compliance incident',
+      context:
+        'PersadPay runs my family\'s actual household payroll: weekly paystubs, statutory federal and New York employment taxes, and the year-end paper trail of W-2, W-3, Schedule H, NYS-45, and 1040-ES. Employing someone in your home makes you a real employer with real filing obligations, and the spreadsheet-and-hope approach does not produce defensible numbers. It was built in sixteen days across fourteen numbered phases in May 2026, for exactly three users, and every dollar it computes is a dollar the IRS or New York State can ask about.',
+      role: 'Solo: product, design, build, ship',
+      timeline: '16 days, 14 phases, May 2026',
+      status: 'Live at persadpay.com, running real payroll',
+      published: '2026-07-07',
+      description:
+        'How PersadPay computes statutory household payroll taxes with database-stored rates, a pure tax function, IEEE-754-safe rounding, and three independent authorization layers. Five named decisions with the tradeoffs taken.',
+    },
   },
   {
     slug: 'pawscriptions',
@@ -124,24 +150,80 @@ export const featuredWork: WorkEntry[] = [
       live: 'https://pawscriptions.vercel.app',
       repo: 'https://github.com/akpersad/pawscriptions',
     },
-    accessNote: 'Household app behind a passphrase; the study will carry screenshots.',
+    accessNote: 'Household app behind a passphrase; the study carries screenshots.',
+    study: {
+      headline:
+        'Building pawscriptions: a med tracker that can never double-remind',
+      context:
+        'pawscriptions tracks a dog\'s medications for a two-person household: define meds and schedules, log or skip each dose, forecast the supply, and get push reminders in the right timezone. The v1 core went from empty repo to running in two days, and the data model it shipped with survived two later feature waves without a single new table. The hard problem is small but sharp: an external scheduler hits the reminder endpoint every minute, runs can overlap or retry, and a double reminder risks a double-dosed dog, so deduplication has to be guaranteed by construction.',
+      role: 'Solo: product, design, build, ship',
+      timeline: '2 days to v1, two feature waves, June 2026',
+      status: 'Live, behind the household passphrase',
+      published: '2026-07-07',
+      description:
+        'How pawscriptions makes concurrent reminder runs safe by construction: claim-first inserts against a unique constraint, supply as a derived number, and on-device OCR. Five named decisions with the tradeoffs taken.',
+    },
   },
   {
     slug: 'protein-checker',
     title: 'ProteinChecker',
     crossPlatform: true,
     summary:
-      'One nutrition calculator, shipped twice: a React web app and a native SwiftUI iOS app with documented feature parity. Quality-adjusted protein math (DIAAS and PDCAAS) across 50+ sources, with history on both platforms.',
+      'One nutrition calculator, built twice: a native SwiftUI iOS app and a React web port with a written feature-parity matrix. Quality-adjusted protein math (DIAAS and PDCAAS), a 75-source database on the web, and calculation history on both platforms.',
     detail:
-      'The same product logic expressed in two idioms: React Context and custom hooks on the web, MVVM with Core Data on iOS.',
+      'The same product logic expressed in two idioms: React Context and custom hooks on the web, SwiftUI views over a UserDefaults store on iOS, down to the same storage key and the same 100-item history cap.',
     metric: 'web + iOS',
-    metricLabel: 'platforms shipped from one product spec',
-    stack: ['Next.js', 'TypeScript', 'Swift', 'SwiftUI', 'Core Data'],
+    metricLabel: 'platforms built from one product spec',
+    stack: ['Next.js', 'TypeScript', 'Swift', 'SwiftUI', 'Tailwind'],
     links: {
       live: 'https://protein-checker-web.vercel.app',
       repo: 'https://github.com/akpersad/ProteinCheckerWeb',
       repoIOS: 'https://github.com/akpersad/ProteinCheckerSwift',
     },
+    study: {
+      headline:
+        'Porting ProteinChecker: one line of math, kept honest across platforms',
+      context:
+        'ProteinChecker multiplies the protein grams on a label by the source\'s digestibility score (DIAAS or PDCAAS), because 30 grams of collagen is not 30 grams of whey. The algorithm fits in a sentence; the project is really about what happens when one small product is built three times, as a React Native prototype in May, a native SwiftUI app in June, and a Next.js web port in September. The port shipped with a written parity matrix instead of a shared codebase, which worked, then quietly stopped being true the day the web version pulled ahead.',
+      role: 'Solo: product, design, build, ship',
+      timeline: 'May to September 2025, three builds',
+      status: 'Web live; iOS runs from Xcode',
+      published: '2026-07-07',
+      description:
+        'ProteinChecker is a protein-quality calculator built three times: React Native, SwiftUI, and a Next.js port with a written parity matrix. An honest study of hand-maintained cross-platform parity, where it held, and exactly how it drifted.',
+    },
+  },
+];
+
+export interface ShelfItem {
+  title: string;
+  /** The one line that carries the whole story. */
+  line: string;
+  links?: {
+    live?: string;
+    repo?: string;
+  };
+  /** Honest note when there is nothing to link. */
+  note?: string;
+}
+
+/**
+ * The shelf: small hacks listed honestly, one line each, no studies.
+ * Facts verified against the local repos on 2026-07-07.
+ */
+export const shelf: ShelfItem[] = [
+  {
+    title: 'calculator',
+    line: 'An iOS-style pocket calculator built to a written spec in one day, chained operations and divide-by-zero guards included, with the whole state machine living inside a single state updater.',
+    links: {
+      live: 'https://akpersad.github.io/calculator/',
+      repo: 'https://github.com/akpersad/calculator',
+    },
+  },
+  {
+    title: 'hue-scenes',
+    line: 'A 256-line Node CLI that converts hex palettes to CIE color space and hands them to a Philips Hue bridge as native dynamic scenes, so the porch lights can cycle the Stars and Stripes with no polling loop.',
+    note: 'Lives on my LAN and talks to my bridge; nothing to link.',
   },
 ];
 

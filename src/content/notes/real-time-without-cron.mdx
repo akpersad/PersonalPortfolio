@@ -1,0 +1,63 @@
+{/* Essay 2 of 3. Source facts: Fork In The Road's lazy-expiry + SSE design
+    (see the case study). No em dashes. */}
+
+My group decision app enforces deadlines, closes votes, computes winners,
+and streams live results, and it has zero scheduled jobs. No cron, no
+queue worker, no serverless timer waking up every minute to check whether
+anything needs doing. This was not an accident of scope. It was the
+second-best decision in the rewrite, and the reasoning transfers to more
+systems than people expect.
+
+## What a cron job actually costs
+
+The obvious cost of a scheduler is money at idle: something runs every
+minute forever so that the right thing happens occasionally. The real
+cost is worse. Cron jobs fail silently. When a deadline enforcer crashes
+at 3 a.m., nothing tells you, because the job's absence looks identical
+to the job having nothing to do. You find out from a user, days later,
+holding a vote that never closed. A scheduled job is a promise with
+nobody watching whether you keep it.
+
+So the question worth asking is not "how do I schedule the deadline
+check" but "who actually needs the deadline to have been enforced, and
+when?" And the answer is: whoever is looking. Nobody else can tell the
+difference.
+
+## Enforce on read
+
+In the app, a vote's deadline is enforced lazily, on every read. Ask for
+a fork after its deadline and the read path seals it first, then answers.
+The live-results stream that keeps the room current doubles as the timer:
+anyone watching sees the close the moment it is due, because their own
+connection triggers it.
+
+Closing is where lazy enforcement earns or loses your trust, because now
+multiple readers can race to be the closer. The order of operations does
+the heavy lifting: seal the fork first with a status-guarded write, an
+update that only succeeds if the fork is still open, then compute the
+winner from the sealed document. Two racing closers cannot both win the
+guard, and a closer that crashes between sealing and computing leaves a
+sealed fork the next reader finishes. The failure mode of the crashed
+cron job, silent wrongness, becomes "the next reader picks up the baton."
+
+The tradeoff is real and worth saying plainly: a fork nobody reads seals
+late, possibly very late. That sounds like a bug until you complete the
+sentence. Nobody is waiting on a fork nobody reads. Lateness only exists
+relative to an observer, and this design spends its correctness budget
+exactly where the observers are.
+
+## When you actually need the scheduler
+
+The pattern has a boundary, and it is worth drawing. Lazy enforcement
+works when the effect of the deadline is only visible through the system
+itself. The moment the deadline must push something out, a reminder
+email, a payment capture, a text that says voting closed, someone has to
+act unprompted, and that someone is a scheduler. My pet-medication app
+keeps its cron for exactly this reason: a push reminder that waits for
+someone to open the app is not a reminder.
+
+So the rule I carry now: reads can enforce anything a reader can see, and
+schedulers are for effects that must happen to people who are not
+looking. Most systems I meet have it backwards, burning a timer on state
+that only matters at read time. Delete the timer. The reader was already
+coming.

@@ -54,6 +54,14 @@ test.describe('Accessibility Tests', () => {
     '/about',
     '/work',
     '/work/fork-in-the-road',
+    '/work/overlapp',
+    '/work/persadpay',
+    '/work/pawscriptions',
+    '/work/protein-checker',
+    '/notes',
+    '/notes/deleting-93000-lines',
+    '/notes/real-time-without-cron',
+    '/notes/oklch-tokens-in-ci',
     '/contact',
     '/resume',
     '/colophon',
@@ -147,7 +155,13 @@ test.describe('Accessibility Tests', () => {
 
 test.describe('Case Study Pages', () => {
   // One entry per shipped study; Phase 5 studies join this list as they land.
-  const studySlugs = ['fork-in-the-road'];
+  const studySlugs = [
+    'fork-in-the-road',
+    'overlapp',
+    'persadpay',
+    'pawscriptions',
+    'protein-checker',
+  ];
 
   test('Case study pages should be accessible', async ({ page }) => {
     for (const slug of studySlugs) {
@@ -159,32 +173,40 @@ test.describe('Case Study Pages', () => {
     }
   });
 
-  test('Case study should follow the enforced format', async ({ page }) => {
-    await page.goto('/work/fork-in-the-road');
-    await page.waitForLoadState('networkidle');
+  for (const slug of studySlugs) {
+    test(`${slug} study should follow the enforced format`, async ({
+      page,
+    }) => {
+      await page.goto(`/work/${slug}`);
+      await page.waitForLoadState('networkidle');
 
-    // Outcome-stating h1 plus section h2s
-    await expect(page.locator('h1')).toBeVisible();
-    expect(await page.locator('h2').count()).toBeGreaterThan(2);
+      // Outcome-stating h1 plus section h2s
+      await expect(page.locator('h1')).toBeVisible();
+      expect(await page.locator('h2').count()).toBeGreaterThan(2);
 
-    // Role / timeline / status meta row
-    const metaRow = page.locator('dl');
-    await expect(metaRow.locator('dt', { hasText: 'role' })).toBeVisible();
-    await expect(metaRow.locator('dt', { hasText: 'timeline' })).toBeVisible();
-    await expect(metaRow.locator('dt', { hasText: 'status' })).toBeVisible();
+      // Role / timeline / status meta row
+      const metaRow = page.locator('dl');
+      await expect(metaRow.locator('dt', { hasText: 'role' })).toBeVisible();
+      await expect(
+        metaRow.locator('dt', { hasText: 'timeline' })
+      ).toBeVisible();
+      await expect(metaRow.locator('dt', { hasText: 'status' })).toBeVisible();
 
-    // Named decisions, each carrying its tradeoff
-    const decisions = page.locator('section[id^="decision-"]');
-    const decisionCount = await decisions.count();
-    expect(decisionCount).toBeGreaterThanOrEqual(3);
-    expect(decisionCount).toBeLessThanOrEqual(5);
-    expect(await page.locator('text=Tradeoff taken:').count()).toBe(
-      decisionCount
-    );
+      // Named decisions, each carrying its tradeoff
+      const decisions = page.locator('section[id^="decision-"]');
+      const decisionCount = await decisions.count();
+      expect(decisionCount).toBeGreaterThanOrEqual(3);
+      expect(decisionCount).toBeLessThanOrEqual(5);
+      expect(await page.locator('text=Tradeoff taken:').count()).toBe(
+        decisionCount
+      );
 
-    // Before/after numbers table
-    await expect(page.locator('table caption')).toContainText('Before / after');
-  });
+      // Every study closes its argument with a before/after numbers table
+      await expect(page.locator('table caption')).toContainText(
+        'Before / after'
+      );
+    });
+  }
 
   test('Case study images should have proper alt text', async ({ page }) => {
     await page.goto('/work/fork-in-the-road');
@@ -206,6 +228,48 @@ test.describe('Case Study Pages', () => {
       .getByRole('link', { name: /index \/ all work/i })
       .click();
     await expect(page).toHaveURL(/\/work$/);
+  });
+});
+
+test.describe('Notes Pages', () => {
+  // One entry per published note; essays join this list as they land.
+  const noteSlugs = [
+    'deleting-93000-lines',
+    'real-time-without-cron',
+    'oklch-tokens-in-ci',
+  ];
+
+  test('Notes index should be accessible', async ({ page }) => {
+    await page.goto('/notes');
+    await page.waitForLoadState('networkidle');
+    const accessibilityScanResults = await new AxeBuilder({ page }).analyze();
+    expect(accessibilityScanResults.violations).toEqual([]);
+  });
+
+  test('Note pages should be accessible', async ({ page }) => {
+    for (const slug of noteSlugs) {
+      await page.goto(`/notes/${slug}`);
+      await page.waitForLoadState('networkidle');
+      const accessibilityScanResults = await new AxeBuilder({ page }).analyze();
+      expect(accessibilityScanResults.violations).toEqual([]);
+    }
+  });
+
+  test('Notes index should list every published note', async ({ page }) => {
+    await page.goto('/notes');
+    await page.waitForLoadState('networkidle');
+    for (const slug of noteSlugs) {
+      await expect(
+        page.locator(`a[href="/notes/${slug}"]`).first()
+      ).toBeVisible();
+    }
+  });
+
+  test('Note should link back to the notes index', async ({ page }) => {
+    await page.goto(`/notes/${noteSlugs[0]}`);
+    await page.waitForLoadState('networkidle');
+    await page.getByRole('link', { name: /index \/ all notes/i }).click();
+    await expect(page).toHaveURL(/\/notes$/);
   });
 });
 

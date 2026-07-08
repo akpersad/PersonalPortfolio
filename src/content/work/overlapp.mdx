@@ -1,0 +1,163 @@
+{/* overlapp study. Facts verified against the overlapp repo (src, migrations, tests)
+    on 2026-07-07; framing and reflection are mine. No em dashes. */}
+
+import Decision from '@/components/study/Decision';
+import NumbersTable from '@/components/study/NumbersTable';
+import Figure from '@/components/study/Figure';
+
+## The premise fit in one rule
+
+Scheduling polls die because they are snapshots. The moment a When2Meet
+closes, it is wrong. overlapp keeps availability alive instead: calendars
+sync on a rolling window, manual blocks recur, and the group heatmap is
+always current, so "when are you free?" stops being a question anyone has
+to ask.
+
+A persistent group calendar is also a privacy problem wearing a convenience
+costume. The rule that shaped the whole build: **members learn when you are
+busy, never why.** Not as a UI convention, as a database guarantee.
+
+<Figure
+  n={1}
+  src="/work/overlapp/home-1280.png"
+  alt="The overlapp landing page: the headline 'Stop asking when's everyone free?' next to a weekly availability heatmap card with green intensity per slot and the note 'Sat 9pm, everyone can make it.'"
+  caption="the live product. The heatmap is the answer to the question nobody has to ask anymore."
+  width={1280}
+  height={800}
+/>
+
+## The decisions
+
+<Decision
+  n={1}
+  of={5}
+  title="One sync path, two thin adapters"
+  tradeoff="the seam is validated by unit tests and one live provider, not two in production. Microsoft is code-complete behind a compile-time flag, shelved for the MVP, so I am carrying finished code that has never met a real user."
+>
+    Google and Microsoft calendar sync are architectural twins with
+    different manners. All stateful logic, database writes, token
+    persistence, idempotency, the rolling sync window, lives once in a
+    provider-agnostic orchestrator; each provider supplies a 21-line
+    adapter that is pure API I/O.
+
+    The seam earns its keep at token refresh: Google rarely re-issues a
+    refresh token, Microsoft rotates it on every use. The orchestrator
+    keeps the old token unless a new one arrives, and both providers map
+    their invalid-grant responses to one shared reauth signal so the UI
+    has a single "reconnect needed" state.
+</Decision>
+
+<Decision
+  n={2}
+  of={5}
+  title="Teach Postgres to read recurrence rules"
+  tradeoff="I reimplemented a deliberate subset of RFC 5545 by hand: daily, weekly, and monthly frequencies with intervals, counts, end dates, and weekly by-day. No monthly by-day, no by-set-position. Recurrence logic in SQL is also harder for the next reader than TypeScript would be."
+>
+    Recurrence expansion is a hand-written plpgsql function running inside
+    Postgres, not a JavaScript library call. It iterates with a hard
+    20,000-step safety cap, pins the session to UTC so weekday math is
+    deterministic no matter who calls it, and degrades a malformed rule to
+    a one-off event instead of silently dropping it.
+
+    Writing it once in the database paid off four times: the same expander
+    powers personal busy intervals, the group busy view, the availability
+    heatmap, and recurring hangouts.
+</Decision>
+
+<Decision
+  n={3}
+  of={5}
+  title="Strip the 'why' inside the database"
+  tradeoff="SECURITY DEFINER functions are a sharp edge: one missing membership check in a definer function would leak every member's calendar. I accepted that edge and mitigated it with an emptied search path, explicit revoke-then-grant on every function, and grant tests that fail if permissions drift."
+>
+    Calendar events and manual blocks are owner-only under row-level
+    security. The group-facing functions run as the definer, check
+    membership first, and return bare busy intervals: user, start, end. No
+    title, no category, no source. A non-member gets an empty result, never
+    an error that would confirm the group exists.
+
+    One deliberate exception, documented in the migration itself: RSVP
+    tallies on proposals are not anonymized, because members explicitly
+    voted on that event, so the counts are theirs to see.
+</Decision>
+
+<Decision
+  n={4}
+  of={5}
+  title="Compute the heatmap on demand, and say so"
+  tradeoff="the design explicitly bets on small groups: slot sizes of 15, 30, or 60 minutes, windows capped at 45 days, cheap for fifteen members or fewer. Past that it would need materialized aggregation, and I chose not to build for a scale the product does not have."
+>
+    The group heatmap is generated per request: a slot series joined
+    against expanded busy intervals, with a per-slot count of who is free
+    and an everyone-free verdict. No precomputation, no cache invalidation
+    problem, no stale answer.
+</Decision>
+
+<Decision
+  n={5}
+  of={5}
+  title="Write back to real calendars through a ledger"
+  tradeoff="pushing events into third-party calendars is best-effort by nature. Partial success is a normal outcome, reported per member, and there is no transaction across other people's Google accounts. Pretending otherwise would have meant building a distributed rollback for a hangout."
+>
+    When a proposal locks, the winning slot is written into every opted-in
+    member's actual calendar. Each write is recorded in a ledger keyed on
+    proposal and member, so a re-lock can never double-book, one member's
+    expired token never blocks the rest, and unlocking deletes the remote
+    event before clearing its ledger row, never orphaning an entry in
+    someone's real calendar.
+</Decision>
+
+## The numbers
+
+<NumbersTable
+  caption="Before / after: the poll workflow versus a persistent layer"
+  columns={['a fresh poll', 'overlapp']}
+  rows={[
+    {
+      label: 'Availability data',
+      before: 'retyped per event',
+      after: 'synced, always current',
+    },
+    {
+      label: 'What the group sees',
+      before: 'your whole grid',
+      after: 'busy or free, nothing else',
+    },
+    {
+      label: 'Where privacy is enforced',
+      before: 'nowhere',
+      after: 'in the database',
+    },
+    {
+      label: 'Deciding',
+      before: 'organizer eyeballs it',
+      after: 'proposals with quorum voting',
+    },
+    {
+      label: 'The chosen slot',
+      before: 'copy it yourself',
+      after: 'written into real calendars',
+    },
+  ]}
+/>
+
+Eleven days of work, measured: 26 ordered migrations, 35 Postgres
+functions of which 13 run as definer, and 160 test cases. The integration
+suite is the part I trust most: 2,400 lines that exercise the real
+row-level-security path with multiple users, instead of mocking the
+database and testing my own assumptions.
+
+## What I would do differently
+
+- **Ship the second provider or delete it.** Microsoft sync is finished,
+  unit-tested, and turned off. Carrying dead-but-done code is the worst of
+  both: it cost the build time and earns no user trust. The adapter seam
+  did its job; the flag has overstayed.
+- **Keep the README as honest as the code.** It still says "Phase 1 in
+  progress" while the repo has shipped proposals, dual sync, write-back,
+  and push notifications. The audit that caught it was reading my docs,
+  and my docs were underselling the work by three phases.
+- **Decide the authorization home earlier.** Some checks live in
+  row-level-security policies and again inline in the definer functions.
+  Each duplicate is a chance for the two to disagree; the grant tests
+  police drift, but one declared home would remove the question.

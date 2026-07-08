@@ -1,0 +1,55 @@
+{/* Essay 1 of 3. Source facts: the Fork In The Road rewrite (see the case study
+    and you-hungry/docs/portfolio-story.md). No em dashes. */}
+
+Last July I deleted 93,000 lines of working code on purpose, and it was the
+best engineering decision I made all year. The app was my restaurant
+decision product, version one: about 113,000 lines, 77 API routes, 27
+runtime dependencies, four notification channels, and a homegrown
+observability platform I had built for an audience of me. Version two
+ships the same product in about 20,000 lines and does more.
+
+Nothing in that pile was broken. That is what makes deletion hard and why
+so little of it happens. Every subsystem worked, had tests, had cost me
+real evenings. The SMS integration sent actual text messages through an
+actual paid account. Deleting broken code feels like hygiene. Deleting
+working code feels like admitting the evenings were a mistake, and sunk
+cost does not stop being persuasive just because you know its name.
+
+## The one-sentence test
+
+What finally made deletion mechanical instead of emotional was writing the
+sentence the product actually is: the product is the moment the debate
+ends. One link, everyone votes, the group knows where it is eating. That
+sentence became a blade. Hold any feature against it and ask whether it
+serves that moment. The URL shortener did not. The in-app notification
+center did not. CSV export did not. The onboarding tour existed because
+the product had grown too complicated to be self-evident, which is not a
+feature, it is a symptom wearing a feature's clothes.
+
+The things that survived earned it on the same test. The decision-weight
+engine survived because remembering what the group liked is the moment
+the debate ends, compressed into math. The rate limiter survived because
+strangers vote through one link, and an unauthenticated write surface
+without one is not a product, it is an incident. Five modules total made
+the cut, ported pure and pinned with tests asserting bit-identical
+behavior. Everything else was rewritten smaller or not at all.
+
+## What I actually learned
+
+The lesson is not "write less code." Nobody sets out to write the extra
+90,000 lines. They accrete one reasonable evening at a time, each feature
+locally justified, because there is no sentence to hold them against. The
+lesson is to write the sentence first. It costs nothing at the start of a
+project and it is nearly impossible to write honestly 100,000 lines in,
+when every subsystem has a lobbyist.
+
+The other lesson is about bills. The SMS integration had been arguing for
+its own deletion for months, ten dollars at a time, and I kept not
+listening because the code worked. Working is not the bar. Cost surfaces
+now get the merit test on a schedule, not at rewrite time, because the
+rewrite is the most expensive possible place to notice.
+
+People ask if I regret building version one. No. Version one taught me
+what the product was by letting users ignore most of it. But I could have
+learned the same thing for a tenth of the code, and the next product will
+be the proof or the correction. Ask me in 90,000 lines.

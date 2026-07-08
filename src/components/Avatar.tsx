@@ -76,8 +76,9 @@ const Avatar = ({
           fill="var(--av-skin-2, #c87e3f)"
           d="M 236,278 C 242,290 270,290 276,278 C 268,286 244,286 236,278 Z"
         />
-        {/* eyes */}
+        {/* eyes (classes are interaction hooks only; geometry stays locked) */}
         <ellipse
+          className="av-eye"
           fill="var(--av-hair, #17130e)"
           cx="204"
           cy="250"
@@ -85,6 +86,7 @@ const Avatar = ({
           ry="13"
         />
         <ellipse
+          className="av-eye av-eye-wink"
           fill="var(--av-hair, #17130e)"
           cx="308"
           cy="250"
