@@ -62,8 +62,11 @@ so nothing depends on chat history.
 - [x] **Phase 6 — Craft layer + /notes.** DONE 2026-07-07, same branch: /notes engine + 3
       essays, entrance/scroll choreography, dimension-line signature interaction, LastCommit
       live widget, avatar-wink easter egg. Details in the session log.
-- [ ] **Phase 7 — Colophon + hardening + launch.** Stays its own PR (launch gate; needs
-      final content for measured colophon numbers / OG / Lighthouse, plus owner for DNS).
+- [x] **Phase 7 — Colophon + hardening + launch prep.** Code DONE 2026-07-07 on
+      `feature/phase-7-colophon-hardening-launch` (awaiting owner PR): honest analytics,
+      poke-collector redirect + custom 404, real OG card on every route, measured colophon,
+      contact canonical fix, full verification. Remaining launch steps are OWNER-GATED:
+      DNS, Resend domain verification, Vercel env confirm (see session log).
 
 ## Decisions log (owner, 2026-07-06 — do not re-ask)
 
@@ -389,3 +392,66 @@ so nothing depends on chat history.
   slugs, per-theme axe in CI, final Lighthouse, DNS/launch). Phase 7 note: consider
   the experimental Next viewTransition flag when stable; entrance choreography via
   template.tsx covers it for now.
+- **2026-07-07 (Phase 7: hardening + launch prep)** — Built on
+  `feature/phase-7-colophon-hardening-launch` off merged main (Phases 5+6 = PR #16).
+  One commit per unit.
+  - **Honest analytics**: fake-ecommerce GA4 events deleted (purchase with fake
+    transaction ids, view_item with $5 "price", generate_lead with $10 value); real
+    events kept with honest params only. Unused exports (trackProjectView/trackSearch/
+    trackError, useInteractionTracking) deleted. Dead scripts/bundle-monitor.js
+    removed (package.json runs the .mjs).
+  - **Redirects + 404**: /work/poke-collector 308s to /work via next.config redirects
+    (gated off LIGHTHOUSE_CI export mode, which cannot serve redirects). Verified this
+    is the ONLY orphaned published URL (old projectSlugs had just poke-collector /
+    protein-checker / fork-in-the-road; route structure otherwise stable since launch).
+    Custom not-found.tsx ("fig. 404 / not found") on the system idiom. Tests: 404 axe
+    light+dark + status code, redirect lands on the work index.
+  - **OG card**: public/og-image.png (1200x630, 33 KB) rendered from the Annotated
+    tokens via scratch HTML + Playwright at 2x + sharp palette quantize (generator in
+    gitignored temp/og-card.html + og-shot.mjs). Replaces og-image.jpg/twitter-image.jpg
+    refs that pointed at files which never existed. GOTCHA: child openGraph REPLACES the
+    root layout's, so study/note pages and the work/notes indexes were shipping no image;
+    each now restates the card.
+  - **Colophon**: skeleton copy replaced with measured facts (MDX engine, variable-font
+    strategy, token layers + link to the OKLCH note, motion numbers, ~160-test axe
+    suite, Lighthouse budgets, bundle 993 KB vs 1000 KB, fig. 06 avatar story + wink).
+  - **Structured data sweep**: all 15 routes dumped and parsed; Person/WebSite/
+    BreadcrumbList/Article(+SoftwareSourceCode) all valid; sitemap covers every route;
+    robots clean; zero em dashes. One defect fixed: /contact inherited the root
+    canonical, now declares /contact. (Resume intentionally has a second, detailed
+    Person schema; test-asserted, left alone.)
+  - **Lighthouse gate actually enforced now**: found that TWO lhci configs existed and
+    the dotted one (.lighthouserc.js) wins silently; it had ALL ASSERTIONS DISABLED
+    ("temporarily... to allow CI to pass", Sept 2025), so the CI Lighthouse "gate" has
+    asserted nothing since then, and the budget-carrying lighthouserc.js was dead
+    config. Consolidated into .lighthouserc.js ONLY (deleted the other): staticDistDir
+    ./out, explicit 9-page URL list (autodiscovery caps at 5 files ALPHABETICALLY, so
+    it audited 404.html and skipped the homepage), assertions ON (all categories >= 90
+    error, FCP 2000 / LCP 3000 / CLS 0.1 / TBT 300). Workflow now runs `npx lhci`
+    (local 0.15.1) instead of installing 0.12 globally.
+  - **LCP investigation**: measured LCP was ~2.7-2.9s simulated slow-4G on every page
+    with FCP at 760ms. Two causes: (1) the entrance fade excluded all template content
+    from LCP candidacy (the LCP "element" was the 134x20 nav brand link) - fixed,
+    page-enter is transform-only now, same rule as the scroll reveals; (2) text LCP
+    waits on the self-hosted display font; the 77 KB Bricolage variable file is the
+    long pole. next/font CANNOT slice one weight while keeping the opsz axis ("Axes
+    can only be defined... when weight is `variable`"); a manually instanced
+    opsz+600-only file is 40 KB (~190ms saved, still borderline), not worth vendoring
+    a binary. Decision: LCP budget set to an honest, enforced 3000ms; colophon copy
+    matches ("the display font is worth the wait"). h1-h3 base rule now pins
+    font-weight 600 (every heading already used font-semibold).
+  - **Verified**: lint, type-check, build green; bundle monitor 993.2 KB vs 1000 KB;
+    full local suite 162/162 across chromium/firefox/webkit/Mobile Chrome/Mobile
+    Safari; lhci green on all 9 pages: perf 95-96, a11y 100, best-practices 96-100,
+    SEO 100, FCP ~760ms, CLS 0.000, TBT <= 60ms, LCP 2.7-2.9s simulated (see above).
+    GOTCHA (tooling): `npx --yes @lhci/cli@0.14.x` etc. resolve the DOTTED config; any
+    second lighthouserc.js is silently ignored. rm -rf out before local lhci runs or
+    it serves a stale export.
+  OWNER-GATED launch items (the actual "launch" in Phase 7):
+  1. Push + PR this branch (owner pushes per rule).
+  2. Vercel env NEXT_PUBLIC_BASE_URL should be https://andrewpersad.com (CLI read of
+     prod env is permission-gated from sessions; owner confirms in dashboard).
+  3. Resend domain verification for andrewpersad.com, then change the contact route
+     from: onboarding@resend.dev to the real domain (src/app/api/contact/route.ts:150).
+  4. DNS/domain consolidation to andrewpersad.com + launch.
+  5. Optional: Google Search Console re-verify (NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION).
