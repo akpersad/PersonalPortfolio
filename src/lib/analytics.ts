@@ -25,11 +25,14 @@ export const isGAEnabled = () => {
   return typeof window !== 'undefined' && GA_MEASUREMENT_ID && window.gtag;
 };
 
-// Initialize Google Analytics
+// Initialize Google Analytics (idempotent: several components mount the
+// analytics hook, but the script must only be injected once)
+let gaInitialized = false;
 export const initGA = () => {
-  if (!GA_MEASUREMENT_ID) {
+  if (!GA_MEASUREMENT_ID || gaInitialized) {
     return;
   }
+  gaInitialized = true;
 
   // Load Google Analytics script
   const script = document.createElement('script');

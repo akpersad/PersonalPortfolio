@@ -27,10 +27,27 @@ export const useAnalytics = () => {
   const startTimeRef = useRef<number>(0);
   const scrollDepthRef = useRef<number>(0);
 
-  // Initialize GA on mount
+  // Load GA on the first user interaction instead of on mount: the gtag
+  // script then costs nothing during initial load (for real visitors and
+  // for the Lighthouse gate alike), and a visitor who never interacts is
+  // not worth tracking anyway.
   useEffect(() => {
     startTimeRef.current = Date.now();
-    initGA();
+    const events: Array<keyof WindowEventMap> = [
+      'pointerdown',
+      'keydown',
+      'scroll',
+      'touchstart',
+    ];
+    const load = () => {
+      events.forEach(e => window.removeEventListener(e, load));
+      // gtag's config call reports the initial page_view itself
+      initGA();
+    };
+    events.forEach(e =>
+      window.addEventListener(e, load, { once: true, passive: true })
+    );
+    return () => events.forEach(e => window.removeEventListener(e, load));
   }, []);
 
   // Track page views on route change

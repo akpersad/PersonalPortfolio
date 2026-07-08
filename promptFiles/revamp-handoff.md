@@ -447,6 +447,19 @@ so nothing depends on chat history.
     GOTCHA (tooling): `npx --yes @lhci/cli@0.14.x` etc. resolve the DOTTED config; any
     second lighthouserc.js is silently ignored. rm -rf out before local lhci runs or
     it serves a stale export.
+  - **CI failed the new gate on first push; fixed** (2026-07-07, late). Homepage TBT
+    hit 1011-1831ms in CI (31ms local): CI bakes NEXT_PUBLIC_GA_MEASUREMENT_ID into
+    the build, so gtag executed during the audit, on a slow shared runner where tasks
+    cross the 50ms long-task threshold nonlinearly (TBT is OBSERVED main-thread work,
+    the only hardware-sensitive metric; FCP/LCP/CLS are lantern-simulated and stayed
+    green). Fix, not fudge: GA now loads on the FIRST USER INTERACTION
+    (pointerdown/keydown/scroll/touchstart, once, passive) instead of on mount, so
+    gtag costs nothing during load for real visitors and audits alike (initGA also
+    made idempotent; 4 components mount the hook and each injected the script).
+    Verified at 16x cpuSlowdownMultiplier: TBT 114-124ms, and the shipped config's
+    median-of-3 local run shows TBT 0-2ms on all 9 pages. numberOfRuns: 3 (median)
+    absorbs runner contention. Tradeoff accepted: visitors who never interact are
+    not tracked. TBT budget stays an honest 300ms.
   OWNER-GATED launch items (the actual "launch" in Phase 7):
   1. Push + PR this branch (owner pushes per rule).
   2. Vercel env NEXT_PUBLIC_BASE_URL should be https://andrewpersad.com (CLI read of

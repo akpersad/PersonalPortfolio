@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-07-08T01:01:30.095Z",
-  "totalSize": 1017035,
+  "timestamp": "2026-07-08T03:12:17.313Z",
+  "totalSize": 1017298,
   "chunks": {
-    "other": 684232,
+    "other": 684495,
     "css": 39844,
     "assets": 292959
   },

@@ -19,7 +19,9 @@ module.exports = {
         'http://localhost/contact.html',
         'http://localhost/colophon.html',
       ],
-      numberOfRuns: 1,
+      // Median of 3: TBT on shared CI runners is observed (not simulated)
+      // main-thread work, so single runs swing wildly under contention.
+      numberOfRuns: 3,
     },
     assert: {
       assertions: {
