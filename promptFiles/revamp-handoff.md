@@ -55,11 +55,13 @@ so nothing depends on chat history.
       Decision/NumbersTable/Figure components, FITR study live at /work/fork-in-the-road.
       projects.ts + legacy [slug] pages + legacy forest palette deleted. Details in the
       session log.
-- [ ] **Phase 5 — Remaining studies.** overlapp, PersadPay, pawscriptions, ProteinChecker,
-      small-hacks shelf. COMBINED with Phase 6 on `feature/phase-5-6-content-and-craft`
-      (owner decision 2026-07-07): one branch, one PR, clean per-unit commits.
-- [ ] **Phase 6 — Craft layer + /notes.** Signature interaction, view transitions, scroll
-      choreography, ONE live widget, one easter egg, 3 launch essays. Same branch as Phase 5.
+- [x] **Phase 5 — Remaining studies.** DONE 2026-07-07 on `feature/phase-5-6-content-and-craft`
+      (combined branch, owner decision 2026-07-07): overlapp, PersadPay, pawscriptions,
+      ProteinChecker studies + small-hacks shelf (calculator + hue-scenes). One commit per
+      unit. Details in the session log.
+- [x] **Phase 6 — Craft layer + /notes.** DONE 2026-07-07, same branch: /notes engine + 3
+      essays, entrance/scroll choreography, dimension-line signature interaction, LastCommit
+      live widget, avatar-wink easter egg. Details in the session log.
 - [ ] **Phase 7 — Colophon + hardening + launch.** Stays its own PR (launch gate; needs
       final content for measured colophon numbers / OG / Lighthouse, plus owner for DNS).
 
@@ -330,3 +332,60 @@ so nothing depends on chat history.
   pawscriptions, ProteinChecker cross-platform entry + small-hacks shelf; needs real
   screenshots per study; pawscriptions/PersadPay are access-gated so capture their
   screenshots manually; decide shelf items, hue-scenes repo is local-only).
+- **2026-07-07 (Phases 5+6, combined branch)** — Built on
+  `feature/phase-5-6-content-and-craft` off merged main (Phase 4 = PR #15). Owner combined
+  5+6 into one branch/PR; Phase 7 stays its own launch-gate PR. One commit per unit.
+  - **Research**: 5 parallel agents mined the LOCAL repos (overlapp, persadpay,
+    pawscriptions, protein-checker-web + ProteinCheckerSwift, shelf candidates) for
+    verified facts. Fact sheets surfaced three site-copy inaccuracies, all fixed in
+    work.ts with the studies: (1) PersadPay "$0.00 variance" metric was indefensible
+    (tests are regression locks vs hand-verified cents, not an external oracle) -> now
+    "6 filing artifacts"; (2) ProteinChecker "MVVM with Core Data" was wrong (SwiftUI
+    state + UserDefaults; web is a 75-vs-37-source superset, parity documented not
+    tested); (3) overlapp "2 OAuth providers" needed the flag-gate qualifier (Microsoft
+    code-complete but MICROSOFT_MVP_ENABLED=false; only Google live) -> "2 built · 1 live".
+  - **Studies shipped** (each: study object in work.ts, MDX body, slug registered,
+    tests, screenshot, commit): overlapp (adapter seam / plpgsql RRULE expander /
+    DB-layer privacy / on-demand heatmap / write-back ledger), pawscriptions
+    (claim-first dedup with at-most-once caveat / derived supply / on-device OCR /
+    schema isolation / household auth; numbers table proudly shows tables 6->6, deps
+    8->8, tests 0->0), ProteinChecker (honest-scope: one line of math built three
+    times incl. the local-only RN prototype; parity held/drifted table), PersadPay
+    (rates-in-DB pure function / FICA-from-dollar-one / EPSILON rounding / three auth
+    layers / stored-not-recomputed stubs; states plainly it does NOT do income-tax
+    withholding).
+  - **Screenshots**: overlapp + protein-checker captured from live sites (public);
+    pawscriptions captured via LOCAL dev login (passphrase from its .env.local, real
+    Today screen, dog meds only); PersadPay captured via local MFA login (TOTP secret
+    from its scripts/.totp-secret) with SYNTHETIC typed inputs on /stubs/new, clipped
+    to the preview card so NO real payroll data (the top-of-page wage-base card shows
+    real YTD; never publish it). All quantized with sharp (9-99 KB).
+  - **Shelf**: calculator (live GH Pages + public repo) + hue-scenes (local-only,
+    honest no-link note). Work index intro updated (every entry now has a study).
+  - **/notes engine**: notes.ts typed metadata + MDX bodies + /notes + /notes/[slug]
+    (mirrors the study engine), getNoteSchema (Article), sitemap, nav link. 3 essays:
+    "Deleting 93,000 lines", "Real-time without a cron job", "An OKLCH token pipeline
+    that catches contrast bugs in CI". Axe light+dark + index/back-link tests.
+  - **Craft layer**: template.tsx route entrance (320ms rise+fade, ease-out-quint);
+    scroll-driven reveals (animation-timeline: view(), @supports-gated, ledger rows +
+    Decision blocks) - TRANSFORM ONLY, the opacity version failed axe color-contrast
+    on rows straddling the viewport edge (fractional alpha) and axe was right;
+    signature interaction = dimension lines draw in on view + ledger rows extend an
+    accent rule on hover (hover:hover + pointer:fine gated); html gets
+    data-scroll-behavior="smooth" (fixes a Next 16 warning). All motion inside
+    prefers-reduced-motion: no-preference; global collapse still applies.
+  - **Widget + egg**: LastCommit (GitHub events API, client-side, renders nothing on
+    failure) on the home availability strip; avatar winks on click (class hooks on eye
+    ellipses only, locked v5.4 geometry untouched, no interactive semantics).
+  - **GOTCHA (tooling)**: playwright.config uses the HTML reporter outside CI, which
+    SERVES the report and blocks the shell forever after a run (looked like a 6-hour
+    hang). Always run tests with CI=1 locally (`npm run test:a11y:ci`).
+  - **Verified**: lint, type-check, build green; full cross-browser a11y suite (see
+    final session note); bundle monitor PASSES (~994 KB vs 1000 KB budget);
+    responsive screenshots 360/768/1280 light+dark in temp/comp-shots/phase-5-6/
+    (gitignored). INP: all new motion is CSS-only/off-main-thread.
+  NEXT: owner reviews + PRs the combined branch (NOT pushed; owner pushes per rule),
+  then Phase 7 (colophon measured numbers, OG images, redirects incl. old project
+  slugs, per-theme axe in CI, final Lighthouse, DNS/launch). Phase 7 note: consider
+  the experimental Next viewTransition flag when stable; entrance choreography via
+  template.tsx covers it for now.
