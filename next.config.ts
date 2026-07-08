@@ -16,6 +16,17 @@ const withMDX = createMDX({
 const nextConfig: NextConfig = {
   /* config options here */
   output: process.env.LIGHTHOUSE_CI ? 'export' : undefined,
+  // Static export (Lighthouse CI) cannot serve redirects; skip them there.
+  redirects: process.env.LIGHTHOUSE_CI
+    ? undefined
+    : async () => [
+        // Only pre-rebuild study URL whose slug no longer exists.
+        {
+          source: '/work/poke-collector',
+          destination: '/work',
+          permanent: true,
+        },
+      ],
   experimental: {
     optimizePackageImports: ['@/components', '@/lib', '@/hooks'],
     mdxRs: true,

@@ -11,7 +11,6 @@ import {
   trackEvent,
   trackResumeDownload,
   trackContactFormSubmission,
-  trackProjectView,
   trackExternalLinkClick,
   trackNavigationClick,
   trackEngagementTime,
@@ -28,10 +27,27 @@ export const useAnalytics = () => {
   const startTimeRef = useRef<number>(0);
   const scrollDepthRef = useRef<number>(0);
 
-  // Initialize GA on mount
+  // Load GA on the first user interaction instead of on mount: the gtag
+  // script then costs nothing during initial load (for real visitors and
+  // for the Lighthouse gate alike), and a visitor who never interacts is
+  // not worth tracking anyway.
   useEffect(() => {
     startTimeRef.current = Date.now();
-    initGA();
+    const events: Array<keyof WindowEventMap> = [
+      'pointerdown',
+      'keydown',
+      'scroll',
+      'touchstart',
+    ];
+    const load = () => {
+      events.forEach(e => window.removeEventListener(e, load));
+      // gtag's config call reports the initial page_view itself
+      initGA();
+    };
+    events.forEach(e =>
+      window.addEventListener(e, load, { once: true, passive: true })
+    );
+    return () => events.forEach(e => window.removeEventListener(e, load));
   }, []);
 
   // Track page views on route change
@@ -128,14 +144,6 @@ export const useAnalytics = () => {
       []
     ),
 
-    // Project view tracking
-    trackProjectView: useCallback(
-      (projectName: string, projectSlug: string) => {
-        trackProjectView(projectName, projectSlug);
-      },
-      []
-    ),
-
     // External link tracking
     trackExternalLinkClick: useCallback(
       (platform: string, url: string, source: string) => {
@@ -156,55 +164,4 @@ export const useAnalytics = () => {
   };
 
   return analytics;
-};
-
-// Hook for tracking specific user interactions
-export const useInteractionTracking = () => {
-  const analytics = useAnalytics();
-
-  const trackButtonClick = useCallback(
-    (buttonName: string, location: string) => {
-      analytics.trackEvent('button_click', {
-        category: 'interaction',
-        label: buttonName,
-        value: 1,
-        button_name: buttonName,
-        location: location,
-      });
-    },
-    [analytics]
-  );
-
-  const trackFormInteraction = useCallback(
-    (formName: string, action: string) => {
-      analytics.trackEvent('form_interaction', {
-        category: 'interaction',
-        label: formName,
-        value: 1,
-        form_name: formName,
-        action: action,
-      });
-    },
-    [analytics]
-  );
-
-  const trackDownload = useCallback(
-    (fileName: string, fileType: string, source: string) => {
-      analytics.trackEvent('file_download', {
-        category: 'conversion',
-        label: fileName,
-        value: 1,
-        file_name: fileName,
-        file_type: fileType,
-        source: source,
-      });
-    },
-    [analytics]
-  );
-
-  return {
-    trackButtonClick,
-    trackFormInteraction,
-    trackDownload,
-  };
 };

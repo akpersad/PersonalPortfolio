@@ -54,6 +54,8 @@ export async function generateMetadata({
       publishedTime: note.published,
       modifiedTime: note.updated ?? note.published,
       url: `https://andrewpersad.com/notes/${slug}`,
+      // Child openGraph replaces the root layout's, so restate the card.
+      images: ['https://andrewpersad.com/og-image.png'],
     },
     alternates: {
       canonical: `https://andrewpersad.com/notes/${slug}`,

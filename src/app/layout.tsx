@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     url: 'https://andrewpersad.com',
     images: [
       {
-        url: 'https://andrewpersad.com/og-image.jpg',
+        url: 'https://andrewpersad.com/og-image.png',
         width: 1200,
         height: 630,
         alt: 'Andrew Persad, Lead Software Engineer',
@@ -66,7 +66,7 @@ export const metadata: Metadata = {
     title: 'Andrew Persad | Lead Software Engineer',
     description:
       'Lead Software Engineer building accessible, high-traffic web applications. Enterprise platforms by day, five self-built products by night.',
-    images: ['https://andrewpersad.com/twitter-image.jpg'],
+    images: ['https://andrewpersad.com/og-image.png'],
   },
   alternates: {
     canonical: 'https://andrewpersad.com',

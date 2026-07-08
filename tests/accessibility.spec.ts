@@ -48,6 +48,38 @@ test.describe('Accessibility Tests', () => {
     expect(accessibilityScanResults.violations).toEqual([]);
   });
 
+  test('404 page should render the custom not-found view and be accessible', async ({
+    page,
+  }) => {
+    const response = await page.goto('/this-page-does-not-exist');
+    expect(response?.status()).toBe(404);
+    await page.waitForLoadState('networkidle');
+    await expect(
+      page.getByRole('heading', { name: 'This page does not exist' })
+    ).toBeVisible();
+    const accessibilityScanResults = await new AxeBuilder({ page }).analyze();
+    expect(accessibilityScanResults.violations).toEqual([]);
+  });
+
+  test('404 page should be accessible in dark mode', async ({ page }) => {
+    await page.addInitScript(() => localStorage.setItem('theme', 'dark'));
+    await page.goto('/this-page-does-not-exist');
+    await page.waitForLoadState('networkidle');
+    await expect(page.locator('html')).toHaveClass(/dark/);
+    const accessibilityScanResults = await new AxeBuilder({ page }).analyze();
+    expect(accessibilityScanResults.violations).toEqual([]);
+  });
+
+  test('Retired study slug should redirect to the work index', async ({
+    page,
+  }) => {
+    await page.goto('/work/poke-collector');
+    await page.waitForURL('**/work');
+    await expect(
+      page.getByRole('heading', { level: 1, name: 'Five products, all live.' })
+    ).toBeVisible();
+  });
+
   // Full-page dark-mode scans for every page, all on the new tokens.
   for (const path of [
     '/',

@@ -13,6 +13,8 @@ export const metadata: Metadata = {
       'Five self-built products, all shipped and live. Every entry links to the running product and its code.',
     type: 'website',
     url: 'https://andrewpersad.com/work',
+    // Child openGraph replaces the root layout's, so restate the card.
+    images: ['https://andrewpersad.com/og-image.png'],
   },
   alternates: {
     canonical: 'https://andrewpersad.com/work',

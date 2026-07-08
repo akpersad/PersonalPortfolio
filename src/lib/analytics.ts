@@ -1,6 +1,7 @@
 /**
  * Google Analytics 4 Implementation
- * Comprehensive tracking for portfolio analytics
+ * Honest event tracking only: page views, real interactions, and engagement.
+ * No synthetic e-commerce events, no fabricated conversion values.
  */
 
 declare global {
@@ -24,12 +25,14 @@ export const isGAEnabled = () => {
   return typeof window !== 'undefined' && GA_MEASUREMENT_ID && window.gtag;
 };
 
-// Initialize Google Analytics
+// Initialize Google Analytics (idempotent: several components mount the
+// analytics hook, but the script must only be injected once)
+let gaInitialized = false;
 export const initGA = () => {
-  if (!GA_MEASUREMENT_ID) {
-    console.warn('Google Analytics Measurement ID not found');
+  if (!GA_MEASUREMENT_ID || gaInitialized) {
     return;
   }
+  gaInitialized = true;
 
   // Load Google Analytics script
   const script = document.createElement('script');
@@ -69,97 +72,25 @@ export const trackEvent = (
 ) => {
   if (!isGAEnabled()) return;
 
-  window.gtag('event', eventName, {
-    event_category: parameters?.category || 'engagement',
-    event_label: parameters?.label,
-    value: parameters?.value,
-    ...parameters,
-  });
+  window.gtag('event', eventName, parameters);
 };
 
-// Track resume downloads (Enhanced E-commerce)
+// Track resume downloads
 export const trackResumeDownload = (format: 'PDF' | 'JSON', source: string) => {
-  if (!isGAEnabled()) return;
-
-  // Track as purchase event for conversion tracking
-  window.gtag('event', 'purchase', {
-    transaction_id: `resume_${format.toLowerCase()}_${Date.now()}`,
-    value: 1, // Resume download has value for conversion tracking
-    currency: 'USD',
-    items: [
-      {
-        item_id: `resume_${format.toLowerCase()}`,
-        item_name: `Resume (${format})`,
-        item_category: 'Document',
-        item_category2: 'Resume',
-        quantity: 1,
-        price: 1,
-      },
-    ],
-    // Custom parameters
-    source: source, // Where the download was initiated from
-    format: format,
-  });
-
-  // Also track as custom event for detailed analytics
   trackEvent('resume_download', {
-    category: 'conversion',
-    label: format,
-    value: 1,
+    format: format,
     source: source,
   });
 };
 
-// Track contact form submissions (Enhanced E-commerce)
+// Track contact form submissions
 export const trackContactFormSubmission = (
   formType: string,
   success: boolean
 ) => {
-  if (!isGAEnabled()) return;
-
-  // Track as lead generation event
-  window.gtag('event', 'generate_lead', {
-    currency: 'USD',
-    value: 10, // Lead value for conversion tracking
+  trackEvent('contact_form_submission', {
     form_type: formType,
     success: success,
-  });
-
-  // Also track as custom event
-  trackEvent('contact_form_submission', {
-    category: 'conversion',
-    label: formType,
-    value: success ? 10 : 0,
-    success: success,
-  });
-};
-
-// Track project page views (Enhanced E-commerce)
-export const trackProjectView = (projectName: string, projectSlug: string) => {
-  if (!isGAEnabled()) return;
-
-  // Track as view_item event
-  window.gtag('event', 'view_item', {
-    currency: 'USD',
-    value: 5, // Project view value
-    items: [
-      {
-        item_id: projectSlug,
-        item_name: projectName,
-        item_category: 'Project',
-        item_category2: 'Portfolio',
-        quantity: 1,
-        price: 5,
-      },
-    ],
-  });
-
-  // Also track as custom event
-  trackEvent('project_view', {
-    category: 'engagement',
-    label: projectName,
-    value: 5,
-    project_slug: projectSlug,
   });
 };
 
@@ -169,12 +100,7 @@ export const trackExternalLinkClick = (
   url: string,
   source: string
 ) => {
-  if (!isGAEnabled()) return;
-
   trackEvent('external_link_click', {
-    category: 'engagement',
-    label: platform,
-    value: 1,
     platform: platform,
     url: url,
     source: source,
@@ -183,12 +109,7 @@ export const trackExternalLinkClick = (
 
 // Track navigation interactions
 export const trackNavigationClick = (navItem: string, source: string) => {
-  if (!isGAEnabled()) return;
-
   trackEvent('navigation_click', {
-    category: 'engagement',
-    label: navItem,
-    value: 1,
     nav_item: navItem,
     source: source,
   });
@@ -203,53 +124,17 @@ export const setUserProperties = (properties: Record<string, unknown>) => {
 
 // Track user engagement time
 export const trackEngagementTime = (timeSpent: number, page: string) => {
-  if (!isGAEnabled()) return;
-
   trackEvent('engagement_time', {
-    category: 'engagement',
-    label: page,
-    value: Math.round(timeSpent),
-    time_spent: timeSpent,
+    time_spent: Math.round(timeSpent),
     page: page,
   });
 };
 
 // Track scroll depth
 export const trackScrollDepth = (depth: number, page: string) => {
-  if (!isGAEnabled()) return;
-
   trackEvent('scroll_depth', {
-    category: 'engagement',
-    label: page,
-    value: depth,
     scroll_depth: depth,
     page: page,
-  });
-};
-
-// Track search queries (if implemented)
-export const trackSearch = (query: string, results: number) => {
-  if (!isGAEnabled()) return;
-
-  trackEvent('search', {
-    category: 'engagement',
-    label: query,
-    value: results,
-    search_term: query,
-    results_count: results,
-  });
-};
-
-// Track errors
-export const trackError = (error: string, fatal: boolean = false) => {
-  if (!isGAEnabled()) return;
-
-  trackEvent('exception', {
-    category: 'error',
-    label: error,
-    value: fatal ? 1 : 0,
-    fatal: fatal,
-    error_message: error,
   });
 };
 
@@ -270,7 +155,6 @@ export const getUserAgentInfo = () => {
     is_mobile: isMobile,
     is_tablet: isTablet,
     is_desktop: isDesktop,
-    user_agent: userAgent,
   };
 };
 

@@ -142,6 +142,9 @@ h1,
 h2,
 h3 {
   font-family: var(--font-bricolage), var(--font-geist-sans), sans-serif;
+  /* The display face ships one weight slice (600); pin it here so a bare
+     heading never asks the browser to synthesize UA bold from it. */
+  font-weight: 600;
   letter-spacing: -0.015em;
   text-wrap: balance;
 }
@@ -172,14 +175,16 @@ h3 {
    ============================================================ */
 
 @media (prefers-reduced-motion: no-preference) {
-  /* Route entrance: fade + small rise, macro tier, ease-out. */
+  /* Route entrance: small rise, macro tier, ease-out. Transform only, same
+     rule as the scroll reveals below: content animated from opacity 0 never
+     registers as an LCP candidate, so a fade here pushed the measured LCP
+     to whatever painted outside the template (the nav brand, ~2.7s under
+     Lighthouse's simulated throttling). The rise alone keeps the entrance. */
   @keyframes page-enter {
     from {
-      opacity: 0;
       transform: translateY(10px);
     }
     to {
-      opacity: 1;
       transform: translateY(0);
     }
   }
