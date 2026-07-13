@@ -1,6 +1,7 @@
 import type { NextConfig } from 'next';
 import bundleAnalyzer from '@next/bundle-analyzer';
 import createMDX from '@next/mdx';
+import { withBotId } from 'botid/next/config';
 
 const withBundleAnalyzer = bundleAnalyzer({
   enabled: process.env.ANALYZE === 'true',
@@ -58,4 +59,7 @@ const nextConfig: NextConfig = {
   // },
 };
 
-export default withBundleAnalyzer(withMDX(nextConfig));
+const config = withBundleAnalyzer(withMDX(nextConfig));
+
+// withBotId adds proxy rewrites, which static export (Lighthouse CI) can't serve.
+export default process.env.LIGHTHOUSE_CI ? config : withBotId(config);
