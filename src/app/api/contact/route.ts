@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { checkBotId } from 'botid/server';
 import { Resend } from 'resend';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -115,6 +116,20 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { error: 'Too many requests. Please try again later.' },
         { status: 429 }
+      );
+    }
+
+    // BotID verification: the client attaches an invisible challenge to this
+    // request (see src/instrumentation-client.ts); no signal means automation.
+    // Bypassed as human during `next dev`, enforced on Vercel deployments.
+    const verification = await checkBotId();
+    if (verification.isBot) {
+      return NextResponse.json(
+        {
+          error:
+            'This submission was flagged as automated and was not sent. If you are a real person, please reach out on LinkedIn instead.',
+        },
+        { status: 403 }
       );
     }
 
