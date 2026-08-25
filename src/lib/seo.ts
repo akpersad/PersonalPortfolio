@@ -164,6 +164,7 @@ export const getSitemapData = () => {
     { url: '/contact', priority: 0.7, changefreq: 'monthly' },
     { url: '/notes', priority: 0.7, changefreq: 'weekly' },
     { url: '/colophon', priority: 0.4, changefreq: 'monthly' },
+    { url: '/paladex', priority: 0.6, changefreq: 'monthly' },
   ];
 
   const studyPages = studyEntries.map(entry => ({
